@@ -3,6 +3,8 @@ const portdata = require("../modals/portdata");
 const vessel_data = require("../modals/vessel_data");
 const FuelData = require("../modals/fueldata"); // FuelData model
 
+
+
 const simulate = async (req, res) => {
   try {
     console.log("Gelen Body Verisi:", JSON.stringify(req.body, null, 2));
@@ -76,14 +78,61 @@ const simulate = async (req, res) => {
     const arrivelDate = new Date(departureDate.getTime() + totalDays * 24 * 60 * 60 * 1000);
     console.log("7. Seferin bitiş tarihi (arrivel):", arrivelDate);
 
-    // Consumption calculations
-    const sea_consumption = daily_consumption_at_sea *(distance / speed); // Daily sea consumption * sea days
-    const eca_consumption = daily_consumption_at_sea * (distance_eca / speed); // Daily sea consumption * ECA days
-    const port_consumption = daily_consumption_at_port * port_day; // Daily port consumption * port days
+    const sea_consumption = daily_consumption_at_sea *(distance / speed) ;
+    const eca_consumption = daily_consumption_at_sea * (distance_eca / speed);
+    const port_consumption = daily_consumption_at_port * port_day;
 
     console.log("8. Sea Consumption:", sea_consumption);
     console.log("9. ECA Consumption:", eca_consumption);
     console.log("10. Port Consumption:", port_consumption);
+
+    // Status durumuna göre sea_consumption işlemleri
+    let consumption_100_sea = 0;
+    let consumption_50_sea = 0;
+    let zeroSeaConsumption = 0;
+
+    if (Status === "EU/EU") {
+      consumption_100_sea = sea_consumption; // Tam olarak kullanılır
+    } else if (Status === "EU/NON-EU" || Status === "NON-EU/EU") {
+      consumption_50_sea = sea_consumption * 0.5; // %50 kullanılır
+    } else if (Status === "NON-EU/NON-EU") {
+      zeroSeaConsumption = sea_consumption * 0; // Hiç kullanılmaz
+    }
+
+    console.log("11. EU/EU Sea Consumption:", consumption_100_sea);
+    console.log("12. EU/NON-EU or NON-EU/EU Sea Consumption:", consumption_50_sea);
+    console.log("13. NON-EU/NON-EU Zero Consumption:", zeroSeaConsumption);
+    let consumption_100_eca = 0;
+    let consumption_50_eca = 0;
+    let zeroEcaConsumption = 0;
+
+    if (Status === "EU/EU") {
+      consumption_100_eca = eca_consumption; // Tam olarak kullanılır
+    } else if (Status === "EU/NON-EU" || Status === "NON-EU/EU") {
+      consumption_50_eca = eca_consumption * 0.5; // %50 kullanılır
+    } else if (Status === "NON-EU/NON-EU") {
+      zeroEcaConsumption = eca_consumption * 0; // Hiç kullanılmaz
+    }
+
+    console.log("11. EU/EU Sea Consumption:", consumption_100_eca);
+    console.log("12. EU/NON-EU or NON-EU/EU Sea Consumption:", consumption_50_eca);
+    console.log("13. NON-EU/NON-EU Zero Consumption:", zeroEcaConsumption);
+
+    let consumption_100_port = 0;
+    let consumption_0_port = 0;
+
+    if (toportdata.status === "EU") {
+      consumption_100_port = port_consumption; // Eğer to_port "EU" ise tam kaydedilir
+    } else {
+      consumption_0_port = port_consumption; // Eğer to_port "NON-EU" ise sıfır olarak kaydedilir
+    }
+
+    console.log("11. Consumption 100% Port:", consumption_100_port);
+    console.log("12. Consumption 0% Port:", consumption_0_port);
+
+
+
+
 
     const newSimulation = await simulation.create({
       user_id: 1,
@@ -108,9 +157,19 @@ const simulate = async (req, res) => {
       sea_consumption,
       eca_consumption,
       port_consumption,
+      consumption_100_sea,
+      consumption_50_sea,
+      zeroSeaConsumption,
+      consumption_100_eca,
+      consumption_50_eca,
+      zeroEcaConsumption,
+      consumption_100_port,
+      consumption_0_port,
+
+      
     });
 
-    console.log("11. Yeni kayıt oluşturuldu:", JSON.stringify(newSimulation, null, 2));
+    console.log("14. Yeni kayıt oluşturuldu:", JSON.stringify(newSimulation, null, 2));
 
     return res.status(201).json({
       message: "Simulation başarıyla kaydedildi",
@@ -121,5 +180,7 @@ const simulate = async (req, res) => {
     return res.status(500).json({ error: "Bir hata oluştu, lütfen tekrar deneyin" });
   }
 };
+
+
 
 module.exports = { simulate };
