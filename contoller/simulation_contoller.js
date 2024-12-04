@@ -3,8 +3,6 @@ const portdata = require("../modals/portdata");
 const vessel_data = require("../modals/vessel_data");
 const FuelData = require("../modals/fueldata"); // FuelData model
 
-
-
 const simulate = async (req, res) => {
   try {
     console.log("Gelen Body Verisi:", JSON.stringify(req.body, null, 2));
@@ -129,6 +127,18 @@ const simulate = async (req, res) => {
 
     console.log("11. Consumption 100% Port:", consumption_100_port);
     console.log("12. Consumption 0% Port:", consumption_0_port);
+    const Cf_CO2_ggFuel_1 = seaFuelData.Cf_CO2_ggFuel; // Yakıtın CO2 eşdeğeri
+    const ets_1 = (consumption_100_sea + consumption_50_sea) * Cf_CO2_ggFuel_1;
+    const Cf_CO2_ggFuel_2 = ecaFuelData.Cf_CO2_ggFuel; // Yakıtın CO2 eşdeğeri
+    const ets_2 = (consumption_100_eca + consumption_50_eca) * Cf_CO2_ggFuel_2;
+    const Cf_CO2_ggFuel_3 = portFuelData.Cf_CO2_ggFuel; // Yakıtın CO2 eşdeğeri
+    const ets_3 = (consumption_100_port) * Cf_CO2_ggFuel_3;
+    const ets=ets_1+ets_2+ets_3
+
+
+
+    console.log("16. ETS Hesaplanan Değer:", ets);
+    
 
 
 
@@ -165,6 +175,7 @@ const simulate = async (req, res) => {
       zeroEcaConsumption,
       consumption_100_port,
       consumption_0_port,
+      ets,
 
       
     });
