@@ -4,7 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const sequelize = require("./db/db");
-const simulation_contoller=require("../myapp/contoller/simulation_contoller"); // Sequelize bağlantısı
+const simulation_contoller=require("../arkas_new/contoller/simulation_contoller"); // Sequelize bağlantısı
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
