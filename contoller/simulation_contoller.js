@@ -111,7 +111,6 @@ const simulate = async (req, res) => {
     } else if (Status === "NON-EU/NON-EU") {
       zeroEcaConsumption = eca_consumption * 0; // Hiç kullanılmaz
     }
-
     console.log("11. EU/EU Sea Consumption:", consumption_100_eca);
     console.log("12. EU/NON-EU or NON-EU/EU Sea Consumption:", consumption_50_eca);
     console.log("13. NON-EU/NON-EU Zero Consumption:", zeroEcaConsumption);
@@ -135,12 +134,37 @@ const simulate = async (req, res) => {
     const ets_3 = (consumption_100_port) * Cf_CO2_ggFuel_3;
     const ets=ets_1+ets_2+ets_3
 
+    const Cf_CO2eq_TtW_sea = seaFuelData.Cf_CO2eq_TtW;
+    const Cf_CO2eq_TtW_eca = ecaFuelData.Cf_CO2eq_TtW;
+    const Cf_CO2eq_TtW_port = portFuelData.Cf_CO2eq_TtW;
+
+    const lcv_sea = seaFuelData.LCV;
+    const lcv_eca = ecaFuelData.LCV;
+    const lcv_port = portFuelData.LCV;
+
+    const CO2eqWTT_sea = seaFuelData.CO2eqWTT;
+    const CO2eqWTT_eca = ecaFuelData.CO2eqWTT;
+    const CO2eqWTT_port = portFuelData.CO2eqWTT;
+
 
 
     console.log("16. ETS Hesaplanan Değer:", ets);
     
 
+    const target_ghg=89.34
+    const TTW=((consumption_100_sea+consumption_50_sea)*Cf_CO2eq_TtW_sea+(consumption_100_eca+consumption_50_eca)*Cf_CO2eq_TtW_eca+consumption_100_port*Cf_CO2eq_TtW_port)/((consumption_100_sea+consumption_50_sea)*lcv_sea+(consumption_100_eca+consumption_50_eca)*lcv_eca+consumption_100_port*lcv_port);
+    const WTT=((consumption_100_sea+consumption_50_sea)*CO2eqWTT_sea*lcv_sea+(consumption_100_eca+consumption_50_eca)*CO2eqWTT_eca*lcv_eca+consumption_100_port*CO2eqWTT_port*lcv_port)/((consumption_100_sea+consumption_50_sea)*lcv_sea+(consumption_100_eca+consumption_50_eca)*lcv_eca+consumption_100_port*lcv_port);
+    const GHG_ACTUAL=WTT+TTW
+    const COMPLIANCE_BALANCE=(target_ghg-GHG_ACTUAL)*((consumption_100_sea+consumption_50_sea)*lcv_sea+(consumption_100_eca+consumption_50_eca)*lcv_eca+consumption_100_port*lcv_port)*1000000
+    const Fuel_Consumption_Total=(consumption_100_sea+consumption_50_sea+consumption_100_eca+consumption_50_eca+consumption_100_port);
 
+    let fuel_eu;
+
+if (GHG_ACTUAL > target_ghg) {
+  fuel_eu = (Math.abs(COMPLIANCE_BALANCE) / (GHG_ACTUAL * 41000)) * 2400;
+} else {
+  fuel_eu = 0;
+}
 
 
 
@@ -176,6 +200,12 @@ const simulate = async (req, res) => {
       consumption_100_port,
       consumption_0_port,
       ets,
+      TTW,
+      WTT,
+      GHG_ACTUAL,
+      COMPLIANCE_BALANCE,
+      Fuel_Consumption_Total,
+      fuel_eu
 
       
     });
