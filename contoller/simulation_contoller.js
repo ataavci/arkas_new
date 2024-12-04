@@ -1,8 +1,7 @@
-
 const simulation = require("../modals/simulation");
 const portdata = require("../modals/portdata");
 const vessel_data = require("../modals/vessel_data");
-const FuelData = require("../modals/fueldata"); // fueldata modelini FuelData olarak değiştirdik
+const FuelData = require("../modals/fueldata"); // FuelData model
 
 const simulate = async (req, res) => {
   try {
@@ -77,6 +76,15 @@ const simulate = async (req, res) => {
     const arrivelDate = new Date(departureDate.getTime() + totalDays * 24 * 60 * 60 * 1000);
     console.log("7. Seferin bitiş tarihi (arrivel):", arrivelDate);
 
+    // Consumption calculations
+    const sea_consumption = daily_consumption_at_sea *(distance / speed); // Daily sea consumption * sea days
+    const eca_consumption = daily_consumption_at_sea * (distance_eca / speed); // Daily sea consumption * ECA days
+    const port_consumption = daily_consumption_at_port * port_day; // Daily port consumption * port days
+
+    console.log("8. Sea Consumption:", sea_consumption);
+    console.log("9. ECA Consumption:", eca_consumption);
+    console.log("10. Port Consumption:", port_consumption);
+
     const newSimulation = await simulation.create({
       user_id: 1,
       expedition,
@@ -97,9 +105,12 @@ const simulate = async (req, res) => {
       sea_fuel: seaFuelData.Pathway_Name,
       eca_fuel: ecaFuelData.Pathway_Name,
       port_fuel: portFuelData.Pathway_Name,
+      sea_consumption,
+      eca_consumption,
+      port_consumption,
     });
 
-    console.log("8. Yeni kayıt oluşturuldu:", JSON.stringify(newSimulation, null, 2));
+    console.log("11. Yeni kayıt oluşturuldu:", JSON.stringify(newSimulation, null, 2));
 
     return res.status(201).json({
       message: "Simulation başarıyla kaydedildi",
@@ -112,9 +123,3 @@ const simulate = async (req, res) => {
 };
 
 module.exports = { simulate };
-
-
-
-
-
-
