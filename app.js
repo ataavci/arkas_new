@@ -1,15 +1,16 @@
-var createError = require('http-errors');
+var indexRouter = require('./routes/index');
+var adminRouter = require('./routes/admin');
+var authRouter = require('./routes/auth');
+
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const sequelize = require("./db/db");
 const simulation_contoller=require("../arkas_new/contoller/simulation_contoller"); 
-require("dotenv").config();// Sequelize bağlantısı
+require("dotenv").config();
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-const authRouter= require("./routes/auth");
+
 const expressLayouts=require("express-ejs-layouts");
 const session =require("express-session");
 const flash=require("connect-flash");
@@ -26,25 +27,23 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(indexRouter);
-app.use(usersRouter);
-app.use(authRouter);
-
-
-
-
-app.use(expressLayouts);
 app.use(session({
-    secret:process.env.session_secret,
+    secret: process.env.session_secret,
     resave: false,
-    saveUninitialized:true,
-    cookie:{
-        maxAge:1000*5
-    }
-}
-))
+    saveUninitialized: true,
+    cookie: { maxAge: 1000 * 5 }
+}));
+
 app.use(flash());
-// Rota kullanımı
+app.use(expressLayouts);
+
+
+
+
+app.use( indexRouter);
+app.use( adminRouter);
+app.use( authRouter);
+
 
 // Sequelize bağlantısını doğrula
 sequelize

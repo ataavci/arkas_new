@@ -2,11 +2,11 @@ var express = require('express');
 var router = express.Router();
 const simulation_contoller=require("../contoller/simulation_contoller");
 const office=require("../contoller/office");
+const auth_controller=require("../contoller/auth_contoller");
 
 
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+
+ 
 router.post('/simulation', simulation_contoller.simulate);
 router.post('/officeinput', async (req, res) => {
   try {
