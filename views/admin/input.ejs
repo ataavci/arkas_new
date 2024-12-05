@@ -1,0 +1,395 @@
+<style>body {font-family: Arial, sans-serif;}form {width: 60%;margin: 0 auto;}label {display: block;margin-top: 10px;}input[type="text"], input[type="number"], input[type="date"], select {width: 100%;padding: 10px;margin-top: 5px;border-radius: 5px;border: 1px solid #ccc;}button {padding: 10px 20px;margin-top: 20px;background-color: #28a745;color: white;border: none;cursor: pointer;border-radius: 5px;}
+        
+       
+
+    .container {
+        max-width: 800px;
+        margin: auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        margin-bottom: 20px;
+        color: #333;
+        text-align: center;
+    }
+
+    .step-buttons {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .step-buttons button {
+        padding: 8px 16px;
+        margin: 5px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .step-buttons button.active {
+        background-color: #218838;
+    }
+
+    .form-section {
+        display: none; /* Tüm adımları gizli başlat */
+    }
+
+    .form-section.active {
+        display: block; /* Sadece aktif adım görünecek */
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+        text-align: left;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 14px;
+        color: #666;
+    }
+
+    input[type="text"], input[type="number"], select {
+        width: 100%;
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    button.submit-button {
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        width: 100%;
+        font-size: 16px;
+    }
+
+    button.submit-button:hover {
+        background-color: #218838;
+    }
+
+</style>
+<div class="container">
+    <h2>Office Detay Formu</h2>
+
+    <!-- Step Buttons -->
+    <div class="step-buttons">
+        <button class="step-button" data-step="1">Step 1</button>
+        <button class="step-button" data-step="2">Step 2</button>
+        <button class="step-button" data-step="3">Step 3</button>
+        <button class="step-button" data-step="4">Step 4</button>
+        <button class="step-button" data-step="5">Step 5</button>
+        <button class="step-button" data-step="6">Step 6</button>
+    </div>
+
+    <form action="/input" method="POST" id="inputForm">
+        <!-- Step 1 -->
+        <div class="form-section" data-step="1">
+            <label for="country">Ülke</label>
+            <select id="country" name="country" required>
+                <option value="">Ülke seçin</option>
+                <!-- Ülkeler buraya eklenecek -->
+            </select>
+
+            <label for="Electricity_Consumption">Elektrik Tüketimi (kWh)</label>
+            <input type="number" id="Electricity_Consumption" name="Electricity_Consumption" step="0.01">
+
+            <label for="Water_Consumption">Su Tüketimi (m3)</label>
+            <input type="number" id="Water_Consumption" name="Water_Consumption" step="0.01">
+
+            <label for="Big_Bottled_Water">Büyük Şişe Su (19 Litre)</label>
+            <input type="number" id="Big_Bottled_Water" name="Big_Bottled_Water" step="1">
+
+            <label for="Pet_Water_0_5">Pet Su (0,5 Litre)</label>
+            <input type="number" id="Pet_Water_0_5" name="Pet_Water_0_5" step="1">
+
+            <label for="Pet_Water_1_0">Pet Su (1 Litre)</label>
+            <input type="number" id="Pet_Water_1_0" name="Pet_Water_1_0" step="1">
+
+            <label for="Pet_Water_1_5">Pet Su (1,5 Litre)</label>
+            <input type="number" id="Pet_Water_1_5" name="Pet_Water_1_5" step="1">
+
+            <label for="Pet_Water_5_0">Pet Su (5 Litre)</label>
+            <input type="number" id="Pet_Water_5_0" name="Pet_Water_5_0" step="1">
+
+            <label for="Printing_Paper">Yazıcı Kağıdı (ream)</label>
+            <input type="number" id="Printing_Paper" name="Printing_Paper" step="1">
+
+            <label for="toilet_paper">Tuvalet Kağıdı (adet)</label>
+            <input type="number" id="toilet_paper" name="toilet_paper" step="1">
+        </div>
+
+        <!-- Step 2 -->
+        <div class="form-section" data-step="2">
+            <label for="solid_waste_management">Katı Atık Yönetimi</label>
+            <select id="solid_waste_management" name="solid_waste_management">
+                <option value="">Seçiniz</option>
+                <option value="yes">yes</option>
+                <option value="no">no</option>
+            </select>
+
+            <label for="waste_paper_and_cardboard">Atık Kağıt ve Karton (kg)</label>
+            <input type="number" id="waste_paper_and_cardboard" name="waste_paper_and_cardboard" step="0.01">
+
+            <label for="waste_food">Atık Gıda (kg)</label>
+            <input type="number" id="waste_food" name="waste_food" step="0.01">
+
+            <label for="glass">Cam (kg)</label>
+            <input type="number" id="glass" name="glass" step="0.01">
+
+            <label for="plastic">Plastik (kg)</label>
+            <input type="number" id="plastic" name="plastic" step="0.01">
+
+            <label for="stationary_combustion">Stationary Combustion</label>
+            <input type="number" id="stationary_combustion" name="stationary_combustion" step="0.01">
+
+            <label for="heating_type">Isıtma Tipi</label>
+            <input type="text" id="heating_type" name="heating_type">
+
+            <label for="heating_central_with_natural_gas">Heating Central with Natural Gas</label>
+            <input type="number" id="heating_central_with_natural_gas" name="heating_central_with_natural_gas" step="0.01">
+
+            <label for="Natural_gas_for_heating">Isıtma İçin Doğalgaz (kWh)</label>
+            <input type="number" id="Natural_gas_for_heating" name="Natural_gas_for_heating" step="1">
+
+            <label for="Air_Conditioner">Klima (adet)</label>
+            <input type="number" id="Air_Conditioner" name="Air_Conditioner" step="1">
+        </div>
+
+        <!-- Step 3 -->
+        <div class="form-section" data-step="3">
+            <label for="Air_Conditioner_Gas_Load">Air Conditioner Gas Load</label>
+            <select id="Air_Conditioner_Gas_Load" name="Air_Conditioner_Gas_Load">
+                <option value="">Seçiniz</option>
+                <option value="yes">yes</option>
+                <option value="no">no</option>
+            </select>
+
+            <label for="domestic_economy">Yurtiçi Ekonomi Uçuş (km)</label>
+            <input type="number" id="domestic_economy" name="domestic_economy" step="1">
+
+            <label for="Short_Haul_Economy">Kısa Mesafe Ekonomi Uçuş (km)</label>
+            <input type="number" id="Short_Haul_Economy" name="Short_Haul_Economy" step="1">
+
+            <label for="long_haul_economy">Uzun Mesafe Ekonomi Uçuş (km)</label>
+            <input type="number" id="long_haul_economy" name="long_haul_economy" step="1">
+
+            <label for="Short_haul_Business_Class">Kısa Mesafe Business Class Uçuş (km)</label>
+            <input type="number" id="Short_haul_Business_Class" name="Short_haul_Business_Class" step="1">
+
+            <label for="long_haul_Business_Class">Uzun Mesafe Business Class Uçuş (km)</label>
+            <input type="number" id="long_haul_Business_Class" name="long_haul_Business_Class" step="1">
+
+            <label for="Continental_Economy">Kıtalararası Ekonomi Uçuş (km)</label>
+            <input type="number" id="Continental_Economy" name="Continental_Economy" step="1">
+
+            <label for="Continental_Business">Kıtalararası Business Class Uçuş (km)</label>
+            <input type="number" id="Continental_Business" name="Continental_Business" step="1">
+        </div>
+
+        <!-- Step 4 -->
+        <div class="form-section" data-step="4">
+            <label for="Business_Travel_By_car">İş Seyahati (Araç ile - km)</label>
+            <input type="number" id="Business_Travel_By_car" name="Business_Travel_By_car" step="1">
+
+            <label for="Business_Travel_By_taxi">İş Seyahati (taxi ile - km)</label>
+            <input type="number" id="Business_Travel_By_taxi" name="Business_Travel_By_taxi" step="1">
+
+            <label for="Accommodation_for_1_night">Konaklama (Gece sayısı)</label>
+            <input type="number" id="Accommodation_for_1_night" name="Accommodation_for_1_night" step="1">
+
+            <h3>Araç Türleri ve Kişi Sayısı</h3>
+            <label for="Vehicle_Own_car">Kendi Aracınız</label>
+            <input type="text" id="Vehicle_Own_car" name="Vehicle_Own_car" value="Own Car" readonly>
+            <input type="number" id="Number_of_people1" name="Number_of_people1" placeholder="Kişi Sayısı" step="1">
+            <input type="number" id="Average_Distance1" name="Average_Distance1" placeholder="Mesafe (km)" step="0.01">
+
+            <label for="Vehicle_taxi">Taksi</label>
+            <input type="text" id="Vehicle_taxi" name="Vehicle_taxi" value="Taxi" readonly>
+            <input type="number" id="Number_of_people2" name="Number_of_people2" placeholder="Kişi Sayısı" step="1">
+            <input type="number" id="Average_Distance2" name="Average_Distance2" placeholder="Mesafe (km)" step="0.01">
+        </div>
+
+        <!-- Step 5 -->
+        <div class="form-section" data-step="5">
+            <label for="Vehicle_bus">Otobüs</label>
+            <input type="text" id="Vehicle_bus" name="Vehicle_bus" value="Bus" readonly>
+            <input type="number" id="Number_of_people3" name="Number_of_people3" placeholder="Kişi Sayısı" step="1">
+            <input type="number" id="Average_Distance3" name="Average_Distance3" placeholder="Mesafe (km)" step="0.01">
+
+            <label for="Vehicle_train">Tren</label>
+            <input type="text" id="Vehicle_train" name="Vehicle_train" value="Train" readonly>
+            <input type="number" id="Number_of_people4" name="Number_of_people4" placeholder="Kişi Sayısı" step="1">
+            <input type="number" id="Average_Distance4" name="Average_Distance4" placeholder="Mesafe (km)" step="0.01">
+
+            <label for="Vehicle_motorbike">Motosiklet</label>
+            <input type="text" id="Vehicle_motorbike" name="Vehicle_motorbike" value="Motorbike" readonly>
+            <input type="number" id="Number_of_people5" name="Number_of_people5" placeholder="Kişi Sayısı" step="1">
+            <input type="number" id="Average_Distance5" name="Average_Distance5" placeholder="Mesafe (km)" step="0.01">
+
+            <label for="Vehicle_bike">Bisiklet</label>
+            <input type="text" id="Vehicle_bike" name="Vehicle_bike" value="Bike" readonly>
+            <input type="number" id="Number_of_people6" name="Number_of_people6" placeholder="Kişi Sayısı" step="1">
+            <input type="number" id="Average_Distance6" name="Average_Distance6" placeholder="Mesafe (km)" step="0.01">
+
+            <label for="Vehicle_by_walk">Yaya</label>
+            <input type="text" id="Vehicle_by_walk" name="Vehicle_by_walk" value="By Walk" readonly>
+            <input type="number" id="Number_of_people7" name="Number_of_people7" placeholder="Kişi Sayısı" step="1">
+            <input type="number" id="Average_Distance7" name="Average_Distance7" placeholder="Mesafe (km)" step="0.01">
+        </div>
+
+        <!-- Step 6 -->
+        <div class="form-section" data-step="6">
+            <h3>Araç Türleri ve Aylık Tüketim</h3>
+
+            <label for="Vehicle_Type_Gasoline_passenger_car">Gasoline Passenger Car</label>
+            <input type="text" id="Vehicle_Type_Gasoline_passenger_car" name="Vehicle_Type_Gasoline_passenger_car" value="Gasoline Passenger Car" readonly>
+            <input type="number" id="Pcs1" name="Pcs1" placeholder="Adet" step="1">
+            <input type="number" id="Total_Monthy_Consumption_L1" name="Total_Monthy_Consumption_L1" placeholder="Aylık Tüketim (L)" step="0.01">
+
+            <label for="Vehicle_Type_Gasoline_Light_Duty_Truck">Gasoline Light Duty Truck</label>
+            <input type="text" id="Vehicle_Type_Gasoline_Light_Duty_Truck" name="Vehicle_Type_Gasoline_Light_Duty_Truck" value="Gasoline Light Duty Truck" readonly>
+            <input type="number" id="Pcs2" name="Pcs2" placeholder="Adet" step="1">
+            <input type="number" id="Total_Monthy_Consumption_L2" name="Total_Monthy_Consumption_L2" placeholder="Aylık Tüketim (L)" step="0.01">
+
+            <label for="Vehicle_Type_Gasoline_Heavy_Duty_Truck">Gasoline Heavy Duty Truck</label>
+            <input type="text" id="Vehicle_Type_Gasoline_Heavy_Duty_Truck" name="Vehicle_Type_Gasoline_Heavy_Duty_Truck" value="Gasoline Heavy Duty Truck" readonly>
+            <input type="number" id="Pcs3" name="Pcs3" placeholder="Adet" step="1">
+            <input type="number" id="Total_Monthy_Consumption_L3" name="Total_Monthy_Consumption_L3" placeholder="Aylık Tüketim (L)" step="0.01">
+
+            <label for="Vehicle_Type_Diesel_passenger_car">Diesel Passenger Car</label>
+            <input type="text" id="Vehicle_Type_Diesel_passenger_car" name="Vehicle_Type_Diesel_passenger_car" value="Diesel Passenger Car" readonly>
+            <input type="number" id="Pcs4" name="Pcs4" placeholder="Adet" step="1">
+            <input type="number" id="Total_Monthy_Consumption_L4" name="Total_Monthy_Consumption_L4" placeholder="Aylık Tüketim (L)" step="0.01">
+
+            <label for="Vehicle_Type_Diesel_Light_Duty_Truck">Diesel Light Duty Truck</label>
+            <input type="text" id="Vehicle_Type_Diesel_Light_Duty_Truck" name="Vehicle_Type_Diesel_Light_Duty_Truck" value="Diesel Light Duty Truck" readonly>
+            <input type="number" id="Pcs5" name="Pcs5" placeholder="Adet" step="1">
+            <input type="number" id="Total_Monthy_Consumption_L5" name="Total_Monthy_Consumption_L5" placeholder="Aylık Tüketim (L)" step="0.01">
+
+            <label for="Vehicle_Type_Diesel_Heavy_Duty_Truck">Diesel Heavy Duty Truck</label>
+            <input type="text" id="Vehicle_Type_Diesel_Heavy_Duty_Truck" name="Vehicle_Type_Diesel_Heavy_Duty_Truck" value="Diesel Heavy Duty Truck" readonly>
+            <input type="number" id="Pcs6" name="Pcs6" placeholder="Adet" step="1">
+            <input type="number" id="Total_Monthy_Consumption_L6" name="Total_Monthy_Consumption_L6" placeholder="Aylık Tüketim (L)" step="0.01">
+        </div>
+
+        <button type="submit" class="submit-button">Gönder</button>
+    </form>
+</div>
+<script>
+ document.addEventListener("DOMContentLoaded", function () {
+        const stepButtons = document.querySelectorAll(".step-button");
+        const formSections = document.querySelectorAll(".form-section");
+
+        stepButtons.forEach(button => {
+            button.addEventListener("click", function () {
+                const step = this.dataset.step;
+                formSections.forEach(section => {
+                    section.classList.remove("active");
+                    if (section.dataset.step === step) {
+                        section.classList.add("active");
+                    }
+                });
+
+                stepButtons.forEach(btn => btn.classList.remove("active"));
+                this.classList.add("active");
+            });
+        });
+
+        // İlk adımı başlat
+        document.querySelector(".step-button[data-step='1']").click();
+
+        // Ülke listesini doldurmak için
+        fetch('/countries')
+            .then(response => response.json())
+            .then(data => {
+                const selectElement = document.getElementById('country');
+                data.forEach(country => {
+                    const option = document.createElement('option');
+                    option.value = country.Country;
+                    option.textContent = country.Country;
+                    selectElement.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Ülkeler alınırken hata oluştu:', error));
+    });
+document.addEventListener("DOMContentLoaded", function () {
+// Ülke listesini sayfa yüklendiğinde doldurmak için
+fetch('/countries')  // Backend'deki /countries rotasından verileri çekiyoruz
+    .then(response => response.json())
+    .then(data => {
+        console.log("Ülkeler:", data); // Ülkeleri konsola yazdırarak kontrol edelim
+        const selectElement = document.getElementById('country');
+        data.forEach(country => {
+            const option = document.createElement('option');
+            option.value = country.Country; // Seçim kutusunun değeri
+            option.textContent = country.Country; // Görünen metin
+            selectElement.appendChild(option);
+        });
+    })
+    .catch(error => console.error('Ülkeler alınırken hata oluştu:', error));
+
+// Form gönderildiğinde seçilen ülkeye göre Gen_S2 verisini almak için
+document.getElementById('countryForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Sayfanın yeniden yüklenmesini önlüyoruz
+
+    const selectedCountry = document.getElementById('country').value; // Seçilen ülkeyi alıyoruz
+    const electricityConsumption = document.getElementById('Electricity_Consumption').value; // Elektrik tüketimi
+    const waterConsumption = document.getElementById('Water_Consumption').value; // Su tüketimi
+
+    if (selectedCountry) {
+        console.log("Seçilen ülke:", selectedCountry); // Seçilen ülkeyi kontrol edelim
+        fetch(`/country-gen-s2/${selectedCountry}`)  // Seçilen ülkeye göre GET isteği
+            .then(response => response.json())
+            .then(data => {
+                console.log("Ülke ve Gen_S2 verisi:", data); // Gen_S2 ve ülke verisini gösteriyoruz
+                // Diğer form verilerini de burada işleyebilirsiniz...
+                console.log("Elektrik tüketimi:", electricityConsumption);
+                console.log("Su tüketimi:", waterConsumption);
+            })
+            .catch(error => console.error('Gen_S2 verisi alınırken hata oluştu:', error));
+    } else {
+        console.log("Lütfen bir ülke seçin.");
+    }
+});
+});
+document.getElementById('inputForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Formun sayfayı yeniden yüklemesini önle
+
+    const formData = new FormData(this);
+    const formJSON = JSON.stringify(Object.fromEntries(formData));
+
+    fetch('/input', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: formJSON
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message === "İşlem Başarılı!") {
+            alert(data.message);
+        } else {
+            alert("Bir hata oluştu: " + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Veri gönderilirken hata oluştu:', error);
+        alert("Veri gönderilirken bir hata oluştu.");
+    });
+});
+</script>
