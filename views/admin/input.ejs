@@ -289,6 +289,13 @@
         <button type="submit" class="submit-button">Gönder</button>
     </form>
 </div>
+<div id="successMessage" style="display: none; color: green; font-weight: bold; text-align: center; margin-top: 20px;">
+    Kayıt işlemi başarılı!
+</div>
+<div id="errorMessage" style="display: none; color: red; font-weight: bold; text-align: center; margin-top: 20px;">
+    Kayıt işlemi başarısız!
+</div>
+
 <script>
  document.addEventListener("DOMContentLoaded", function () {
         const stepButtons = document.querySelectorAll(".step-button");
@@ -366,30 +373,45 @@ document.getElementById('countryForm').addEventListener('submit', function(event
     }
 });
 });
-document.getElementById('inputForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Formun sayfayı yeniden yüklemesini önle
+document.getElementById('inputForm').addEventListener('submit', function (event) {
+    event.preventDefault(); // Formun sayfayı yeniden yüklemesini önler
 
-    const formData = new FormData(this);
-    const formJSON = JSON.stringify(Object.fromEntries(formData));
+    const formData = new FormData(this); // Form verilerini al
+    const formJSON = JSON.stringify(Object.fromEntries(formData)); // JSON formatına dönüştür
 
     fetch('/input', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
-        body: formJSON
+        body: formJSON, // Veriyi gönder
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.message === "İşlem Başarılı!") {
-            alert(data.message);
-        } else {
-            alert("Bir hata oluştu: " + data.message);
-        }
-    })
-    .catch(error => {
-        console.error('Veri gönderilirken hata oluştu:', error);
-        alert("Veri gönderilirken bir hata oluştu.");
-    });
+        .then((response) => {
+            if (!response.ok) {
+                return response.json().then((err) => {
+                    throw new Error(err.message || 'Bir hata oluştu.');
+                });
+            }
+            return response.json(); // Yanıtı JSON formatında al
+        })
+        .then((data) => {
+            if (data.message === 'İşlem Başarılı!') {
+                const successMessage = document.getElementById('successMessage');
+                successMessage.style.display = 'block'; // Mesajı göster
+                successMessage.textContent = 'Kayıt işlemi başarılı!';
+
+                const errorMessage = document.getElementById('errorMessage');
+                errorMessage.style.display = 'none'; // Hata mesajını gizle
+            }
+        })
+        .catch((error) => {
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.style.display = 'block'; // Hata mesajını göster
+            errorMessage.textContent = 'Kayıt işlemi başarısız: ' + error.message;
+
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'none'; // Başarı mesajını gizle
+        });
 });
+
 </script>

@@ -2,17 +2,20 @@ const CountryData=require("../modals/country_data");
 const OfficeDetayInput=require("../modals/office");
 const OfficeEmission=require("../modals/ProcessedData");
 
-exports.getCountries = async (req, res) => {
+const getCountries = async (req, res) => {
     try {
-      const countries = await CountryData.findAll({ attributes: ['Country', 'Gen_S2'] });
-      res.json(countries); // Tek bir yanıt
+        const countries = await CountryData.findAll({
+            attributes: ['Country', 'Gen_S2']
+        });
+        res.json(countries);
     } catch (err) {
-      console.error('Ülkeler alınırken hata oluştu:', err);
-      res.status(500).json({ error: 'Ülkeler alınırken bir hata oluştu.' }); // Tek bir hata yanıtı
+        console.error('Ülkeler alınırken hata oluştu:', err);
+        res.status(500).send('Ülkeler alınırken bir hata oluştu.');
     }
-  };
+};
 
-exports.office_calculate= async (req, res) => {
+
+const office_calculate= async (req, res) => {
     try {
         const {
             country,
@@ -323,8 +326,12 @@ if (solid_waste_management === "yes") {
         });
 
         res.status(201).json({ message: "İşlem Başarılı!" });
+
     } catch (err) {
         console.error("Veri kaydedilirken hata oluştu:", err);
         res.status(500).json({ message: "Veri kaydedilirken bir hata oluştu." });
     }
 };
+
+
+module.exports={getCountries,office_calculate}

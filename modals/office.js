@@ -10,7 +10,7 @@ const officedetayinput = sequelize.define("office_detay_table", {
     },
     email: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
         
     },
     country: {
