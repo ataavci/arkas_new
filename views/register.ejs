@@ -1,0 +1,92 @@
+<div class="card o-hidden border-0 shadow-lg my-5">
+    <div class="card-body p-0">
+        <!-- Nested Row within Card Body -->
+        <div class="row">
+            <div class="col-lg-5 d-none d-lg-block bg-register-image"
+            style="background-image: url('/static/image/VooSust .png'); background-size: cover; background-position: center;">></div>
+            
+            <div class="col-lg-7">
+                <div class="p-5">
+                    <div class="text-center">
+                        <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                    </div>
+                    <form class="user" action="/register" method="post">
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="text"  name="name" class="form-control form-control-user" id="name"
+                                    placeholder="First Name">
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control form-control-user" id="surname"
+                                    placeholder="Last Name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control form-control-user" id="exampleInputEmail"
+                                placeholder="Email Address">
+                        </div>
+                        <div class="form-group">
+                            <!-- Telefon numarası girişi -->
+                            <input type="tel" name="tel_num" class="form-control form-control-user" 
+                                   id="phone" placeholder="Telephone Number">
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <input type="password" class="form-control form-control-user"
+                                    id="exampleInputPassword" placeholder="Password">
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="repassword" class="form-control form-control-user"
+                                    id="exampleRepeatPassword" placeholder="Repeat Password">
+                            </div>
+                        </div>
+                        <button  type="submit" class="btn btn-primary btn-user btn-block">
+                            Create Account</button>
+                        <hr>
+                       
+                    </form>
+                    <hr>
+                    <div class="text-center">
+                        <a class="small" href="/forget-password">Forgot Password?</a>
+                    </div>
+                    <div class="text-center">
+                        <a class="small" href="/login">Already have an account? Login!</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+<link rel="stylesheet" 
+href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css">
+
+<!-- JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
+
+<!-- reCAPTCHA -->
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<script>
+// Telefon numarası alanına intl-tel-input bağlama
+const phoneInputField = document.querySelector("#phone");
+const iti = window.intlTelInput(phoneInputField, {
+initialCountry: "auto", // Kullanıcının bulunduğu ülkeyi otomatik seçer
+geoIpLookup: function (callback) {
+fetch('https://ipinfo.io?token=your_api_token') // IP'ye göre ülke bilgisi
+.then(response => response.json())
+.then(data => callback(data.country))
+.catch(() => callback("us")); // Varsayılan ülke: US
+},
+utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
+});
+
+// Form gönderiminde telefon numarasını uluslararası formatta gönderme
+const form = document.querySelector("form");
+form.addEventListener("submit", function (e) {
+const phoneNumber = iti.getNumber(); // Telefon numarasını uluslararası formatta al
+const phoneInput = document.querySelector("#phone");
+phoneInput.value = phoneNumber; // Formdaki telefon alanını güncelle
+});
+</script>

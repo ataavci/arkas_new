@@ -4,15 +4,13 @@ const OfficeEmission=require("../modals/ProcessedData");
 
 exports.getCountries = async (req, res) => {
     try {
-        const countries = await CountryData.findAll({
-            attributes: ['Country', 'Gen_S2']
-        });
-        res.json(countries);
+      const countries = await CountryData.findAll({ attributes: ['Country', 'Gen_S2'] });
+      res.json(countries); // Tek bir yanıt
     } catch (err) {
-        console.error('Ülkeler alınırken hata oluştu:', err);
-        res.status(500).send('Ülkeler alınırken bir hata oluştu.');
+      console.error('Ülkeler alınırken hata oluştu:', err);
+      res.status(500).json({ error: 'Ülkeler alınırken bir hata oluştu.' }); // Tek bir hata yanıtı
     }
-};
+  };
 
 exports.office_calculate= async (req, res) => {
     try {
@@ -114,14 +112,13 @@ exports.office_calculate= async (req, res) => {
 
         // 1. Veritabanından ülkeye göre `Gen_S2` değerini çek
         const countryData = await CountryData.findOne({
-            where: { Country: country },  // Ülkeye göre kayıt bul
-            attributes: ['Gen_S2']  // Sadece 'Gen_S2' sütununu çek
-        });
-
-        // Eğer ülkeye ait kayıt bulunamazsa
-        if (!countryData || !countryData.Gen_S2) {
-            return res.status(404).send(`Çarpan değeri ${country} için bulunamadı.`);
-        }
+            where: { Country: country },
+            attributes: ["Gen_S2"],
+          });
+      
+          if (!countryData || !countryData.Gen_S2) {
+            throw new Error(`Çarpan değeri ${country} için bulunamadı.`);
+          }
 
       
         

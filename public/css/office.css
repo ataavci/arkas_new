@@ -1,0 +1,269 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+*{
+    font-family: 'montserrat',sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: 0;
+}
+.navbar a{
+    font-size: 14px;
+    font-weight: 1000;
+}
+.navbar-toggler{
+    padding: 1px 5px;
+    font-size: 18px;
+    line-height: 0,3;
+    background: #289a11;;
+}
+footer {
+    background-image: url('/static/image/gemi.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 20px 0;
+    text-align: center;
+    color: white; /* Footer içeriğinin görünürlüğünü artırmak için yazı rengini beyaz yap */
+  }
+  
+  .footerContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .companyLogos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .company-logo {
+    margin: 10px;
+    max-width: 100px;
+    height: auto;
+  }
+  
+  .socialIcons {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .socialIcons a {
+    color: rgb(214, 230, 72);
+    text-decoration: none; /* Bağlantı alt çizgisini kaldırmak için */
+  }
+  
+  .socialIcons a:hover {
+    color: rgb(58, 206, 29); /* Üzerine gelindiğinde de siyah kalsın */
+  }
+  
+  .socialIcons li {
+    margin: 0 10px;
+  }
+  
+  /* Mobil cihazlar için medya sorgusu */
+  @media (max-width: 768px) {
+    .footerContainer {
+      padding: 20px;
+    }
+  
+    .company-logo {
+      margin: 5px;
+      max-width: 80px;
+    }
+  
+    .socialIcons li {
+      margin: 5px;
+    }
+  }
+*{
+    margin:0px;
+    padding: 0px;
+    box-sizing: border-box;
+
+}
+.table-pricing {
+    background: whitesmoke;
+    padding: 40px 0px;
+}
+
+.table-pricing .details {
+    width: 90%;
+    max-width: 1100px;
+    text-align: center;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.table-pricing .details h2,
+.table-pricing .details p {
+    color: #000000;
+}
+
+.table-pricing .details h2 {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.table-pricing .details p {
+    font-size: 15px;
+}
+
+.table-pricing .grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.table-pricing .grid .box {
+    width: 250px;
+    border: 1px solid #eee;
+    text-align: center;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);
+    margin: 10px;
+}
+
+.table-pricing .grid .box .title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.table-pricing .grid .box .price {
+    margin-bottom: 20px;
+}
+
+.table-pricing .grid .box .price b {
+    display: block;
+    font-size: 40px;
+    margin-bottom: -5px;
+}
+
+.table-pricing .grid .box .features > * {
+    color: #555;
+    padding: 8px 0px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.table-pricing .grid .box .details-box button {
+    width: 100%;
+    margin: 25px 0px 0px;
+    padding: 10px;
+    background: #fff;
+    color: #000;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.table-pricing .grid .box.lead {
+    transform: scale(1.1);
+    background: linear-gradient(to bottom, #3a7bd5, #3a6073);
+}
+
+.table-pricing .grid .box.lead .title {
+    color: #eee;
+}
+
+.table-pricing .grid .box.lead .price {
+    color: #fff;
+}
+
+.table-pricing .grid .box.lead .features > * {
+    color: #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.table-pricing .grid .box.lead .details-box button {
+    background: #fff;
+    color: #3a6073;
+}
+
+/* Embrace Box: Black Text */
+.table-pricing .grid .box.embrace {
+    background: #006400; /* Dark green background */
+    color: #f6f6f6; /* Black text color */
+    border-color: #004d00; /* Darker green border */
+}
+
+.table-pricing .grid .box.embrace .title,
+.table-pricing .grid .box.embrace p,
+.table-pricing .grid .box.embrace .price,
+.table-pricing .grid .box.embrace .features > * {
+    color: #f9f7f7; /* Black color for all text in embrace box */
+}
+
+.table-pricing .grid .box.embrace .features > * {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.5); /* Adjust border color */
+}
+
+.table-pricing .grid .box.embrace .details-box button {
+    background: #fff;
+    color: #000; /* Black text color for button */
+}
+
+/* Discover Box: Darker Text */
+.table-pricing .grid .box.discover {
+    background: #fff8dc; /* Light yellow background */
+    color: #333; /* Darker text color */
+}
+
+.table-pricing .grid .box.discover .title,
+.table-pricing .grid .box.discover p,
+.table-pricing .grid .box.discover .price,
+.table-pricing .grid .box.discover .features > * {
+    color: #333; /* Darker color for all text in discover box */
+}
+
+.table-pricing .grid .box.discover .features > * {
+    border-bottom: 1px solid rgba(51, 51, 51, 0.5); 
+}
+
+.table-pricing .grid .box.discover .details-box button,
+.table-pricing .grid .box.embrace .details-box button,
+.table-pricing .grid .box.lead .details-box button {
+    background: #fff;
+    color: #000;
+    border: none;
+    outline: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Style the summary element as a button */
+.table-pricing .grid .box details summary {
+    list-style: none;
+    padding: 10px;
+    background: #fff;
+    color: #000;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.table-pricing .grid .box details[open] summary {
+    background: #fff;
+}
+
+@media only screen and (max-width: 804px) {
+    .table-pricing .grid {
+        gap: 20px;
+    }
+    .table-pricing .grid .box.lead {
+        transform: scale(1);
+    }
+}

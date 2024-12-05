@@ -5,7 +5,7 @@ const OfficeEmission = sequelize.define('office_emission', {
     
     email: {
         type: DataTypes.STRING,
-        allowNull: false  // Boş bırakılabilir
+        allowNull: true  // Boş bırakılabilir
     },
     electricity_consumption: {
         type: DataTypes.FLOAT,

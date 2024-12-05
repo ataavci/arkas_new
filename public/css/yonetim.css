@@ -1,0 +1,285 @@
+/* Genel Ayarlar */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto", sans-serif, serif;
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar */
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: #333;
+    height: 56px;
+}
+
+.navbar-brand img {
+    width: 100px;
+    height: 50px;
+}
+
+.navbar-nav .nav-link {
+    color: #ccc;
+    transition: color 0.3s;
+}
+
+.navbar-nav .nav-link:hover,
+.nav-item .fa-ellipsis:hover {
+    color: #fff;
+}
+
+.nav-item .fa-ellipsis {
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.dropdown-menu {
+    background-color: #333;
+    border: none;
+    border-radius: 5px;
+}
+
+.dropdown-item {
+    color: #ccc;
+    padding: 10px 15px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dropdown-item:hover {
+    background-color: #444;
+    color: #fff;
+}
+
+.dropdown-item-text {
+    color: #aaa;
+    padding: 10px 15px;
+}
+
+.dropdown-item.text-danger {
+    color: #ff4d4d;
+}
+
+.dropdown-item.text-danger:hover {
+    background-color: #550000;
+    color: #fff;
+}
+
+/* Harita Alanı */
+#map {
+    height: calc(100% - 56px);
+    margin-top: 56px;
+}
+
+.leaflet-top.leaflet-left {
+    top: 70px;
+    left: 10px;
+}
+
+/* Sidebar */
+.sidebar {
+    height: calc(100vh - 56px); /* Navbar yüksekliği çıkarıldı */
+    width: 300px;
+    position: fixed;
+    top: 56px; /* Navbar yüksekliği kadar boşluk bırakıldı */
+    left: -300px;
+    transition: 0.3s;
+    padding-top: 20px; /* İç boşluk azaltıldı */
+    box-shadow: 5px 5px 15px;
+    overflow-y: auto;
+    background-color: #333; /* Sidebar arka plan rengi */
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+.sidebar a, .sidebar .close-btn {
+    padding: 10px 15px;
+    font-size: 18px;
+    color: white;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidebar a:hover, .sidebar .close-btn:hover,
+.sidebar .dropdown-container a:hover {
+    background-color: #575757;
+    color: white;
+}
+
+.sidebar .dropdown-btn {
+    cursor: pointer;
+    padding: 10px 15px 20px;
+    font-size: 18px;
+    color: white;
+    width: 100%;
+    text-align: left;
+    outline: none;
+}
+
+.sidebar .dropdown-container {
+    display: none;
+    padding-left: 15px;
+}
+
+.dropdown-container a {
+    padding: 10px 5px;
+    font-size: 16px;
+    color: black;
+}
+
+.hamburger {
+    font-size: 30px;
+    cursor: pointer;
+    margin: 20px;
+}
+
+.close-btn {
+    font-size: 20px;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    cursor: pointer;
+}
+
+/* Kartlar */
+.card-container {
+    margin-left: 350px;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.card {
+    background-color: #4CAF50;
+    color: #d8f0a5;
+    width: 160px;
+    height: 100px;
+    border-radius: 40px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    border: 10px solid #06c0f9;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+}
+
+.card-title, .card-value {
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #06c0f9;
+}
+
+/* Tablolar */
+table {
+    width: 80%;
+    margin: 20px 0 20px 250px;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 15px;
+    text-align: center;
+    font-size: 14px;
+    color: #333;
+}
+
+th {
+    background-color: #f0f3f6;
+    color: #6c7a89;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+/* Rozet Stili */
+.badge {
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+}
+
+.badge-a {
+    background-color: #4caf50;
+}
+
+.badge-c {
+    background-color: #ffeb3b;
+    color: #333;
+}
+
+.badge-e {
+    background-color: #f44336;
+}
+
+/* Filtre Alanı */
+.filter-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e0ffe0;
+    padding: 10px 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 128, 0, 0.2);
+    margin-bottom: 20px;
+    z-index: 2;
+}
+
+.filter-container select, .filter-container input {
+    width: 130px;
+    margin: 0 5px;
+    padding: 6px 8px;
+    font-size: 0.9rem;
+    color: #006400;
+    border: 1px solid #006400;
+    border-radius: 4px;
+    background-color: #f0fff0;
+    outline: none;
+}
+
+.filter-container label {
+    color: #006400;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .card-container {
+        margin-left: 0;
+        justify-content: center;
+    }
+}
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 56px; /* Navbar'ın altında görünmesi için */
+    right: 10px;
+}
+
+.dropdown-menu.show {
+    display: block;
+}

@@ -1,0 +1,290 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+*{
+    font-family: 'montserrat',sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: 0;
+}
+.navbar a{
+    font-size: 14px;
+    font-weight: 1000;
+}
+.navbar-toggler{
+    padding: 1px 5px;
+    font-size: 18px;
+    line-height: 0,3;
+    background: #289a11;;
+}
+
+
+.img-wrapper {
+max-width: 100%;
+height: 65vw;
+display: flex;
+justify-content: center;
+align-items: flex-start;
+}
+img {
+max-width: 100%;
+max-height: 100%;
+}
+@media screen and (min-width: 576px) {
+.carousel-inner {
+display: flex;
+}
+.carousel-item {
+display: block;
+margin-right: 0;
+flex: 0 0 calc(100% / 3);
+}
+.img-wrapper {
+height: 21vw;
+}
+}
+.carousel-inner {
+padding: 1em;
+}
+.card {
+margin: 0 0.5em;
+border-radius: 0;
+box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
+font-size: 0.9em;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+width: 6vh;
+height: 6vh;
+background-color: #e1e1e1;
+border-radius: 50%;
+top: 50%;
+transform: translateY(-50%);
+opacity: 0.5;
+}
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+opacity: 0.8;
+}
+
+
+
+footer {
+    background-image: url('/static/image/gemi.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 20px 0;
+    text-align: center;
+    color: white; /* Footer içeriğinin görünürlüğünü artırmak için yazı rengini beyaz yap */
+  }
+  
+  .footerContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .companyLogos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .company-logo {
+    margin: 10px;
+    max-width: 100px;
+    height: auto;
+  }
+  
+  .socialIcons {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .socialIcons a {
+    color: rgb(214, 230, 72);
+    text-decoration: none; /* Bağlantı alt çizgisini kaldırmak için */
+  }
+  
+  .socialIcons a:hover {
+    color: rgb(58, 206, 29); /* Üzerine gelindiğinde de siyah kalsın */
+  }
+  
+  .socialIcons li {
+    margin: 0 10px;
+  }
+  
+  /* Mobil cihazlar için medya sorgusu */
+  @media (max-width: 768px) {
+    .footerContainer {
+      padding: 20px;
+    }
+  
+    .company-logo {
+      margin: 5px;
+      max-width: 80px;
+    }
+  
+    .socialIcons li {
+      margin: 5px;
+    }
+  }
+  .slider-wrapper {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 1200px; /* Slider'ın maksimum genişliği */
+    margin: auto; /* Slider'ı ortalar */
+  }
+  
+  .slider-container {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+  }
+  
+  .slider {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 400%; /* Slayt sayısına göre ayarlayın */
+  }
+  
+  input[type="radio"] {
+    display: none;
+  }
+  
+  input#slide1:checked ~ .slider-container .slider {
+    transform: translateX(0%);
+  }
+  
+  input#slide2:checked ~ .slider-container .slider {
+    transform: translateX(-100%);
+  }
+  
+  input#slide3:checked ~ .slider-container .slider {
+    transform: translateX(-200%);
+  }
+  
+  input#slide4:checked ~ .slider-container .slider {
+    transform: translateX(-300%);
+  }
+  
+  /* Genel slider kapsayıcı stili */
+.slider-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Slider kapsayıcı stili */
+.slider-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Slider içeriği */
+.slider {
+  display: flex;
+  transition: transform 0.3s ease;
+}
+
+/* Her bir kartın kapsayıcısı */
+.card-wrapper {
+  display: flex;
+  width: 400%; /* 4 kart için toplam genişlik */
+}
+
+/* Her bir kartın stili */
+.card-item {
+  flex: 0 0 25%; /* Her kartın genişliği %25 */
+  padding: 0 10px; /* Kartlar arasında boşluk */
+  box-sizing: border-box; /* Padding'in kartın genişliğini etkilemesini sağlar */
+}
+
+/* Card düzenlemesi */
+.card-blog {
+  width: 100%;
+  margin-bottom: 50px;
+  transition: background 0.3s ease, transform 0.3s ease, border-width 0.3s ease;
+}
+
+/* Kartın dış görünümü */
+.card-blog .card {
+  border: 10px solid #ddd; /* Çerçeve kalınlığı */
+  border-radius: 10px; /* Çerçeve köşe yuvarlaklığı */
+  box-shadow: 0 4px 8px rgba(6, 229, 99, 0.1); /* Hafif gölge efekti */
+  overflow: hidden;
+  transition: transform 0.3s ease, border-width 0.3s ease; /* Hover sırasında büyüme ve çerçeve değişimi */
+  position: relative;
+  background-image: url('/public/image/gemi.jpg') no-repeat center center; /* Arka plan resmi */
+  background-size: cover; /* Resmi kartın boyutuna göre kapla */
+  height: 200px; /* Kart yüksekliği */
+}
+
+/* Hover sırasında kartın etkileri */
+.card-blog .card:hover {
+  transform: scale(1.05); /* Hover yapıldığında kartı hafif büyütür */
+  border-width: 20px; /* Hover yapıldığında çerçeve kalınlığını artırır */
+  border-color: rgba(0, 128, 0, 0.7); /* Hover yapıldığında çerçeve rengini değiştirir */
+  background-color: rgba(59, 237, 15, 0.5); /* Hover yapıldığında arka plan rengini koyulaştırır */
+}
+
+.card-blog .card .card-body {
+  position: relative;
+  z-index: 1;
+  padding: 20px; /* İçerik alanı paddingi */
+  color: white; /* Yazı rengini beyaz yapar */
+}
+
+.card-blog .card .card-text {
+  margin: 0;
+}
+
+/* Slider navigasyon noktaları */
+.slider-nav {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+
+/* Navigasyon noktalarının stili */
+.nav-dot {
+  width: 12px;
+  height: 12px;
+  background-color: #007bff;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Aktif slide göstergesi */
+input#slide1:checked ~ .slider-container .slider {
+  transform: translateX(0%);
+}
+
+input#slide2:checked ~ .slider-container .slider {
+  transform: translateX(-25%);
+}
+
+input#slide3:checked ~ .slider-container .slider {
+  transform: translateX(-50%);
+}
+
+input#slide4:checked ~ .slider-container .slider {
+  transform: translateX(-75%);
+}
+
+/* Aktif navigasyon noktasının stili */
+input#slide1:checked ~ .slider-nav .nav-dot:nth-child(1),
+input#slide2:checked ~ .slider-nav .nav-dot:nth-child(2),
+input#slide3:checked ~ .slider-nav .nav-dot:nth-child(3),
+input#slide4:checked ~ .slider-nav .nav-dot:nth-child(4) {
+  background-color: #333;
+}
