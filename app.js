@@ -1,23 +1,51 @@
 var indexRouter = require('./routes/index');
 var adminRouter = require('./routes/admin');
 var authRouter = require('./routes/auth');
-const puppeteer = require('puppeteer');
-
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const sequelize = require("./db/db");
-const simulation_contoller=require("../arkas_new/contoller/simulation_contoller"); 
+const simulation_contoller = require("../arkas_new/contoller/simulation_contoller"); 
 require("dotenv").config();
 
-
-const expressLayouts=require("express-ejs-layouts");
-const session =require("express-session");
-const flash=require("connect-flash");
-
+const expressLayouts = require("express-ejs-layouts");
+const session = require("express-session"); // session tanımını buraya taşıdık
+const flash = require("connect-flash");
 var app = express();
 
+const MySQLStore = require('express-mysql-session')(session); // Bu artık session'dan sonra
+
+const options = {
+	host: process.env.DB_HOST || 'localhost',
+	port: process.env.DB_PORT || 3306, // Varsayılan MySQL portu
+	user: process.env.DB_USER ,
+	password: process.env.DB_PASSWORD ,
+	database: process.env.DB_NAME
+};
+const sessionStore = new MySQLStore(options);
+
+app.use(session({
+	secret: process.env.session_secret , // Güvenlik için çevresel değişken kullanın
+	store: sessionStore,
+	resave: false, // Oturum her istekte yeniden kaydedilmez
+	saveUninitialized: false, // Boş oturumları kaydetmez
+	cookie: {
+		maxAge: 1000 * 60 * 60 * 24, // 1 gün (ms cinsinden)
+		httpOnly: true, // XSS saldırılarını önler
+		secure: process.env.NODE_ENV === 'production' // Sadece HTTPS üzerinde çalışır
+	}
+}));
+
+
+// Optionally use onReady() to get a promise that resolves when store is ready.
+sessionStore.onReady().then(() => {
+	// MySQL session store ready for use.
+	console.log('MySQLStore ready');
+}).catch(error => {
+	// Something went wrong.
+	console.error(error);
+});
 // View engine setup
 app.set('views', path.join(__dirname, './views'));
 app.set('view engine', 'ejs');
@@ -28,14 +56,20 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({
-    secret: process.env.session_secret,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { maxAge: 1000 * 5 }
-}));
+
 
 app.use(flash());
+app.use((req,res,next)=>{
+    res.locals.validation_error=req.flash("validation_error");
+    res.locals.name=req.flash("name");
+    res.locals.surname=req.flash("surname");
+    res.locals.email=req.flash("email");
+    res.locals.phone=req.flash("phone");
+    res.locals.password=req.flash("password");
+    res.locals.repassword=req.flash("repassword");
+    next();
+
+})
 app.use(expressLayouts);
 
 
