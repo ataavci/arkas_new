@@ -8,6 +8,10 @@ const officedetayinput = sequelize.define("office_detay_table", {
         allowNull: false,
         defaultValue: 3,
     },
+    date: {
+        type: DataTypes.DATE,
+        allowNull: false  // Boş bırakılabilir
+    },
     email: {
         type: DataTypes.STRING,
         allowNull: true

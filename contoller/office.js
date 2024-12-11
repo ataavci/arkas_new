@@ -16,8 +16,10 @@ const getCountries = async (req, res) => {
 
 
 const office_calculate= async (req, res) => {
+    console.log("Request Body:", req.body);
     try {
         const {
+            date,
             country,
             email,
             Electricity_Consumption,
@@ -112,6 +114,9 @@ const office_calculate= async (req, res) => {
             Pcs13,
             Total_Monthy_Consumption_L13
         } = req.body;
+        if (!date) {
+            throw new Error("The `date` field is required.");
+        }
 
         // 1. Veritabanından ülkeye göre `Gen_S2` değerini çek
         const countryData = await CountryData.findOne({
@@ -177,11 +182,38 @@ if (solid_waste_management === "yes") {
         const prccedbike=Average_Distance6*Number_of_people6*0;
         const proccedwalk=Average_Distance7*Number_of_people7*0;
         const proccedtotal_commuting=proccedown_car+proccedtaxi+proccedbus+proccedtrain+proccedmototbike+prccedbike+proccedwalk
-        const totaltotal_office_emission_ton= processedElectricityConsumption+proccedwaterconsumption+proccedbottled_water_consumption+proccedpaper_consumption+proccedwaste_water+
-        proceedsolid_waste+proccedstationary_combustion+proccedheating_central_with_natural_gas+proccedmobile_combustion+proccedrefrigerants+
-        procceddomestic_flight+proccedshort_haul_economy+proccedshort_haul_business+proccedlong_haul_economy+proccedlong_haul_Business_Class+proccedcontinental_economy+
-        proccedcontinental_business+proccedbusiness_travel_car+proccedbusiness_travel_taxi+proccedbusiness_travel_train+proccedaccommodation+proccedown_car+ proccedtaxi+
-        proccedbus+proccedtrain+proccedmototbike+prccedbike+proccedwalk
+        const totaltotal_office_emission_ton = (
+            processedElectricityConsumption +
+            proccedwaterconsumption +
+            proccedbottled_water_consumption +
+            proccedpaper_consumption +
+            proccedwaste_water +
+            proceedsolid_waste +
+            proccedstationary_combustion +
+            proccedheating_central_with_natural_gas +
+            proccedmobile_combustion +
+            proccedrefrigerants +
+            procceddomestic_flight +
+            proccedshort_haul_economy +
+            proccedshort_haul_business +
+            proccedlong_haul_economy +
+            proccedlong_haul_Business_Class +
+            proccedcontinental_economy +
+            proccedcontinental_business +
+            proccedbusiness_travel_car +
+            proccedbusiness_travel_taxi +
+            proccedbusiness_travel_train +
+            proccedaccommodation +
+            proccedown_car +
+            proccedtaxi +
+            proccedbus +
+            proccedtrain +
+            proccedmototbike +
+            prccedbike +
+            proccedwalk
+        );
+        console.log("Toplam Emisyon (ton):", totaltotal_office_emission_ton);
+        
 
 
 
@@ -189,6 +221,7 @@ if (solid_waste_management === "yes") {
 
         // 3. Verileri ilk tabloya (orijinal haliyle) kaydet
         await OfficeDetayInput.create({
+            date,
             email,
             country,
             Electricity_Consumption,
@@ -286,6 +319,7 @@ if (solid_waste_management === "yes") {
 
         // 4. İşlenmiş veriyi ikinci tabloya kaydet
         await OfficeEmission.create({
+            date,
             country,
             electricity_consumption: processedElectricityConsumption,
             water_consumption:proccedwaterconsumption,
@@ -324,6 +358,11 @@ if (solid_waste_management === "yes") {
 
             
         });
+        console.log("processedElectricityConsumption:", processedElectricityConsumption);
+console.log("proccedwaterconsumption:", proccedwaterconsumption);
+console.log("proccedbottled_water_consumption:", proccedbottled_water_consumption);
+// Tüm değişkenleri tek tek loglayın
+
 
         res.status(201).json({ message: "İşlem Başarılı!" });
 
