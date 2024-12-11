@@ -83,8 +83,8 @@ var options = {
     colors: ['#fff']
   },
   xaxis: {
-    categories: ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan',
-      'United States', 'China', 'India'
+    categories: ['test', 'test2', 'test3', 'test4', 'test5', 
+      
     ],
   },
   yaxis: {
