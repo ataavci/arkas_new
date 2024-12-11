@@ -183,39 +183,41 @@ if (solid_waste_management === "yes") {
         const proccedwalk=Average_Distance7*Number_of_people7*0;
         const proccedtotal_commuting=proccedown_car+proccedtaxi+proccedbus+proccedtrain+proccedmototbike+prccedbike+proccedwalk
         const totaltotal_office_emission_ton = (
-            processedElectricityConsumption +
-            proccedwaterconsumption +
-            proccedbottled_water_consumption +
-            proccedpaper_consumption +
-            proccedwaste_water +
-            proceedsolid_waste +
-            proccedstationary_combustion +
-            proccedheating_central_with_natural_gas +
-            proccedmobile_combustion +
-            proccedrefrigerants +
-            procceddomestic_flight +
-            proccedshort_haul_economy +
-            proccedshort_haul_business +
-            proccedlong_haul_economy +
-            proccedlong_haul_Business_Class +
-            proccedcontinental_economy +
-            proccedcontinental_business +
-            proccedbusiness_travel_car +
-            proccedbusiness_travel_taxi +
-            proccedbusiness_travel_train +
-            proccedaccommodation +
-            proccedown_car +
-            proccedtaxi +
-            proccedbus +
-            proccedtrain +
-            proccedmototbike +
-            prccedbike +
-            proccedwalk
-        );
+            (processedElectricityConsumption || 0) +
+            (proccedwaterconsumption || 0) +
+            (proccedbottled_water_consumption || 0) +
+            (proccedpaper_consumption || 0) +
+            (proccedwaste_water || 0) +
+            (proceedsolid_waste || 0) +
+            (proccedstationary_combustion || 0) +
+            (proccedheating_central_with_natural_gas || 0) +
+            (proccedmobile_combustion || 0) +
+            (proccedrefrigerants || 0) +
+            (procceddomestic_flight || 0) +
+            (proccedshort_haul_economy || 0) +
+            (proccedshort_haul_business || 0) +
+            (proccedlong_haul_economy || 0) +
+            (proccedlong_haul_Business_Class || 0) +
+            (proccedcontinental_economy || 0) +
+            (proccedcontinental_business || 0) +
+            (proccedbusiness_travel_car || 0) +
+            (proccedbusiness_travel_taxi || 0) +
+            (proccedbusiness_travel_train || 0) +
+            (proccedaccommodation || 0) +
+            (proccedown_car || 0) +
+            (proccedtaxi || 0) +
+            (proccedbus || 0) +
+            (proccedtrain || 0) +
+            (proccedmototbike || 0) +
+            (prccedbike || 0) +
+            (proccedwalk || 0)
+          );
+          console.log("Toplam Emisyon (ton):", totaltotal_office_emission_ton);
+          
         console.log("Toplam Emisyon (ton):", totaltotal_office_emission_ton);
         
 
-
+        const totaltotal_office_emission_kg = totaltotal_office_emission_ton * 1000;
 
 
 
@@ -350,7 +352,8 @@ if (solid_waste_management === "yes") {
             bike:prccedbike,
             walk:proccedwalk,
             total_commuting:proccedtotal_commuting,
-            total_office_emission_ton:totaltotal_office_emission_ton
+            total_office_emission_ton:totaltotal_office_emission_ton,
+            total_office_emission_kg: totaltotal_office_emission_kg,
 
 
 

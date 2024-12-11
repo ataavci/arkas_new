@@ -93,6 +93,7 @@
         <button class="step-button" data-step="4">Step 4</button>
         <button class="step-button" data-step="5">Step 5</button>
         <button class="step-button" data-step="6">Step 6</button>
+        <button class="step-button" data-step="7">Step 7</button>
     </div>
 
     <form action="/input" method="POST" id="inputForm">
@@ -252,6 +253,7 @@
             <input type="number" id="Number_of_people7" name="Number_of_people7" placeholder="Kişi Sayısı" step="1">
             <input type="number" id="Average_Distance7" name="Average_Distance7" placeholder="Mesafe (km)" step="0.01">
         </div>
+        
 
         <!-- Step 6 -->
         <div class="form-section" data-step="6">
@@ -287,6 +289,45 @@
             <input type="number" id="Pcs6" name="Pcs6" placeholder="Adet" step="1">
             <input type="number" id="Total_Monthy_Consumption_L6" name="Total_Monthy_Consumption_L6" placeholder="Aylık Tüketim (L)" step="0.01">
         </div>
+        <div class="form-section" data-step="7">
+            <!-- Eksik Input Alanları -->
+<label for="Vehicle_Type_Hybrid_passenger_car">Hybrid Passenger Car</label>
+<input type="text" id="Vehicle_Type_Hybrid_passenger_car" name="Vehicle_Type_Hybrid_passenger_car" value="Hybrid Passenger Car" readonly>
+<input type="number" id="Pcs7" name="Pcs7" placeholder="Adet" step="1">
+<input type="number" id="Total_Monthy_Consumption_L7" name="Total_Monthy_Consumption_L7" placeholder="Aylık Tüketim (L)" step="0.01">
+
+<label for="Vehicle_Type_EV_Duty_Truck">EV Duty Truck</label>
+<input type="text" id="Vehicle_Type_EV_Duty_Truck" name="Vehicle_Type_EV_Duty_Truck" value="EV Duty Truck" readonly>
+<input type="number" id="Pcs8" name="Pcs8" placeholder="Adet" step="1">
+<input type="number" id="Total_Monthy_Consumption_L8" name="Total_Monthy_Consumption_L8" placeholder="Aylık Tüketim (L)" step="0.01">
+
+<label for="Vehicle_Type_EV_Heavy_Duty_Truck">EV Heavy Duty Truck</label>
+<input type="text" id="Vehicle_Type_EV_Heavy_Duty_Truck" name="Vehicle_Type_EV_Heavy_Duty_Truck" value="EV Heavy Duty Truck" readonly>
+<input type="number" id="Pcs9" name="Pcs9" placeholder="Adet" step="1">
+<input type="number" id="Total_Monthy_Consumption_L9" name="Total_Monthy_Consumption_L9" placeholder="Aylık Tüketim (L)" step="0.01">
+
+<label for="Vehicle_Type_Gasoline_Agricultural_Equipment">Gasoline Agricultural Equipment</label>
+<input type="text" id="Vehicle_Type_Gasoline_Agricultural_Equipment" name="Vehicle_Type_Gasoline_Agricultural_Equipment" value="Gasoline Agricultural Equipment" readonly>
+<input type="number" id="Pcs10" name="Pcs10" placeholder="Adet" step="1">
+<input type="number" id="Total_Monthy_Consumption_L10" name="Total_Monthy_Consumption_L10" placeholder="Aylık Tüketim (L)" step="0.01">
+
+<label for="Vehicle_Type_Gasoline_Ships_andBoat">Gasoline Ships and Boat</label>
+<input type="text" id="Vehicle_Type_Gasoline_Ships_andBoat" name="Vehicle_Type_Gasoline_Ships_andBoat" value="Gasoline Ships and Boat" readonly>
+<input type="number" id="Pcs11" name="Pcs11" placeholder="Adet" step="1">
+<input type="number" id="Total_Monthy_Consumption_L11" name="Total_Monthy_Consumption_L11" placeholder="Aylık Tüketim (L)" step="0.01">
+
+<label for="Vehicle_Type_Gasoline_Motorcycle">Gasoline Motorcycle</label>
+<input type="text" id="Vehicle_Type_Gasoline_Motorcycle" name="Vehicle_Type_Gasoline_Motorcycle" value="Gasoline Motorcycle" readonly>
+<input type="number" id="Pcs12" name="Pcs12" placeholder="Adet" step="1">
+<input type="number" id="Total_Monthy_Consumption_L12" name="Total_Monthy_Consumption_L12" placeholder="Aylık Tüketim (L)" step="0.01">
+
+<label for="Vehicle_Type_Gasoline_Other">Gasoline Other</label>
+<input type="text" id="Vehicle_Type_Gasoline_Other" name="Vehicle_Type_Gasoline_Other" value="Gasoline Other" readonly>
+<input type="number" id="Pcs13" name="Pcs13" placeholder="Adet" step="1">
+<input type="number" id="Total_Monthy_Consumption_L13" name="Total_Monthy_Consumption_L13" placeholder="Aylık Tüketim (L)" step="0.01">
+
+        </div>
+        
 
         <button type="submit" class="submit-button">Gönder</button>
     </form>
