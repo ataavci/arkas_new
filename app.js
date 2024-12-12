@@ -102,6 +102,11 @@ app.use(helmet());
 app.use(cors()); 
 app.use(helmet.xssFilter());
 app.use(helmet.noSniff());
+app.use((req, res, next) => {
+    console.log("Session ID:", req.sessionID); // Oturum ID'sini kontrol edin
+    console.log("User in Session:", req.user); // Kullanıcı oturuma yüklenmiş mi?
+    next();
+});
 
 
 
