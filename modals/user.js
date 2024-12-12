@@ -2,6 +2,11 @@ const { DataTypes, Sequelize } = require("sequelize");
 const sequelize = require("../db/db");
 
 const USER = sequelize.define("customer_lists", {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true // ID'nin otomatik artmasını sağlar
+    },
     emailactive: {
         type: DataTypes.BOOLEAN,  // BOOLEAN tipi kullanılıyor
         allowNull: true,
@@ -10,7 +15,7 @@ const USER = sequelize.define("customer_lists", {
     
     email: {
         type: DataTypes.STRING,
-        primaryKey: true,  
+          
         allowNull: false,  
         validate: {
             isEmail: true 

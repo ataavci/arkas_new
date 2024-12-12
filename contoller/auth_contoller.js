@@ -1,12 +1,20 @@
 const{validationResult}=require("express-validator");
 const USER =require("../modals/user");
 
+const passport = require("../db/passport_local");
+
+
 const login_page_show= (req,res)=>{
     res.render("login",{layout:"layout/auth_layout.ejs"})
 }
-const login= (req,res)=>{
-    res.render("login",{layout:"layout/auth_layout.ejs"})
-}
+const login = (req, res, next) => {
+    passport.authenticate('local', {
+        successRedirect: "/admin/dashboard",
+        failureRedirect: "/login",
+        failureFlash: true, // Flash mesajlarını etkinleştirir
+    })(req, res, next);
+};
+
 const register_page_show = (req, res) => {
     
     res.render("register", { 

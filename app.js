@@ -12,6 +12,13 @@ require("dotenv").config();
 const expressLayouts = require("express-ejs-layouts");
 const session = require("express-session"); // session tanımını buraya taşıdık
 const flash = require("connect-flash");
+const passport = require("passport");
+const helmet = require("helmet");
+const cors = require("cors");
+
+
+
+
 var app = express();
 
 const MySQLStore = require('express-mysql-session')(session); // Bu artık session'dan sonra
@@ -58,10 +65,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
+
+
 app.use(flash());
 app.use((req,res,next)=>{
     res.locals.validation_error=req.flash("validation_error");
-    res.locals.success_message=req.flash("success_message")
+    res.locals.success_message=req.flash("success_message");
+    res.locals.error = req.flash("error"); // Flash hata mesajı
     res.locals.name=req.flash("name");
     res.locals.surname=req.flash("surname");
     res.locals.email=req.flash("email");
@@ -70,7 +80,11 @@ app.use((req,res,next)=>{
     res.locals.repassword=req.flash("repassword");
     next();
 
-})
+});
+
+
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(expressLayouts);
 
 
@@ -79,6 +93,16 @@ app.use(expressLayouts);
 app.use( indexRouter);
 app.use( adminRouter);
 app.use( authRouter);
+
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(helmet()); 
+app.use(cors()); 
+app.use(helmet.xssFilter());
+app.use(helmet.noSniff());
+
 
 
 // Sequelize bağlantısını doğrula
