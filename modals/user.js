@@ -24,7 +24,7 @@ const USER = sequelize.define("customer_lists", {
         type: DataTypes.STRING,
         allowNull: false
     },
-    tel_num: {
+    phone: {
         type: DataTypes.STRING,
         allowNull: true
     },
