@@ -61,6 +61,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(flash());
 app.use((req,res,next)=>{
     res.locals.validation_error=req.flash("validation_error");
+    res.locals.success_message=req.flash("success_message")
     res.locals.name=req.flash("name");
     res.locals.surname=req.flash("surname");
     res.locals.email=req.flash("email");

@@ -8,7 +8,7 @@
                 <div class="p-5">
                     <div class="text-center">
                         <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
-                        <% if (validation_error && validation_error.length > 0) { %>
+                        <% if (locals.validation_error !=undefined) { %>
                             <%- include("./partials/message") %>
                         <% } %>
                     </div>
@@ -28,7 +28,7 @@
                                    class="form-control form-control-user" id="email" placeholder="Email Address">
                         </div>
                         <div class="form-group">
-                            <input type="tel" name="tel_num" value="<%= typeof tel_num !== 'undefined' ? tel_num : '' %>" 
+                            <input type="tel" name="tel_num" value="<%= typeof phone !== 'undefined' ? phone : '' %>" 
                                    class="form-control form-control-user" id="phone" placeholder="Telephone Number">
                         </div>
                         <div class="form-group row">

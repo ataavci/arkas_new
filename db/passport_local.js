@@ -1,0 +1,1 @@
+const LocalStradegy=require("passport-local").Strategy;

@@ -1,8 +1,19 @@
 <% if (validation_error && validation_error.length > 0) { %>
-    <% validation_error.forEach(element => { %>
-      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong><%- element.msg %></strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    <% }) %>
+  <% validation_error.forEach(element => { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <strong><%- element.msg %></strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% }) %>
 <% } %>
+
+<% if (success_message && success_message.length > 0) { %>
+  <% success_message.forEach(element => { %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <strong><%- element %></strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% }) %>
+<% } %>
+
+

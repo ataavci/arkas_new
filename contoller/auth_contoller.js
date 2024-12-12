@@ -35,7 +35,7 @@ const register = async (req, res, next) => {
         // Kullanıcıyı email'e göre kontrol et
         const existingUser = await USER.findOne({ where: { email: req.body.email } });
         if (existingUser) {
-            req.flash("validation_error", ["This email is already in use"]);
+            req.flash("validation_error", [{msg:"This email is already in use"}]);
             req.flash("name", req.body.name);
             req.flash("surname", req.body.surname);
             req.flash("email", req.body.email);
@@ -56,6 +56,7 @@ const register = async (req, res, next) => {
 
         // Kayıt başarılıysa, giriş sayfasına yönlendirme yapabilirsiniz
         req.flash("success_message", "Registration successful. Please log in.");
+
         res.redirect("/login");
 
     } catch (error) {
