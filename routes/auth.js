@@ -22,6 +22,8 @@ route.post("/register",auth_middileware.openclose, validatorMiddleware.validateN
 route.get("/forget-password",auth_middileware.openclose, auth_controller.forget_password_page_show);
 route.post("/forget-password",auth_middileware.openclose, auth_controller.forget_password);
 
+route.get("/verify",auth_controller.verifyMail);
+
 
 route.get("/logout",auth_middileware.openup,auth_controller.logout);
 
