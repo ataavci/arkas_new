@@ -31,6 +31,7 @@ const register_page_show = (req, res) => {
 const register = async (req, res, next) => {
     const wrongs = validationResult(req);
 
+    // Doğrulama hatalarını kontrol et
     if (!wrongs.isEmpty()) {
         req.flash("validation_error", wrongs.array());
         req.flash("name", req.body.name);
@@ -40,15 +41,29 @@ const register = async (req, res, next) => {
         req.flash("repassword", req.body.repassword);
         req.flash("phone", req.body.phone);
 
-        console.log("Doğrulama hataları:", wrongs.array()); // Hataları konsola yazdır
-        return res.redirect("/register"); // Yeniden yönlendirme
+        console.log("Doğrulama hataları:", wrongs.array());
+        return res.redirect("/register");
     }
 
     try {
+        // Şifre alanının dolu olup olmadığını kontrol et
+        if (!req.body.password) {
+            req.flash("validation_error", [{ msg: "Password is required" }]);
+            return res.redirect("/register");
+        }
+
         // Kullanıcıyı email'e göre kontrol et
         const existingUser = await USER.findOne({ where: { email: req.body.email } });
+
         if (existingUser) {
-            req.flash("validation_error", [{msg:"This email is already in use"}]);
+            if (existingUser.emailactive === true) {
+                req.flash("validation_error", [{ msg: "This email is already in use" }]);
+            } else if (existingUser.emailactive === false) {
+                req.flash("validation_error", [
+                    { msg: "This email is already registered but not activated. Please check your email." },
+                ]);
+            }
+
             req.flash("name", req.body.name);
             req.flash("surname", req.body.surname);
             req.flash("email", req.body.email);
@@ -58,27 +73,27 @@ const register = async (req, res, next) => {
             return res.redirect("/register");
         }
 
+        // Şifreyi hashleme (10 tuzlama)
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
         // Yeni kullanıcıyı oluştur
         const newUser = await USER.create({
             name: req.body.name,
             surname: req.body.surname,
             phone: req.body.phone,
             email: req.body.email,
-            password: req.body.password // Şifreyi hashlemeyi unutmayın!
+            password: hashedPassword, // Şifreyi hashlenmiş olarak kaydet
         });
 
-        // Kayıt başarılıysa, giriş sayfasına yönlendirme yapabilirsiniz
-        req.flash("success_message", "Registration successful. Please log in.");
-
-        res.redirect("/login");
+        req.flash("success_message", "Check your mailbox and confirm the e-mail.");
+        return res.redirect("/login");
 
     } catch (error) {
         console.error("Error during registration:", error);
         req.flash("error_message", "An unexpected error occurred. Please try again.");
-        res.redirect("/register");
+        return res.redirect("/register");
     }
 };
-
 const forget_password_page_show= (req,res)=>{
     res.render("forget-password",{layout:"layout/auth_layout.ejs"})
 }
