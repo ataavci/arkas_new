@@ -19,6 +19,8 @@ const cors = require("cors");
 
 
 
+
+
 var app = express();
 
 const MySQLStore = require('express-mysql-session')(session); // Bu artık session'dan sonra
