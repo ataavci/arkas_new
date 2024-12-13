@@ -35,7 +35,7 @@ const sessionStore = new MySQLStore(options);
 app.use(session({
 	secret: process.env.session_secret , // Güvenlik için çevresel değişken kullanın
 	store: sessionStore,
-	resave: false, // Oturum her istekte yeniden kaydedilmez
+	resave: true, // Oturum her istekte yeniden kaydedilmez
 	saveUninitialized: false, // Boş oturumları kaydetmez
 	cookie: {
 		maxAge: 1000 * 60 * 60 * 24, // 1 gün (ms cinsinden)
@@ -78,6 +78,8 @@ app.use((req,res,next)=>{
     res.locals.phone=req.flash("phone");
     res.locals.password=req.flash("password");
     res.locals.repassword=req.flash("repassword");
+
+    res.locals.login_error=req.flash("error")
     next();
 
 });
