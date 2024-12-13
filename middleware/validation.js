@@ -21,4 +21,13 @@ const validateNewUser = () => {
     ];
 };
 
-module.exports = { validateNewUser };
+
+const validateEmail=()=>{
+    return[
+    body("email")
+    .trim()
+    .isEmail().withMessage("Please enter a valid email")
+
+]}
+
+module.exports = { validateNewUser,validateEmail };

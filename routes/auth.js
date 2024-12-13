@@ -20,7 +20,7 @@ route.post("/register",auth_middileware.openclose, validatorMiddleware.validateN
 
 // Şifre sıfırlama rotaları
 route.get("/forget-password",auth_middileware.openclose, auth_controller.forget_password_page_show);
-route.post("/forget-password",auth_middileware.openclose, auth_controller.forget_password);
+route.post("/forget-password",auth_middileware.openclose,validatorMiddleware.validateEmail(), auth_controller.forget_password);
 
 route.get("/verify",auth_controller.verifyMail);
 

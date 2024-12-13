@@ -244,9 +244,70 @@ const register = async (req, res, next) => {
 const forget_password_page_show= (req,res)=>{
     res.render("forget-password",{layout:"layout/auth_layout.ejs"})
 }
-const forget_password= (req,res)=>{
-    res.render("forget-password",{layout:"layout/auth_layout.ejs"})
-}
+const forget_password = async (req, res) => {
+    const errors = validationResult(req);
+
+    // Doğrulama hatalarını kontrol et
+    if (!errors.isEmpty()) {
+        req.flash("validation_error", errors.array());
+        return res.redirect("/forget-password");
+    }
+
+    try {
+        // Kullanıcı email adresini kontrol et
+        const existingUser = await USER.findOne({ where: { email: req.body.email } });
+
+        if (!existingUser) {
+            req.flash("validation_error", [{ msg: "No user found with this email address" }]);
+            return res.redirect("/forget-password");
+        }
+
+        // Şifre sıfırlama için JWT oluştur
+        const jwtToken = jwt.sign(
+            { email: existingUser.email, id: existingUser.id },
+            process.env.RESET_PASSWORD_JWT_SECRET,
+            { expiresIn: "1h" } // Token geçerlilik süresi
+        );
+
+        // Şifre sıfırlama URL'si
+        const resetUrl = `${process.env.WEB_SIDE_ADDRESS}reset-password?token=${jwtToken}`;
+
+        // Nodemailer ile email gönderimi
+        const transporter = nodemailer.createTransport({
+            host: "ns80-out.dnscini.com",
+            port: 587,
+            secure: false,
+            auth: {
+                user: process.env.MAIL_NAME,
+                pass: process.env.MAIL_PASSWORD,
+            },
+            tls: { rejectUnauthorized: false },
+        });
+
+        // E-posta gönder
+        await transporter.sendMail({
+            from: `Voosust Digital Solutions <${process.env.MAIL_NAME}>`,
+            to: existingUser.email,
+            subject: "Reset Your Password",
+            html: `
+                <h2>Reset Your Password</h2>
+                <p>Hi ${existingUser.name},</p>
+                <p>We received a request to reset your password. Click the link below to reset it:</p>
+                <a href="${resetUrl}" style="padding: 10px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;">Reset Password</a>
+                <p>If you didn't request this, please ignore this email.</p>
+            `,
+        });
+
+        req.flash("success_message", "Password reset email sent successfully. Please check your inbox.");
+        return res.redirect("/forget-password");
+
+    } catch (err) {
+        console.error("Error during password reset process:", err);
+        req.flash("error_message", "An error occurred. Please try again later.");
+        return res.redirect("/forget-password");
+    }
+};
+
 
 const logout = (req, res, next) => {
     req.logout(function (err) {
