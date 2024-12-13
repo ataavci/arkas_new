@@ -18,4 +18,5 @@ const openclose = function(req,res,next){
     }
 }
 
+
 module.exports={openup,openclose}

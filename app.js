@@ -43,6 +43,8 @@ app.use(session({
         secure: process.env.NODE_ENV === 'production' // HTTPS üzerinde çalışırsa true olmalı
     }
 }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 // Optionally use onReady() to get a promise that resolves when store is ready.
@@ -78,6 +80,9 @@ app.use((req,res,next)=>{
     res.locals.phone=req.flash("phone");
     res.locals.password=req.flash("password");
     res.locals.repassword=req.flash("repassword");
+    
+    res.locals.user = req.user 
+    console.log("User in session:", req.user);
 
     res.locals.login_error=req.flash("error")
     next();
@@ -104,11 +109,9 @@ app.use(helmet());
 app.use(cors()); 
 app.use(helmet.xssFilter());
 app.use(helmet.noSniff());
-app.use((req, res, next) => {
-    console.log("Session ID:", req.sessionID); // Oturum ID'sini kontrol edin
-    console.log("User in Session:", req.user); // Kullanıcı oturuma yüklenmiş mi?
-    next();
-});
+
+
+
 
 
 

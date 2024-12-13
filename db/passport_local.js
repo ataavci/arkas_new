@@ -40,11 +40,12 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
     try {
-        const user = await USER.findByPk(id);
+        const user = await USER.findByPk(id); // Kullanıcıyı veritabanından bul
         done(null, user);
-    } catch (err) {
-        done(err, user);
+    } catch (error) {
+        done(error, null);
     }
 });
+
 
 module.exports = passport;
