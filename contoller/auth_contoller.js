@@ -4,6 +4,10 @@ const USER =require("../modals/user");
 const passport = require("../db/passport_local");
 const { connect } = require("../routes");
 
+const bcrypt=require("bcryptjs");
+const nodemailer=require("nodemailer");
+const jwt =require("jsonwebtoken");
+
 
 const login_page_show= (req,res)=>{
     res.render("login",{layout:"layout/auth_layout.ejs"})
