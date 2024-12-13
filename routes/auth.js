@@ -20,4 +20,7 @@ route.post("/register", validatorMiddleware.validateNewUser(), auth_controller.r
 route.get("/forget-password", auth_controller.forget_password_page_show);
 route.post("/forget-password", auth_controller.forget_password);
 
+
+route.get("/logout",auth_controller.logout);
+
 module.exports = route;

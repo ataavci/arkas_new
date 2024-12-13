@@ -37,11 +37,11 @@ app.use(session({
 	store: sessionStore,
 	resave: true, // Oturum her istekte yeniden kaydedilmez
 	saveUninitialized: false, // Boş oturumları kaydetmez
-	cookie: {
-		maxAge: 1000 * 60 * 60 * 24, // 1 gün (ms cinsinden)
-		httpOnly: true, // XSS saldırılarını önler
-		secure: process.env.NODE_ENV === 'production' // Sadece HTTPS üzerinde çalışır
-	}
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 2, // 2 saat (ms cinsinden)
+        httpOnly: true, // XSS saldırılarını önler
+        secure: process.env.NODE_ENV === 'production' // HTTPS üzerinde çalışırsa true olmalı
+    }
 }));
 
 

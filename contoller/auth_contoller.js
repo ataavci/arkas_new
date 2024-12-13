@@ -2,6 +2,7 @@ const{validationResult}=require("express-validator");
 const USER =require("../modals/user");
 
 const passport = require("../db/passport_local");
+const { connect } = require("../routes");
 
 
 const login_page_show= (req,res)=>{
@@ -81,6 +82,25 @@ const forget_password= (req,res)=>{
     res.render("forget-password",{layout:"layout/auth_layout.ejs"})
 }
 
+const logout = (req, res, next) => {
+    req.logout(function (err) {
+        if (err) {
+            console.error("Logout sırasında hata:", err);
+            return next(err);
+        }
+        req.session.destroy((error) => {
+            if (error) {
+                console.error("Session yok edilemedi:", error);
+                return next(error);
+            }
+            res.clearCookie("connect.sid", { path: '/' });
+            res.redirect("/login");
+        });
+    });
+};
+
+module.exports = { logout };
+
 
 
 
@@ -91,5 +111,6 @@ module.exports={
     forget_password_page_show,
     register,
     login,
-    forget_password
+    forget_password,
+    logout
 }
