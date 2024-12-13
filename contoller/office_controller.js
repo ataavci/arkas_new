@@ -1,6 +1,16 @@
+const auth_middleware = require("../middleware/auth_middileware");
 const CountryData=require("../modals/country_data");
 const OfficeDetayInput=require("../modals/office");
 const OfficeEmission=require("../modals/ProcessedData");
+
+
+const dashboard_page_show = (req, res, next) => {
+    res.render("office/office_dashboard", { layout: "layout/office_layout.ejs" });
+};
+
+const input_page_show = (req, res, next) => {
+    res.render("office/office_input", { layout: "layout/office_layout.ejs" });
+};
 
 const getCountries = async (req, res) => {
     try {
@@ -376,4 +386,6 @@ console.log("proccedbottled_water_consumption:", proccedbottled_water_consumptio
 };
 
 
-module.exports={getCountries,office_calculate}
+module.exports={
+    dashboard_page_show,input_page_show,getCountries,office_calculate
+}

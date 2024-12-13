@@ -14,7 +14,7 @@ const login_page_show= (req,res)=>{
 }
 const login = (req, res, next) => {
     passport.authenticate('local', {
-        successRedirect: "/admin/dashboard",
+        successRedirect: "/office/office_dashboard",
         failureRedirect: "/login",
         failureFlash: true, // Flash mesajlarını etkinleştirir
     })(req, res, next);

@@ -1,12 +1,12 @@
-var indexRouter = require('./routes/index');
-var adminRouter = require('./routes/admin');
+
+var officeRouter = require('./routes/office_route');
 var authRouter = require('./routes/auth');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const sequelize = require("./db/db");
-const simulation_contoller = require("../arkas_new/contoller/simulation_contoller"); 
+const simulation_contoller = require("./contoller/carbon_simulation_contoller"); 
 require("dotenv").config();
 
 const expressLayouts = require("express-ejs-layouts");
@@ -97,8 +97,8 @@ app.use(expressLayouts);
 
 
 
-app.use( indexRouter);
-app.use( adminRouter);
+
+app.use( officeRouter);
 app.use( authRouter);
 
 

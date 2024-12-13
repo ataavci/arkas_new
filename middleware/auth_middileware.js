@@ -14,7 +14,7 @@ const openclose = function(req,res,next){
 
     }else{
         req.flash("error",["Please log in"])
-        res.redirect("/admin/dashboard");
+        res.redirect("/office/office_dashboard");
     }
 }
 
