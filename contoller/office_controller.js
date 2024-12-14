@@ -2,6 +2,7 @@ const auth_middleware = require("../middleware/auth_middileware");
 const CountryData=require("../modals/country_data");
 const OfficeDetayInput=require("../modals/office");
 const OfficeEmission=require("../modals/ProcessedData");
+const sequelize = require('sequelize');
 
 
 const dashboard_page_show = (req, res, next) => {
@@ -463,8 +464,44 @@ const getScopePieCharts = async (req, res) => {
 };
 
 
+const getMonthlyEmissions = async (req, res) => {
+    try {
+        // Giriş yapan kullanıcının e-postasını al
+        const email = req.session?.user?.email || req.user?.email;
+        if (!email) {
+            return res.status(403).json({ message: "User session not found." });
+        }
+
+        // Verileri ay bazında grupla ve toplamları hesapla
+        const emissions = await OfficeEmission.findAll({
+            where: { email },
+            attributes: [
+                [sequelize.fn('MONTH', sequelize.col('date')), 'month'], // Ay bilgisi
+                [sequelize.fn('SUM', sequelize.col('total_office_emission_ton')), 'total_emission'] // Toplam emisyon
+            ],
+            group: ['month'], // Ay bazında grupla
+            order: [[sequelize.fn('MONTH', sequelize.col('date')), 'ASC']] // Ay sırasına göre sırala
+        });
+
+        // Frontend'de Ocak'tan Aralık'a verileri sıralı göstermek için verileri işleyin
+        const monthlyData = Array(12).fill(0); // 12 aylık sıfırdan oluşan dizi
+        emissions.forEach(item => {
+            const month = item.dataValues.month; // Ay bilgisi
+            const totalEmission = parseFloat(item.dataValues.total_emission); // Toplam emisyon
+            monthlyData[month - 1] = totalEmission; // Doğru indekse yerleştir
+        });
+
+        // Veriyi frontend'e gönder
+        res.status(200).json({ data: monthlyData });
+    } catch (err) {
+        console.error("Error fetching monthly emissions:", err);
+        res.status(500).json({ message: "An error occurred while fetching data." });
+    }
+};
+
+
 
 
 module.exports={
-    dashboard_page_show,input_page_show,getCountries,office_calculate,getScopePieCharts
+    dashboard_page_show,input_page_show,getCountries,office_calculate,getScopePieCharts,getMonthlyEmissions
 }

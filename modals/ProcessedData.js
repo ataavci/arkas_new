@@ -1,4 +1,4 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes, FLOAT } = require('sequelize');
 const sequelize = require('../db/db');
 
 const OfficeEmission = sequelize.define('office_emission', {
@@ -32,7 +32,8 @@ const OfficeEmission = sequelize.define('office_emission', {
     motorbike: { type: DataTypes.FLOAT, allowNull: true },
     total_commuting: { type: DataTypes.FLOAT, allowNull: true },
     total_office_emission_kg: { type: DataTypes.FLOAT, allowNull: true },
-    total_office_emission_ton: { type: DataTypes.FLOAT, allowNull: true }
+    total_office_emission_ton: { type: DataTypes.FLOAT, allowNull: true },
+    offsetcarbon:{type:FLOAT, allowNull: true}
 }, {
     tableName: 'office_emission',
     timestamps: false

@@ -14,6 +14,7 @@ router.post('/simulation', simulation_contoller.simulate);
 router.get('/countries',office.getCountries)
 router.post('/input', office.office_calculate);
 router.get('/office/scope-emissions',office.getScopePieCharts);
+router.get('/office/monthly-emissions',office.getMonthlyEmissions);
 
 
 module.exports = router;
