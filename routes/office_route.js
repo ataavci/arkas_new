@@ -18,6 +18,10 @@ router.get('/office/monthly-emissions',office.getMonthlyEmissions);
 router.get('/office/mobile-consumption', office.getMobileConsumptionData);
 router.get('/office/monthly-scopes', office.getMonthlyScopesData);
 router.get('/office/scope-data', office.getScopeData);
+router.get('/office/total-emission', office.getTotalEmission);
+router.get('/office/offset-carbon', office.getTotaloffset);
+router.get('/office/offset-percentage', office.getOffsetPercentage);
+router.get('/office/remaining-carbon', office.getRemainingCarbon);
 
 
 module.exports = router;

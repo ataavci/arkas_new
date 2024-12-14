@@ -803,9 +803,102 @@ const getScopeData = async (req, res) => {
     }
 };
 
+const getTotalEmission = async (req, res) => {
+    try {
+        const email = req.session?.user?.email || req.user?.email;
+        if (!email) {
+            return res.status(403).json({ message: "Kullanıcı oturumu bulunamadı." });
+        }
+
+        const totalEmission = await OfficeEmission.sum('total_office_emission_ton', {
+            where: { email }
+        });
+
+        res.status(200).json({ totalEmission: totalEmission || 0 });
+    } catch (error) {
+        console.error("Toplam emisyon alınırken hata oluştu:", error.message);
+        res.status(500).json({ message: "Bir hata oluştu.", error: error.message });
+    }
+};
+const getTotaloffset = async (req, res) => {
+    try {
+        const email = req.session?.user?.email || req.user?.email;
+        if (!email) {
+            console.log("Kullanıcı oturumu bulunamadı.");
+            return res.status(403).json({ message: "Kullanıcı oturumu bulunamadı." });
+        }
+
+        const totaloffset = await OfficeEmission.sum('offsetcarbon', {
+            where: { email }
+        });
+
+        console.log("Offset Carbon Total:", totaloffset);
+
+        res.status(200).json({ offsetCarbon: totaloffset || 0 });
+    } catch (error) {
+        console.error("Toplam offset alınırken hata oluştu:", error.message);
+        res.status(500).json({ message: "Bir hata oluştu.", error: error.message });
+    }
+};
+const getOffsetPercentage = async (req, res) => {
+    try {
+        const email = req.session?.user?.email || req.user?.email;
+        if (!email) {
+            console.log("Kullanıcı oturumu bulunamadı.");
+            return res.status(403).json({ message: "Kullanıcı oturumu bulunamadı." });
+        }
+
+        // Toplam emisyon ve offset değerlerini al
+        const totalEmission = await OfficeEmission.sum('total_office_emission_ton', {
+            where: { email }
+        });
+        const offsetCarbon = await OfficeEmission.sum('offsetcarbon', {
+            where: { email }
+        });
+
+        // Yüzdesel hesaplama
+        const offsetPercentage = totalEmission
+            ? ((offsetCarbon || 0) / totalEmission) * 100
+            : 0;
+
+        console.log("Offset Percentage:", offsetPercentage);
+
+        res.status(200).json({ offsetPercentage: offsetPercentage.toFixed(2) });
+    } catch (error) {
+        console.error("Offset yüzdesi hesaplanırken hata oluştu:", error.message);
+        res.status(500).json({ message: "Bir hata oluştu.", error: error.message });
+    }
+};
+const getRemainingCarbon = async (req, res) => {
+    try {
+        const email = req.session?.user?.email || req.user?.email;
+        if (!email) {
+            console.log("Kullanıcı oturumu bulunamadı.");
+            return res.status(403).json({ message: "Kullanıcı oturumu bulunamadı." });
+        }
+
+        // Toplam emisyon ve offset değerlerini al
+        const totalEmission = await OfficeEmission.sum('total_office_emission_ton', {
+            where: { email }
+        });
+        const offsetCarbon = await OfficeEmission.sum('offsetcarbon', {
+            where: { email }
+        });
+
+        // Kalan karbon hesaplama
+        const remainingCarbon = (totalEmission || 0) - (offsetCarbon || 0);
+
+        console.log("Remaining Carbon to Neutralize:", remainingCarbon);
+
+        res.status(200).json({ remainingCarbon: remainingCarbon.toFixed(5) });
+    } catch (error) {
+        console.error("Kalan karbon hesaplanırken hata oluştu:", error.message);
+        res.status(500).json({ message: "Bir hata oluştu.", error: error.message });
+    }
+};
 
 
 module.exports={
     dashboard_page_show,input_page_show,getCountries,office_calculate,getScopePieCharts,getMonthlyEmissions,getMobileConsumptionData,getMonthlyScopesData
-    ,getScopeData
+    ,getScopeData,getTotalEmission,getTotaloffset,getOffsetPercentage,getRemainingCarbon
 }
