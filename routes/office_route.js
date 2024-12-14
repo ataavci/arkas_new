@@ -13,5 +13,7 @@ router.get("/office/office_input",admin_controller.input_page_show)
 router.post('/simulation', simulation_contoller.simulate);
 router.get('/countries',office.getCountries)
 router.post('/input', office.office_calculate);
+router.get('/office/scope-emissions',office.getScopePieCharts);
+
 
 module.exports = router;

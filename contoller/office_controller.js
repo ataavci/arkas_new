@@ -392,6 +392,79 @@ console.log("proccedbottled_water_consumption:", proccedbottled_water_consumptio
 };
 
 
+
+
+const getScopePieCharts = async (req, res) => {
+    try {
+        const email = req.session?.user?.email || req.user?.email;
+        if (!email) {
+            return res.status(403).json({ message: "User session not found." });
+        }
+
+        // Kullanıcıya ait verileri al
+        const emissions = await OfficeEmission.findAll({
+            where: { email },
+        });
+
+        if (!emissions.length) {
+            return res.status(200).json({ message: "No data available for this user.", data: [] });
+        }
+
+        // Scope 1 hesaplaması
+        const scope1 = emissions.reduce((total, item) => {
+            return (
+                total +
+                (item.stationary_combustion || 0) +
+                (item.mobile_combustion || 0) +
+                (item.refrigerants || 0)
+            );
+        }, 0);
+
+        // Scope 2 hesaplaması
+        const scope2 = emissions.reduce((total, item) => {
+            return (
+                total +
+                (item.electricity_consumption || 0) +
+                (item.purchased_heat_steam || 0)
+            );
+        }, 0);
+
+        // Scope 3 hesaplaması
+        const scope3 = emissions.reduce((total, item) => {
+            return (
+                total +
+                (item.water_consumption || 0) +
+                (item.bottled_water_consumption || 0) +
+                (item.paper_consumption || 0) +
+                (item.waste_water || 0) +
+                (item.solid_waste || 0) +
+                (item.business_travel_car || 0) +
+                (item.business_travel_taxi || 0) +
+                (item.business_travel_train || 0) +
+                (item.accommodation || 0) +
+                (item.total_commuting || 0)
+            );
+        }, 0);
+
+        // Sonuçları döndür
+        res.status(200).json({
+            message: "Data retrieved successfully.",
+            data: {
+                scope1: scope1.toFixed(2),
+                scope2: scope2.toFixed(2),
+                scope3: scope3.toFixed(2),
+                total: (scope1 + scope2 + scope3).toFixed(2),
+            },
+        });
+    } catch (err) {
+        console.error("Error while fetching scope emissions:", err);
+        res.status(500).json({ message: "An error occurred while fetching data." });
+    }
+};
+
+
+
+
 module.exports={
-    dashboard_page_show,input_page_show,getCountries,office_calculate
+    dashboard_page_show,input_page_show,getCountries,office_calculate,getScopePieCharts
 }
