@@ -3,14 +3,15 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
         <div>
-            <a href="/generate-pdf" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+            <button id="generate-report" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
                 <i class="fas fa-download fa-sm text-white-50"></i> Generate Report
-            </a>
+            </button>
             <a href="/path/to/certificate.jpg" download="Sustainability_Certificate.jpg" 
                class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm ml-2">
                 <i class="fas fa-certificate fa-sm text-white-50"></i> Download Certificate
             </a>
         </div>
+        
     </div>
         <!-- Content Row -->
       <!-- Earnings (Monthly) Card -->
@@ -356,3 +357,69 @@
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <!-- Font Awesome -->
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+document.getElementById('generate-report').addEventListener('click', async () => {
+    try {
+        // Dashboard elementini seç
+        const dashboardElement = document.getElementById('content-wrapper'); // Dashboard ana wrapper ID'si
+        
+        // html2canvas ile canvas oluştur
+        const canvas = await html2canvas(dashboardElement, {
+            scale: 2, // Çözünürlüğü artır (Varsayılan 1, 2 veya 3 deneyebilirsiniz)
+            useCORS: true, // Harici kaynaklara izin ver
+        });
+
+        // Canvas'ı görüntüye dönüştür
+        const imgData = canvas.toDataURL('image/png');
+
+        // PDF oluştur
+        const pdf = new jspdf.jsPDF('p', 'mm', 'a4'); // Portrait, mm birimi, A4 boyutu
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+        // Yükseklik sayfayı aşarsa birden fazla sayfa ekle
+        if (pdfHeight > pdf.internal.pageSize.getHeight()) {
+            let position = 0;
+            let remainingHeight = canvas.height;
+            const pageHeight = pdf.internal.pageSize.getHeight() * canvas.width / pdfWidth;
+
+            while (remainingHeight > 0) {
+                const currentCanvas = document.createElement('canvas');
+                currentCanvas.width = canvas.width;
+                currentCanvas.height = Math.min(pageHeight, remainingHeight);
+                const ctx = currentCanvas.getContext('2d');
+                ctx.drawImage(
+                    canvas,
+                    0,
+                    position,
+                    canvas.width,
+                    Math.min(pageHeight, remainingHeight),
+                    0,
+                    0,
+                    canvas.width,
+                    Math.min(pageHeight, remainingHeight)
+                );
+                const imgDataPart = currentCanvas.toDataURL('image/png');
+                pdf.addImage(imgDataPart, 'PNG', 0, 0, pdfWidth, (currentCanvas.height * pdfWidth) / canvas.width);
+                remainingHeight -= pageHeight;
+                position += pageHeight;
+                if (remainingHeight > 0) pdf.addPage();
+            }
+        } else {
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        }
+
+        // PDF'yi yeni bir sekmede aç
+        pdf.output('dataurlnewwindow');
+
+        // PDF'yi indir
+        pdf.save('Dashboard_Report.pdf');
+    } catch (error) {
+        console.error('Rapor oluşturulurken hata oluştu:', error);
+    }
+});
+
+</script>
+
