@@ -28,10 +28,15 @@ const getCountries = async (req, res) => {
 const office_calculate= async (req, res) => {
     console.log("Request Body:", req.body);
     try {
+        // Giriş yapan kullanıcının e-postasını al
+        const email = req.session?.user?.email || req.user?.email;
+        if (!email) {
+            return res.status(403).json({ message: "Kullanıcı oturumu bulunamadı." });
+        }
         const {
             date,
             country,
-            email,
+            
             Electricity_Consumption,
             Water_Consumption,
             Big_Bottled_Water,
@@ -332,6 +337,7 @@ if (solid_waste_management === "yes") {
         // 4. İşlenmiş veriyi ikinci tabloya kaydet
         await OfficeEmission.create({
             date,
+            email,
             country,
             electricity_consumption: processedElectricityConsumption,
             water_consumption:proccedwaterconsumption,
