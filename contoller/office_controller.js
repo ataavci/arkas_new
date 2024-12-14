@@ -3,11 +3,16 @@ const CountryData=require("../modals/country_data");
 const OfficeDetayInput=require("../modals/office");
 const OfficeEmission=require("../modals/ProcessedData");
 const sequelize = require('sequelize');
+const { Op } = require("sequelize");
 
 
-const dashboard_page_show = (req, res, next) => {
-    res.render("office/office_dashboard", { layout: "layout/office_layout.ejs" });
+const dashboard_page_show = (req, res) => {
+    res.render('office/office_dashboard', {
+        layout: 'layout/office_layout.ejs',
+        imagePath: './public/image/ofisstart.jpg'
+    });
 };
+
 
 const input_page_show = (req, res, next) => {
     res.render("office/office_input", { layout: "layout/office_layout.ejs" });
@@ -663,6 +668,144 @@ const getMonthlyScopesData = async (req, res) => {
     }
 };
 
+const getScopeData = async (req, res) => {
+    try {
+        // Retrieve the user's email from the session
+        const email = req.session?.user?.email || req.user?.email;
+        if (!email) {
+            console.log("Session information not found.");
+            return res.status(403).json({ message: "User session not found." });
+        }
+
+        console.log("User email:", email);
+
+        // Fetch emission data for the user
+        const emissionData = await OfficeEmission.findAll({
+            where: { email },
+            attributes: [
+                'date',
+                'stationary_combustion',
+                'mobile_combustion',
+                'refrigerants',
+                'electricity_consumption',
+                'purchased_heat_steam',
+                'water_consumption',
+                'bottled_water_consumption',
+                'paper_consumption',
+                'waste_water',
+                'solid_waste',
+                'domestic_flight',
+                'short_haul_economy',
+                'short_haul_business',
+                'long_haul_economy',
+                'long_haul_business',
+                'continental_economy',
+                'continental_business',
+                'business_travel_car',
+                'business_travel_taxi',
+                'business_travel_train',
+                'total_commuting',
+            ],
+            raw: true
+        });
+
+        if (!emissionData.length) {
+            console.log("No data found for the user.");
+            return res.status(200).json({ message: "No data found for the user.", data: {} });
+        }
+
+        console.log("Emission Data:", emissionData);
+
+        // Prepare the grouped data structure
+        const groupedData = {
+            Scope1: {
+                StationaryCombustion: Array(12).fill(0),
+                MobileCombustion: Array(12).fill(0),
+                FugitiveEmissions: Array(12).fill(0),
+                Total: Array(12).fill(0),
+            },
+            Scope2: {
+                PurchasedElectricity: Array(12).fill(0),
+                PurchasedHeatSteam: Array(12).fill(0),
+                Total: Array(12).fill(0),
+            },
+            Scope3: {
+                PurchasedGoods: Array(12).fill(0),
+                WasteGenerated: Array(12).fill(0),
+                Air: Array(12).fill(0),
+                OtherTravelModes: Array(12).fill(0),
+                EmployeeCommuting: Array(12).fill(0),
+                Total: Array(12).fill(0),
+            },
+        };
+
+        // Populate the grouped data with monthly values
+        emissionData.forEach((data) => {
+            const month = data.date ? new Date(data.date).getMonth() : null;
+            if (month === null || isNaN(month)) {
+                console.log("Invalid date data:", data.date);
+                return;
+            }
+
+            // Scope 1
+            groupedData.Scope1.StationaryCombustion[month] += (data.stationary_combustion || 0) / 1000;
+            groupedData.Scope1.MobileCombustion[month] += (data.mobile_combustion || 0) / 1000;
+            groupedData.Scope1.FugitiveEmissions[month] += (data.refrigerants || 0) / 1000;
+            groupedData.Scope1.Total[month] =
+                groupedData.Scope1.StationaryCombustion[month] +
+                groupedData.Scope1.MobileCombustion[month] +
+                groupedData.Scope1.FugitiveEmissions[month];
+
+            // Scope 2
+            groupedData.Scope2.PurchasedElectricity[month] += (data.electricity_consumption || 0) / 100;
+            groupedData.Scope2.PurchasedHeatSteam[month] += (data.purchased_heat_steam || 0) / 1000;
+            groupedData.Scope2.Total[month] =
+                groupedData.Scope2.PurchasedElectricity[month] +
+                groupedData.Scope2.PurchasedHeatSteam[month];
+
+            // Scope 3
+            groupedData.Scope3.PurchasedGoods[month] +=
+                (data.water_consumption || 0) +
+                (data.bottled_water_consumption || 0) +
+                (data.paper_consumption || 0);
+            groupedData.Scope3.WasteGenerated[month] +=
+                (data.waste_water || 0) + (data.solid_waste || 0);
+            groupedData.Scope3.Air[month] +=
+                ((data.domestic_flight || 0) +
+                    (data.short_haul_economy || 0) +
+                    (data.short_haul_business || 0) +
+                    (data.long_haul_economy || 0) +
+                    (data.long_haul_business || 0) +
+                    (data.continental_economy || 0) +
+                    (data.continental_business || 0)) /
+                1000;
+            groupedData.Scope3.OtherTravelModes[month] +=
+                ((data.business_travel_car || 0) +
+                    (data.business_travel_taxi || 0) +
+                    (data.business_travel_train || 0)) /
+                1000;
+            groupedData.Scope3.EmployeeCommuting[month] += (data.total_commuting || 0) / 1000;
+            groupedData.Scope3.Total[month] =
+                groupedData.Scope3.PurchasedGoods[month] +
+                groupedData.Scope3.WasteGenerated[month] +
+                groupedData.Scope3.Air[month] +
+                groupedData.Scope3.OtherTravelModes[month] +
+                groupedData.Scope3.EmployeeCommuting[month];
+        });
+
+        console.log("Grouped Data:", JSON.stringify(groupedData, null, 2));
+
+        // Send the grouped data as the response
+        res.status(200).json(groupedData);
+    } catch (error) {
+        console.error("Error occurred:", error.message);
+        res.status(500).json({ message: "An error occurred.", error: error.message });
+    }
+};
+
+
+
 module.exports={
     dashboard_page_show,input_page_show,getCountries,office_calculate,getScopePieCharts,getMonthlyEmissions,getMobileConsumptionData,getMonthlyScopesData
+    ,getScopeData
 }

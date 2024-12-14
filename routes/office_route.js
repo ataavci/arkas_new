@@ -17,6 +17,7 @@ router.get('/office/scope-emissions',office.getScopePieCharts);
 router.get('/office/monthly-emissions',office.getMonthlyEmissions);
 router.get('/office/mobile-consumption', office.getMobileConsumptionData);
 router.get('/office/monthly-scopes', office.getMonthlyScopesData);
+router.get('/office/scope-data', office.getScopeData);
 
 
 module.exports = router;
