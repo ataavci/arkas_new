@@ -380,6 +380,13 @@ const officedetayinput = sequelize.define("office_detay_table", {
         type: DataTypes.FLOAT,
         allowNull: true,
     },
+    Total_Monthy_Consumption_L12: {
+        type: DataTypes.FLOAT,
+        allowNull: true,
+    },
+    Pcs13:{type: DataTypes.FLOAT,
+        allowNull: true,}  
+         ,
     Total_Monthy_Consumption_L13: {
         type: DataTypes.FLOAT,
         allowNull: true,
