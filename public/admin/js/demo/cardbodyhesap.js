@@ -37,7 +37,7 @@ async function fetchOffsetCarbon() {
 
 async function fetchOffsetPercentage() {
     try {
-        const response = await fetch('/office/offset-percentage'); // Backend API endpoint
+        const response = await fetch('/office/offset-percentage');
         if (!response.ok) {
             throw new Error("API'den veri alınırken hata oluştu");
         }
@@ -46,42 +46,51 @@ async function fetchOffsetPercentage() {
         console.log("Offset Percentage API Response:", data);
 
         // Offset yüzdesini güncelle
-        const offsetPercentageElement = document.querySelector('.offset-percentage .h5.mb-0.font-weight-bold.text-gray-800');
-        if (offsetPercentageElement) {
-            offsetPercentageElement.textContent = `${data.offsetPercentage}%`; // Yüzdelik değeri ekle
+        const offsetPercentageElement = document.querySelector('.offset-percentage .h5.mb-0.mr-3.font-weight-bold.text-gray-800');
+        const progressBarElement = document.querySelector('.progress-bar.bg-info');
+
+        if (offsetPercentageElement && progressBarElement) {
+            offsetPercentageElement.textContent = `${data.percentage.toFixed(2)}%`; // Yüzde değeri ekle
+            progressBarElement.style.width = `${data.percentage}%`; // Bar genişliğini güncelle
+            progressBarElement.setAttribute('aria-valuenow', data.percentage); // Aria değerini güncelle
         } else {
-            console.error("Offset Percentage Element Bulunamadı!");
+            console.error("Offset Percentage Element veya Progress Bar Bulunamadı!");
         }
     } catch (error) {
         console.error("Offset yüzdesi alınırken hata oluştu:", error);
     }
 }
+
 async function fetchRemainingCarbon() {
     try {
-        const response = await fetch('/office/remaining-carbon'); // Backend API endpoint
+        // Fetch data from the API
+        const response = await fetch('/office/remaining-carbon'); // Correct endpoint
         if (!response.ok) {
             throw new Error("API'den veri alınırken hata oluştu");
         }
 
+        // Parse the JSON data
         const data = await response.json();
         console.log("Remaining Carbon API Response:", data);
 
-        // Kalan karbonu güncelle
-        const remainingCarbonElement = document.querySelector('.text-warning .h5.mb-0.font-weight-bold.text-gray-800');
+        // Select the target element
+        const remainingCarbonElement = document.querySelector('.card.border-left-warning .h5.mb-0.font-weight-bold.text-gray-800');
+        
         if (remainingCarbonElement) {
-            remainingCarbonElement.textContent = data.remainingCarbon; // Kalan karbon değerini ekle
+            // Update the element with the fetched value
+            remainingCarbonElement.textContent = parseFloat(data.remainingCarbon).toFixed(2); // Format the value
         } else {
             console.error("Remaining Carbon Element Bulunamadı!");
         }
     } catch (error) {
-        console.error("Kalan karbon alınırken hata oluştu:", error);
+        console.error("Remaining Carbon alınırken hata oluştu:", error);
     }
 }
 
-// Sayfa yüklendiğinde tüm değerleri getir
+// Ensure the function runs on page load
 window.onload = async function () {
     await fetchTotalEmission();
     await fetchOffsetCarbon();
     await fetchOffsetPercentage();
-    await fetchRemainingCarbon(); // Kalan karbonu getir
+    await fetchRemainingCarbon(); // Fetch remaining carbon
 };

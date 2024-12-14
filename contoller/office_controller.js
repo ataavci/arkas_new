@@ -844,7 +844,6 @@ const getOffsetPercentage = async (req, res) => {
     try {
         const email = req.session?.user?.email || req.user?.email;
         if (!email) {
-            console.log("Kullanıcı oturumu bulunamadı.");
             return res.status(403).json({ message: "Kullanıcı oturumu bulunamadı." });
         }
 
@@ -856,14 +855,12 @@ const getOffsetPercentage = async (req, res) => {
             where: { email }
         });
 
-        // Yüzdesel hesaplama
-        const offsetPercentage = totalEmission
-            ? ((offsetCarbon || 0) / totalEmission) * 100
-            : 0;
+        // Yüzdeyi hesapla
+        const percentage = totalEmission ? ((offsetCarbon || 0) / totalEmission) * 100 : 0;
 
-        console.log("Offset Percentage:", offsetPercentage);
+        console.log("Offset Percentage:", percentage);
 
-        res.status(200).json({ offsetPercentage: offsetPercentage.toFixed(2) });
+        res.status(200).json({ percentage });
     } catch (error) {
         console.error("Offset yüzdesi hesaplanırken hata oluştu:", error.message);
         res.status(500).json({ message: "Bir hata oluştu.", error: error.message });
