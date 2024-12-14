@@ -38,14 +38,7 @@ function updateScopesChart(months, scope1Data, scope2Data, scope3Data) {
             },
         },
         dataLabels: {
-            enabled: true,
-            formatter: function (val) {
-                return val.toFixed(2); // Virgülden sonra iki basamak
-            },
-            style: {
-                fontSize: '12px',
-                colors: ['#fff'],
-            },
+            enabled: false, // Veri etiketlerini devre dışı bırak
         },
         xaxis: {
             categories: months, // Ay isimleri burada
@@ -54,8 +47,8 @@ function updateScopesChart(months, scope1Data, scope2Data, scope3Data) {
             position: 'top',
         },
         tooltip: {
-            shared: true,
-            intersect: false,
+            shared: true, // Tüm barlar için tek bir tooltip göster
+            intersect: false, // Sadece fare ile üzerine gelindiğinde göster
         },
         colors: ['#4e73df', '#1cc88a', '#36b9cc'], // Scope 1, 2 ve 3 için renkler
     };
