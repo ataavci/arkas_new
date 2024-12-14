@@ -500,8 +500,169 @@ const getMonthlyEmissions = async (req, res) => {
 };
 
 
+const getMobileConsumptionData =  async (req, res) => {
+    try {
+        const email = req.session?.user?.email || req.user?.email;
+        if (!email) {
+            return res.status(403).json({ message: "User session not found." });
+        }
 
+        // Kullanıcının verilerini alın
+        const consumptionData = await OfficeDetayInput.findAll({
+            where: { email },
+            attributes: [
+                'Total_Monthy_Consumption_L1',
+                'Total_Monthy_Consumption_L2',
+                'Total_Monthy_Consumption_L3',
+                'Total_Monthy_Consumption_L4',
+                'Total_Monthy_Consumption_L5',
+                'Total_Monthy_Consumption_L6',
+                'Total_Monthy_Consumption_L7',
+                'Total_Monthy_Consumption_L8',
+                'Total_Monthy_Consumption_L9',
+                'Total_Monthy_Consumption_L10',
+                'Total_Monthy_Consumption_L11',
+                'Total_Monthy_Consumption_L12',
+            ],
+        });
+
+        if (!consumptionData || consumptionData.length === 0) {
+            return res.status(200).json({ data: [], message: "No data available for this user." });
+        }
+
+        // Hesaplamalar
+        const total = consumptionData.reduce(
+            (totals, item) => {
+                totals.L1 += item.Total_Monthy_Consumption_L1 * 2.346 || 0;
+                totals.L2 += item.Total_Monthy_Consumption_L2 * 2.379 || 0;
+                totals.L3 += item.Total_Monthy_Consumption_L3 * 2.262 || 0;
+                totals.L4 += item.Total_Monthy_Consumption_L4 * 2.649 || 0;
+                totals.L5 += item.Total_Monthy_Consumption_L5 * 2.650 || 0;
+                totals.L6 += item.Total_Monthy_Consumption_L6 * 2.63 || 0;
+                totals.L7 += item.Total_Monthy_Consumption_L7 * 2.346 || 0;
+                totals.L8 += item.Total_Monthy_Consumption_L8 * 2.379 || 0;
+                totals.L9 += item.Total_Monthy_Consumption_L9 * 2.62 || 0;
+                totals.L10 += item.Total_Monthy_Consumption_L10 * 2.344 || 0;
+                totals.L11 += item.Total_Monthy_Consumption_L11 * 2.340 || 0;
+                totals.L12 += item.Total_Monthy_Consumption_L12 * 2.339 || 0;
+                return totals;
+            },
+            {
+                L1: 0,
+                L2: 0,
+                L3: 0,
+                L4: 0,
+                L5: 0,
+                L6: 0,
+                L7: 0,
+                L8: 0,
+                L9: 0,
+                L10: 0,
+                L11: 0,
+                L12: 0,
+            }
+        );
+
+        // Kategoriler ve değerleri frontend için hazırlayın
+        const categories = [
+            'Gasoline Passenger Car',
+            'Gasoline Light Duty Truck',
+            'Gasoline Heavy Duty Truck',
+            'Diesel Passenger Car',
+            'Diesel Light Duty Truck',
+            'Diesel Heavy Duty Truck',
+            'Hybrid Passenger Car',
+            'Electric Vehicle Duty Truck',
+            'Electric Heavy Duty Truck',
+            'Gasoline Agricultural Equipment',
+            'Gasoline Ships and Boat',
+            'Gasoline Motorcycle',
+        ];
+
+        const values = [
+            total.L1,
+            total.L2,
+            total.L3,
+            total.L4,
+            total.L5,
+            total.L6,
+            total.L7,
+            total.L8,
+            total.L9,
+            total.L10,
+            total.L11,
+            total.L12,
+        ];
+
+        res.status(200).json({ categories, values });
+    } catch (err) {
+        console.error("Error fetching mobile consumption data:", err);
+        res.status(500).json({ message: "An error occurred while fetching data." });
+    }
+};
+
+
+const getMonthlyScopesData = async (req, res) => {
+    try {
+        const email = req.session?.user?.email || req.user?.email;
+        if (!email) {
+            return res.status(403).json({ message: "User session not found." });
+        }
+
+        const rawData = await OfficeEmission.findAll({
+            where: { email },
+            attributes: [
+                [sequelize.fn('MONTH', sequelize.col('date')), 'month'],
+                [sequelize.fn('SUM', sequelize.col('stationary_combustion')), 'scope1_stationary'],
+                [sequelize.fn('SUM', sequelize.col('mobile_combustion')), 'scope1_mobile'],
+                [sequelize.fn('SUM', sequelize.col('purchased_heat_steam')), 'scope2_heat'],
+                [sequelize.fn('SUM', sequelize.col('electricity_consumption')), 'scope2_electricity'],
+                [sequelize.fn('SUM', sequelize.col('water_consumption')), 'scope3_water'],
+                [sequelize.fn('SUM', sequelize.col('bottled_water_consumption')), 'scope3_bottled_water'],
+                [sequelize.fn('SUM', sequelize.col('business_travel_car')), 'scope3_travel_car'],
+                [sequelize.fn('SUM', sequelize.col('business_travel_train')), 'scope3_travel_train'],
+            ],
+            group: [sequelize.fn('MONTH', sequelize.col('date'))],
+            order: [[sequelize.fn('MONTH', sequelize.col('date')), 'ASC']],
+            raw: true,
+        });
+
+        const monthsMap = [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+
+        // Tüm aylar için varsayılan veri yapısı
+        const months = monthsMap.map((month, index) => ({
+            month: month,
+            scope1: 0,
+            scope2: 0,
+            scope3: 0,
+        }));
+
+        // Gelen verilerle ayları eşleştir
+        rawData.forEach((item) => {
+            const monthIndex = item.month - 1; // Ay numaraları 1-12 arasında
+            months[monthIndex].scope1 =
+                parseFloat(item.scope1_stationary || 0) +
+                parseFloat(item.scope1_mobile || 0);
+            months[monthIndex].scope2 =
+                parseFloat(item.scope2_heat || 0) +
+                parseFloat(item.scope2_electricity || 0);
+            months[monthIndex].scope3 =
+                parseFloat(item.scope3_water || 0) +
+                parseFloat(item.scope3_bottled_water || 0) +
+                parseFloat(item.scope3_travel_car || 0) +
+                parseFloat(item.scope3_travel_train || 0);
+        });
+
+        res.status(200).json(months);
+    } catch (err) {
+        console.error("Error fetching monthly scopes data:", err);
+        res.status(500).json({ message: "An error occurred while fetching data." });
+    }
+};
 
 module.exports={
-    dashboard_page_show,input_page_show,getCountries,office_calculate,getScopePieCharts,getMonthlyEmissions
+    dashboard_page_show,input_page_show,getCountries,office_calculate,getScopePieCharts,getMonthlyEmissions,getMobileConsumptionData,getMonthlyScopesData
 }
