@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+
 // Admin sayfası
 router.get('/admins/admin', (req, res) => {
     res.render("admins/admin", { layout: false });
