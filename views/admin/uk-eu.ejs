@@ -1,0 +1,554 @@
+<style>
+    .info-banner {
+            background-color: #e8f4fc;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        .card-metrics {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .metric-card {
+            flex: 1;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            text-align: center;
+        }
+
+        .metric-card h6 {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .metric-card p {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .metric-card .price-up {
+            color: #e76f51;
+        }
+    
+    /* General Styles */
+    body {
+        font-family: Arial, sans-serif;
+    }
+    
+    #main-container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 20px;
+    }
+    
+    /* Header Styling */
+    h3 {
+        text-align: left;
+        margin-bottom: 20px;
+    }
+    
+    /* Tab Menu Styling */
+    .nav-tabs {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #ddd;
+    }
+    
+    .nav-tabs li {
+        margin-right: 20px;
+    }
+    
+    .nav-tabs li a {
+        text-decoration: none;
+        color: #007bff;
+        padding-bottom: 5px;
+        cursor: pointer;
+    }
+    
+    .nav-tabs li a.active {
+        font-weight: bold;
+        border-bottom: 3px solid #007bff;
+    }
+    
+    /* Tab Content */
+    .tab-content {
+        display: none;
+    }
+    
+    .tab-content.active {
+        display: block;
+    }
+    
+    /* Column Layout */
+    .row {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+    }
+    
+    .column {
+        flex: 1;
+        border: 1px solid #ddd;
+        border-radius: 15px;
+        padding: 20px;
+        background-color: #fff;
+    }
+    
+    /* Chart and Button Styling */
+    #chart-container {
+        height: 350px;
+    }
+    
+    .details-button-div {
+        text-align: right;
+        margin-top: 20px;
+    }
+    
+    .details-button {
+        text-decoration: none;
+        color: #007bff;
+        border: 1px solid #007bff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        display: inline-block;
+    }
+    
+    .details-button:hover {
+        background-color: #007bff;
+        color: #fff;
+    }
+    
+    /* Info Text */
+    .info-text {
+        background-color: #f7f7f7;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+    }
+    #top-filters {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    #top-filters>div {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .modal-in-buttons {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .modal-in-buttons>div {
+        position: relative;
+    }
+
+    .modal-in-buttons>div>a {
+        position: absolute;
+        bottom: -300px;
+        left: 110px;
+    }
+
+    .modal-in-buttons>button>a {
+        text-decoration: none;
+        color: black;
+    }
+
+
+    .all-div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .searchDiv {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .contents {
+        max-height: 320px;
+        overflow-y: auto;
+    }
+
+    .price-container .row .col {
+        margin-left: -10px;
+    }
+
+    .price-container .row .col .card .card-body {
+        margin-top: -20px;
+        margin-bottom: -15px
+    }
+
+    .table-container {
+        max-width: 90%;
+        /* Ekran genişliğine uyum sağlar */
+        max-height: 200px;
+        /* Yüksekliği belirleyin, çok uzun olursa dikey kaydırma eklenir */
+        overflow-x: auto;
+        /* Yatay kaydırma için */
+        overflow-y: auto;
+        /* Dikey kaydırma için */
+    }
+
+    .table {
+        width: 100%;
+        /* Tablo genişliğini kapsayıcıya göre ayarlar */
+        white-space: nowrap;
+        /* Uzun başlıkları tek satırda tutar */
+    }
+</style>
+
+<body>
+
+<div id="main-container">
+    <h3 class="h3 mt-4">Fleet EU/UK Compliance</h3>
+
+    <!-- Tab Menu -->
+    <ul class="nav-tabs mt-3">
+        <li><a href="#" class="tab-link active" data-tab="overview">Overview</a></li>
+        <li><a href="#" class="tab-link" data-tab="eu-mrv">EU MRV/ETS/FuelEU <span style="color: red;">NEW</span></a></li>
+        <li><a href="#" class="tab-link" data-tab="uk-mrv">UK MRV</a></li>
+    </ul>
+
+    <!-- Overview Tab Content -->
+    <div id="overview" class="tab-content active">
+        <div class="row">
+            <!-- EU MRV Emissions Column -->
+            <div class="column">
+                <div class="d-flex align-items-center mb-3">
+                    <img src="/static/image/eu_flag.png" alt="eu-flag" style="width: 40px; border-radius: 50%; margin-right: 10px;">
+                    <div>
+                        <p class="fw-bold mb-0">EU MRV Emissions</p>
+                        <span class="text-muted">Fleet</span>
+                    </div>
+                </div>
+
+                <!-- Chart Container -->
+                <div id="chart-container">
+                    <div id="chart-eu"></div>
+                </div>
+
+                <!-- Details Button -->
+                <div class="details-button-div">
+                    <a href="#" class="details-button">Fleet Details <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <!-- UK MRV Emissions Column -->
+            <div class="column">
+                <div class="d-flex align-items-center mb-3">
+                    <img src="/static/image/uk_flag.png" alt="uk-flag" style="width: 40px; border-radius: 50%; margin-right: 10px;">
+                    <div>
+                        <p class="fw-bold mb-0">UK MRV Emissions</p>
+                        <span class="text-muted">Fleet</span>
+                    </div>
+                </div>
+
+                <!-- Information Text -->
+                <div class="info-text">
+                    No UK MRV legs for this fleet in the range of years 2023 to 2024
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EU MRV/ETS/FuelEU Tab Content -->
+    <div id="eu-mrv" class="tab-content">
+        <h5>EU MRV/ETS/FuelEU Data</h5>
+        <div class="container my-4">
+            <!-- Top Filters -->
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <label for="selectYear" class="form-label">Year*</label>
+                    <select class="form-select form-select-sm" id="selectYear">
+                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
+                        <option value="2023">2023</option>
+                        <option value="2024" selected>2024</option>
+                    </select>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-filter"></i> Filters
+                    </button>
+                    <button class="btn btn-sm btn-primary">View</button>
+                </div>
+            </div>
+    
+            <!-- Info Banner -->
+            <div class="info-banner mt-3 bg-success">
+                <i class="fas fa-info-circle"></i> <strong>Premium subscription</strong>
+                <ul>
+                    <li>EU ETS is a premium module. For subscription inquiries, please contact your local sales representative.</li>
+                    <li>The FuelEU dashboard is available as a free trial until November 2024 for your convenience.</li>
+                </ul>
+            </div>
+    
+            <!-- Metric Cards -->
+            <div class="card-metrics">
+                <div class="metric-card">
+                    <h6>Carbon market price (Current)</h6>
+                    <p>€69.23 EUR/mtCO2</p>
+                </div>
+                <div class="metric-card">
+                    <h6>Price expectation (StormGeo)</h6>
+                    <p class="price-up"><i class="fas fa-arrow-up"></i> Up <a href="#" class="text-decoration-none">View comment</a></p>
+                </div>
+                <div class="metric-card">
+                    <h6>Required GHG intensity (FuelEU)</h6>
+                    <p>89.337 gCO2e/MJ</p>
+                </div>
+            </div>
+        </div>
+    
+    
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            <table class="table table-bordered mx-auto">
+                <thead>
+                    <tr class="table-secondary">
+                        <th>#</th>
+                        <th>Vessel Name</th>
+                        <th>MRV</th>
+                        <th>Type</th>
+                        <th>Arrived</th>
+                        <th>Between</th>
+                        <th>Departed</th>
+                        <th>Ports</th>
+                        <th>Total</th>
+                        <th>Attained CO2 emissions YTD (mt)</th>
+                        <th>EUAs YTD (units)</th>
+                        <th>On-hire EUAs (units)</th>
+                        <th>GHG (units)</th> 
+                        <th>Compliance Balance</th><!-- Yeni Sütun -->
+                    </tr>
+                </thead>
+                
+                <tbody id="vesselTableBody">
+                    <!-- Dinamik satırlar ve alt satırlar burada görünecek -->
+                </tbody>
+            </table>
+        </div>
+    <!-- UK MRV Tab Content -->
+    <div id="uk-mrv" class="tab-content">
+        <h4>UK MRV Data</h4>
+        <p>Here you can add specific details related to UK MRV regulations and data.</p>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts@3.36.0"></script>
+<script>
+    // Tab switching functionality
+    const tabs = document.querySelectorAll('.tab-link');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Remove 'active' class from all tabs and tab contents
+            tabs.forEach(t => t.classList.remove('active'));
+            tabContents.forEach(tc => tc.classList.remove('active'));
+            
+            // Add 'active' class to clicked tab and corresponding tab content
+            tab.classList.add('active');
+            document.getElementById(tab.dataset.tab).classList.add('active');
+        });
+    });
+
+    // Load dynamic CO₂ chart data
+    async function loadCO2ChartData() {
+        try {
+            const response = await fetch('/admin/uk-eu/data');
+            const data = await response.json();
+
+            console.log("Fetched CO2 Chart Data:", data);
+
+            if (data && data.data && data.data.length) {
+                const chartData = data.data.map(item => item.value);
+                const categories = data.data.map(item => item.name);
+
+                var optionsEU = {
+                    chart: {
+                        type: 'bar',
+                        height: 350,
+                        stacked: true
+                    },
+                    series: [
+                        { name: 'Ports', data: [chartData[0]] },
+                        { name: 'Between', data: [chartData[1]] },
+                        { name: 'Arrived', data: [chartData[2]] },
+                        { name: 'Departed', data: [chartData[3]] }
+                    ],
+                    xaxis: {
+                        categories: ['CO₂ Emissions']
+                    },
+                    yaxis: {
+                        labels: {
+                            formatter: function (val) {
+                                return val.toFixed(0);
+                            }
+                        }
+                    },
+                    plotOptions: {
+                        bar: {
+                            horizontal: false,
+                            columnWidth: '35%',
+                            endingShape: 'rounded'
+                        }
+                    },
+                    dataLabels: {
+                        enabled: true,
+                        formatter: function (val) {
+                            return val ? val.toFixed(2).replace(/\.?0+$/, '') + " mt" : "";
+                        }
+                    },
+                    legend: {
+                        position: 'top'
+                    },
+                    tooltip: {
+                        y: {
+                            formatter: function (val) {
+                                return val.toFixed(2).replace(/\.?0+$/, '') + " mt";
+                            }
+                        }
+                    },
+                    colors: ['#FF5733', '#1E90FF', '#FFC300', '#28B463']
+                };
+
+                var chartEU = new ApexCharts(document.querySelector("#chart-eu"), optionsEU);
+                chartEU.render();
+            } else {
+                console.warn("No data available for CO₂ chart.");
+            }
+        } catch (error) {
+            console.error("Failed to load CO₂ chart data:", error);
+        }
+    }
+
+    // Load the CO₂ chart when the page is ready
+    loadCO2ChartData();
+
+
+    async function loadVesselsByYear(year) {
+    try {
+        const response = await fetch(`/admin/mrv?year=${year}`);
+        const data = await response.json();
+
+        const vessels = data.data; // Gelen gemi verilerini al
+
+        // Tablo gövdesini seç ve temizle
+        const tableBody = document.querySelector('#vesselTableBody');
+        tableBody.innerHTML = '';
+
+        // Gemi bilgilerini tabloya ekle
+        vessels.forEach((vesselData, index) => {
+            // Ana satır (CO₂, EUAs, GHG ve Compliance Balance için)
+            const mainRow = `
+                <tr>
+                    <td class="bg-info text-light">${index + 1}</td>
+                    <td class="bg-info text-body fw-bold">${vesselData.vessel || '-'}</td>
+                    <td class="text-center">
+                        <img src="/static/image/eu_flag.png" alt="EU" style="width: 20px; border-radius: 50%;">
+                    </td>
+                    <td>CO2 (mt)</td>
+                    <td class="bg-success">${vesselData.arrived?.toFixed(2) || '-'}</td>
+                    <td class="bg-success">${vesselData.between?.toFixed(2) || '-'}</td>
+                    <td class="bg-success">${vesselData.departed?.toFixed(2) || '-'}</td>
+                    <td class="bg-success">${vesselData.ports?.toFixed(2) || '-'}</td>
+                    <td>${(
+                        (vesselData.arrived || 0) +
+                        (vesselData.between || 0) +
+                        (vesselData.ports || 0)
+                    ).toFixed(2)}</td>
+                    <td class="bg-warning">${vesselData.totalCO2?.toFixed(2) || '-'}</td> <!-- Toplam CO₂ -->
+                    <td class="bg-warning">${vesselData.EUAsYTD ? vesselData.EUAsYTD.toFixed(2) : '-'}</td> <!-- EUAs YTD -->
+                    <td class="bg-warning">${vesselData.EUAsYTD ? vesselData.EUAsYTD.toFixed(2) : '-'}</td> <!-- On-hire EUAs -->
+                    <td class="bg-warning">${vesselData.ghg ? vesselData.ghg.toFixed(2) : '-'}</td> <!-- GHG -->
+                    <td class="bg-warning">${vesselData.complianceBalance ? vesselData.complianceBalance.toFixed(2) : '-'}</td> <!-- Compliance Balance -->
+                    <td class="bg-warning">${vesselData.penalty ? vesselData.penalty.toFixed(2) : '-'}</td> <!-- Penalty -->
+                </tr>
+            `;
+            tableBody.innerHTML += mainRow;
+
+            // Alt satırlar (CH4 ve N2O için)
+            const detailRows = `
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>CH4 (kg)</td>
+                    <td>${vesselData.ch4Arrived?.toFixed(2) || '-'}</td>
+                    <td>${vesselData.ch4Between?.toFixed(2) || '-'}</td>
+                    <td>${vesselData.ch4Departed?.toFixed(2) || '-'}</td>
+                    <td>${vesselData.ch4Ports?.toFixed(2) || '-'}</td>
+                    <td>${(
+                        (vesselData.ch4Arrived || 0) +
+                        (vesselData.ch4Between || 0) +
+                        (vesselData.ch4Ports || 0)
+                    ).toFixed(2)}</td>
+                    <td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>N2O (kg)</td>
+                    <td>${vesselData.n2oArrived?.toFixed(2) || '-'}</td>
+                    <td>${vesselData.n2oBetween?.toFixed(2) || '-'}</td>
+                    <td>${vesselData.n2oDeparted?.toFixed(2) || '-'}</td>
+                    <td>${vesselData.n2oPorts?.toFixed(2) || '-'}</td>
+                    <td>${(
+                        (vesselData.n2oArrived || 0) +
+                        (vesselData.n2oBetween || 0) +
+                        (vesselData.n2oPorts || 0)
+                    ).toFixed(2)}</td>
+                    <td></td><td></td><td></td><td></td><td></td>
+                </tr>
+            `;
+            tableBody.innerHTML += detailRows;
+        });
+    } catch (error) {
+        console.error('Error fetching vessels:', error);
+    }
+}
+
+// Dropdown değişiminde tabloyu güncelle
+document.querySelector('#selectYear').addEventListener('change', (event) => {
+    const selectedYear = event.target.value;
+    loadVesselsByYear(selectedYear);
+});
+
+// Sayfa yüklendiğinde varsayılan yılı yükle
+document.addEventListener('DOMContentLoaded', () => {
+    const defaultYear = document.querySelector('#selectYear').value;
+    loadVesselsByYear(defaultYear);
+});
+
+
+
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+crossorigin="anonymous"></script>
+
+</body>

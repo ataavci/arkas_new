@@ -6,9 +6,6 @@ const auth_middileware=require("../middleware/auth_middileware");
 
 
 // Ana sayfa rotasını /login'e yönlendir
-route.get('/', (req, res) => {
-    res.redirect('/login');
-});
 
 // Login rotaları
 route.get("/login",auth_middileware.openclose, auth_controller.login_page_show);

@@ -1,7 +1,7 @@
-const simulation = require("../modals/simulation");
-const portdata = require("../modals/portdata");
-const vessel_data = require("../modals/vessel_data");
-const FuelData = require("../modals/fueldata"); // FuelData model
+const simulation = require("../models/simulation");
+const portdata = require("../models/portdata");
+const vessel_data = require("../models/vessel_data");
+const FuelData = require("../models/fueldata"); // FuelData model
 
 const simulate = async (req, res) => {
   try {

@@ -1,5 +1,5 @@
 const{validationResult}=require("express-validator");
-const USER =require("../modals/user");
+const USER =require("../models/user");
 
 const passport = require("../db/passport_local");
 

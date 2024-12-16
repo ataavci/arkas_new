@@ -1,0 +1,144 @@
+<body>
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+      <h3 class="h3 mt-5 mx-auto">Fuel Consumption Fleet</h3>
+
+      <div class="p-2 mt-4 me-4 bg-primary rounded" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <label for="vessel-select" class="fw-bold">Vessel:</label>
+        <select id="vessel-select" class="form-select" onchange="fetchFuelConsumptionData()">
+          <option value="all">All Vessels</option>
+          <!-- Dynamic vessel options will be added here -->
+        </select>
+      </div>
+
+    </div>
+  
+    <div id="chart" class="w-75 mx-auto"></div>
+    <p id="chart-description" class="p-2 mt-2 bg-danger text-center fw-bold rounded"></p>
+  
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  
+    <script>
+      // JavaScript function to fetch aggregated fuel consumption data and populate the vessel dropdown
+      async function fetchFuelConsumptionData() {
+        try {
+          const vesselId = document.getElementById('vessel-select').value;
+  
+          // Make a request to the /admin/fuel-consumption route with vessel filter if applicable
+          let url = `/admin/fuel-consumption`;
+          if (vesselId && vesselId !== 'all') {
+            url += `?vesselId=${vesselId}`;
+          }
+  
+          const response = await fetch(url);
+  
+          // Check if the response is successful
+          if (!response.ok) {
+            throw new Error(`Failed to fetch data: ${await response.text()}`);
+          }
+  
+          // Parse the JSON response
+          const data = await response.json();
+  
+          // Log received data to verify its structure
+          console.log("Data received from server:", data);
+  
+          // Populate the vessel dropdown if not already populated
+          const vesselSelect = document.getElementById('vessel-select');
+          if (vesselSelect.options.length === 1) { // Populate only if it hasn't been populated yet
+            data.vessels.forEach(vessel => {
+              const option = document.createElement('option');
+              option.value = vessel.id;
+              option.textContent = vessel.name;
+              vesselSelect.appendChild(option);
+            });
+          }
+  
+          // Ensure the data structure matches expectations
+          if (!data.months || !data.sea || !data.port || !data.fuelTypeSea || !data.fuelTypePort) {
+            console.error("Data structure is incorrect. Expected keys: 'months', 'sea', 'port', 'fuelTypeSea', 'fuelTypePort'");
+            return;
+          }
+  
+          // Round data to remove decimal places
+          const roundedSea = data.sea.map(value => Math.round(value));
+          const roundedPort = data.port.map(value => Math.round(value));
+  
+          // Parsing the response data for the chart
+          const series = [
+            {
+              name: data.fuelTypeSea[0] || 'VLS FO', // Use the fuel type if available for sea (matching example chart)
+              data: roundedSea
+            },
+            {
+              name: data.fuelTypePort[0] || 'HS FO', // Use the fuel type if available for port (matching example chart)
+              data: roundedPort
+            }
+          ];
+  
+          // Create a dynamic chart using ApexCharts
+          const options = {
+            series: series,
+            chart: {
+              type: 'bar',
+              height: 350,
+              stacked: true,
+              toolbar: {
+                show: true
+              },
+              zoom: {
+                enabled: true
+              }
+            },
+            plotOptions: {
+              bar: {
+                horizontal: false,
+                borderRadius: 10,
+                dataLabels: {
+                  enabled: false // Disable total data labels
+                }
+              }
+            },
+            xaxis: {
+              categories: data.months, // Use months as categories for the x-axis
+              title: {
+                text: "Period" // Adding x-axis title as "Period"
+              }
+            },
+            yaxis: {
+              title: {
+                text: "Fuel consumption (MT)" // Adding y-axis title
+              }
+            },
+            legend: {
+              position: 'right',
+              offsetY: 40
+            },
+            fill: {
+              opacity: 1
+            },
+            title: {
+              text: 'Fuel Consumption Fleet',
+              align: 'left'
+            }
+          };
+  
+          // Clear previous chart content (if any)
+          document.querySelector("#chart").innerHTML = "";
+  
+          // Create and render the chart
+          const chart = new ApexCharts(document.querySelector("#chart"), options);
+          chart.render();
+  
+          // Update the chart description dynamically
+          document.getElementById('chart-description').innerText = `Displaying aggregated fuel consumption data by month for ${data.fuelTypeSea[0] || 'all sea fuel types'} and ${data.fuelTypePort[0] || 'all port fuel types'}.`;
+  
+        } catch (error) {
+          console.error('Error fetching fuel consumption data:', error);
+          alert('Failed to fetch data. Please try again.');
+        }
+      }
+  
+      // Automatically call fetchFuelConsumptionData when the page loads to populate vessels and chart
+      window.onload = fetchFuelConsumptionData;
+    </script>
+</body>

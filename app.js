@@ -1,6 +1,8 @@
 
 var officeRouter = require('./routes/office_route');
 var authRouter = require('./routes/auth');
+const user_route=require("./routes/user");
+const admin_route=require("./routes/admin")
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -102,7 +104,8 @@ app.use(expressLayouts);
 
 app.use( officeRouter);
 app.use( authRouter);
-
+app.use(admin_route);
+app.use(user_route);
 
 app.use(passport.initialize());
 app.use(passport.session());

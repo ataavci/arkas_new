@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VooSust Digital Solutions</title>
+    <meta name="google-signin-client_id" content="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="/static/image/favicon-16x16.png" type="image/x-icon">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+   <!-- navbar -->
+   <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <img src="/static/image/voosust logo.png" alt=" logo" width="60" height="60">
+      </a>
+      <div class="dropdown d-inline"> 
+        <button class="btn btn-sm px-0 dropdown-toggle text-dark" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          EN
+        
+        </button>
+        <ul class="dropdown-menu border shadow" style="left:0 ;">
+          <li>
+            <a class="dropdown-item small py-1" href="./avrupa-tr">Türkçe</a>
+          </li>
+          <li>
+            <a class="dropdown-item small py-1" href="./avrupa">English</a>
+          </li>
+        </ul>
+      </div>
+   
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mg-lg">
+          <li class="nav-item">
+            <a class="nav-link " aria-current="page" href="./">HOME</a>
+          </li>
+          
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#blog" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              BLOG
+            </a>
+            <ul class="dropdown-menu">
+              
+              <li><a style="color: green;" class="dropdown-item" href="./blog"> VooSust Blog</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a style="color: green;" class="dropdown-item" href="./carbon_credi">Carbon Credit Trading</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a style="color: green;" class="dropdown-item" href="./cdr">What is
+                CDR</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a style="color: green;" class="dropdown-item" href="./turkey_rapor">Turkey Sustainability Reports</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a style="color: green;" class="dropdown-item" href="./avrupa">Fuel EU</a></li>
+            </ul>
+          </li>
+  
+         
+          <li class="nav-item">
+            <a class="nav-link" href="./#special">SERVICES</a>
+          </li>
+  
+              <li class="nav-item">
+                <a class="nav-link " href="#contact">CONTACT US</a>
+              </li>
+              
+              <li class="nav-item">
+                <a style="color: green;" class="nav-link btn-primary" data-bs-toggle="modal" data-bs-target="#signUpModal" >SIGN UP</a>
+              </li>
+              
+              
+          
+      </div>
+    </div>
+  </nav>
+
+
+<!-- UYOLMA MODEL -->
+<div class="modal fade" id="signUpModal" tabindex="-1" aria-labelledby="signUpModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="signUpModalLabel">Sign Up</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="py-3 text-start">
+          <div class="row mb-3">
+            <div class="col-md-6 mb-3">
+              <input type="text" placeholder="Name and Surname" class="form-control" />
+            </div>
+            <div class="col-md-6 mb-3">
+              <input type="email" placeholder="Mail Address" class="form-control" />
+            </div>
+          </div>
+          <div class="mb-3">
+            <input type="text" class="form-control" placeholder="Username" />
+          </div>
+          <div class="mb-3">
+            <input type="password" class="form-control" placeholder="Password" />
+          </div>
+          <div class="mb-3">
+            <input type="password" class="form-control" placeholder="Confirm Password" />
+          </div>
+          <button type="button" class="btn btn-primary">
+            Sign Up
+          </button>
+        </form>
+        <hr>
+        <div class="text-center">
+          <p>or</p>
+          <button type="button" class="btn btn-danger" onclick="signInWithGoogle()">
+            Sign in with Google
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<div id="blog-entry">
+    <div id="blog-content">
+        <h2 style="text-align: center;">EUROPEAN UNION REGULATION ON THE USE OF RENEWABLE AND LOW-CARBON FUELS IN MARITIME TRANSPORT</h2>
+    </div>
+</div>
+
+<div id="comments">
+    <div class="comment">
+        <img src="/static/image/world.jpg" alt="Kullanıcı Avatarı">
+        <div class="comment-content">
+            <p>• Regulation: "Regulation (EU) 2023/1805 of the European Parliament and of the Council on the Use of Renewable and Low-Carbon Fuels in Maritime Transport" <br>
+                • Publication Date: September 13, 2023 <br>
+                • Effective Date: January 1, 2025 <br>
+                • Purpose: To increase the consistent use of renewable and low-carbon fuels and alternative energy sources in maritime transport within the European Union.</p>
+        </div>
+    </div>
+</div>
+<div id="compliance-container">
+  <div id="compliance-title">SCOPE OF THE REGULATION</div>
+  <div id="compliance-content">
+      <div id="compliance-asset">
+          <h3>SCOPE</h3>
+          <p>• The regulation does not mandate the use of a specific fuel or technology but instead limits the GHG intensity of energy sources. Thus, it encourages the use of the most suitable technologies and innovative solutions.</p>
+      </div>
+      <div id="compliance-how">
+          <h3>Target Ships</h3>
+          <p>
+            • Gross Tonnage: Passenger and cargo ships over 5,000 GT <br>
+            • Regardless of Flag: All ships entering or departing EU ports</p>
+      </div>
+      <div id="compliance-limitations">
+          <h3>Fuel EU Compliance Certificate</h3>
+          
+          <p>• Shipowners are required to monitor and report the amount and type of energy used by their ships. Independent verifiers will audit the accuracy and completeness of the reporting. A compliance certificate (FuelEU compliance certificate) must be issued for each ship.</p>
+      </div>
+  </div>
+</div>
+<div class="timeline-container" id="important-dates">
+<h1 class="title">Important Dates</h1>
+<div class="timeline">
+    <div class="timeline-item">
+        <div class="hexagon">
+            <div class="hexagon-inner">
+                <div class="hexagon-content">August 31, 2024</div>
+            </div>
+        </div>
+        <div class="description">
+            <p>The shipowner submits the FuelEU Monitoring Plan (MP) to an accredited verifier. This plan should include the assessment of GHG intensity for each ship and provide important details on how emissions will be monitored and reported.</p>
+        </div>
+    </div>
+    <div class="timeline-item">
+        <div class="hexagon">
+            <div class="hexagon-inner">
+                <div class="hexagon-content">January 31, annually</div>
+            </div>
+        </div>
+        <div class="description">
+            <p>The shipowner submits a FuelEU annual report to the verifier for each ship, providing detailed information about the ship's compliance with the regulation. In the event of a change in ship ownership, a partial report must be verified within 1 month of the transfer</p>
+        </div>
+    </div>
+    <div class="timeline-item">
+        <div class="hexagon">
+            <div class="hexagon-inner">
+                <div class="hexagon-content">March 31, annually</div>
+            </div>
+        </div>
+        <div class="description">
+            <p>he verifier registers the FuelEU report in the FuelEU database by March 31 each year.</p>
+        </div>
+    </div>
+    <div class="timeline-item">
+        <div class="hexagon">
+            <div class="hexagon-inner">
+                <div class="hexagon-content">April 30, annually</div>
+            </div>
+            <br>
+            <br>
+        </div>
+        <div class="description">
+            <p>By April 30 each year, the shipowner registers the compliance approval in the FuelEU database. The verifier gives final approval of the ship's report and makes the final entry.</p>
+        </div>
+    </div>
+    <div class="timeline-item">
+        <div class="hexagon">
+            <div class="hexagon-inner">
+                <div class="hexagon-content">June 30, annually</div>
+            </div>
+        </div>
+        <div class="description">
+            <p>By June 30 each year, the verifier issues the FuelEU compliance certificate. In the event of a penalty, the compliance certificate is issued by the port state authorities after payment is received.</p>
+        </div>
+    </div>
+</div>
+<div id="comments">
+  <div class="comment">
+      <img src="/static/image/voosust logo.png" alt="Kullanıcı Avatarı">
+      <div class="comment-content">
+          <h2>Suggestions for Compliance with the Regulation</h2>
+          <h3>Low GHG Intensity Energy Policy:</h3> <br>
+          <p>• Sustainable Fuel Use: <br>
+            Non-Biological Renewable Fuels (RFNBO): For example, Methanol <br>
+            Renewable Carbon Fuels (RCF): Encouraged use <br>
+            Fossil LNG/LPG: Use discouraged <br>
+            • Shore Power Supply in Ports: <br>
+            Use of electricity supplied from shore in ports <br>
+            • Utilizing Wind Assistance in Transit: <br>
+            Use of wind energy as an auxiliary power source</p>
+            <h2>Flexible Policies</h2>
+            <p>• Taking a maximum of 2% compliance credit from the next year: (Not allowed for two consecutive years) <br>
+                • Including compliance credits in a pool of ships with other companies</p>
+           
+      </div>
+      
+  </div>
+  <a href="/static/image/FUEL.pdf" target="_blank" class="p-3 border bg-light d-block text-decoration-none">
+    Click for the information file
+  </a>
+<br>
+<br>
+</div>
+
+
+<section id="contact" class="py-5">
+  <div class="container">
+      <div class="row">
+          <div class="col-md-6">
+              <h2>CONTACT US</h2>
+              <p>Doğuş Caddesi No: 207/Z<br>
+                 DEÜ Tınaztepe Yerleşkesi<br>
+                 Buca 35390 İzmir/Türkiye</p>
+              <h5> with e-mail</h5>
+              <p> info@voosust.com <a href="mailto:info@voosust.com">Click here</a>.</p>
+              <h5>Phone Number</h5>
+              <p> +905333572747 <a href="tel:+905333572747">Click here</a>.</p>
+          </div>
+          
+          <!-- Harita -->
+          <div style="position: relative; width: 50%; height: 480px; overflow: hidden;">
+            <iframe 
+                src="https://www.google.com/maps/d/u/0/embed?mid=1cF75pW_iyqOW7lVE3uc8Ne9ePkWlTI4&ehbc=2E312F" 
+                style="position: absolute; top: -75px; left: 0; width: 100%; height: 520px; border: none;">
+            </iframe>
+        </div>
+      </div>
+  </div>
+</section>
+<footer>
+  <div class="footerContainer">
+    <h2>OUR PARTNERS</h2>
+    <div class="companyLogos">
+      <img src="/static/image/shipsgo.png" alt="Company Logo 1" class="company-logo">
+      <img src="/static/image/medirterline.png" alt="Company Logo 2" class="company-logo">
+      <img src="/static/image/logo3.png" alt="Company Logo 3" class="company-logo">
+      <img src="/static/image/İBB.png" alt="Company Logo 3" class="company-logo">
+      <img src="/static/image/ERKPORT.png" alt="Company Logo 4" class="company-logo">
+      
+    </div>
+    <div class="socialIcons">
+      <li>
+        <a href="https://www.linkedin.com/company/voosust-sustainability-solutions/"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a>
+      </li>
+      <li>
+        <a href="#0"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i> Facebook</a>
+      </li>
+      <li>
+        <a href="https://www.instagram.com/voosust?igsh=MXQyMTNuN2wyd2xkZA=="><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a>
+      </li>
+      <li>
+        <a href="#0"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i> Twitter</a>
+      </li>
+      <li>
+        <a href="#0"><i class="fab fa-fw fa-youtube" aria-hidden="true"></i> YouTube</a>
+      </li>
+      
+    </div>
+  </div>
+</footer>
+  
+      <SCript src="/static/js/script.js"></SCript>
+      <script src="https://apis.google.com/js/platform.js" async defer></script>
+      <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+      <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  </body>
+  </html>
+  

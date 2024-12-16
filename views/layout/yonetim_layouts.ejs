@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/static/css/yonetim.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRc+b0aQ+qqU4q1Bgi4z2ZcZstDoKfssDP1eUeyJ" crossorigin="anonymous" />
+
+    <title>Homepage</title>
+
+    <style>
+        /* Navbar'ı sabit yapar ve üstte tutar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            height: max-content;
+        }
+
+        /* Navbarın altındaki içeriğin görünmesini sağlamak için boşluk bırak */
+        body {
+            padding-top: 56px
+                /* Navbar'ın yüksekliğine uygun olmalı */
+        }
+
+
+        /* Ana dropdown menünün stilleri */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            /* Ana menünün hemen altına yerleştir */
+            left: 0;
+            margin: 0;
+            z-index: 1050;
+        }
+
+        /* Alt menü için temel stiller */
+        .dropdown-submenu {
+            position: relative;
+            /* Alt menülerin doğru pozisyonlanmasını sağlar */
+        }
+
+        .dropdown-submenu>.dropdown-menu {
+            display: none;
+            /* Varsayılan olarak gizli */
+            position: absolute;
+            top: 0;
+            left: 100%;
+            /* Ana menünün sağına yerleştir */
+            margin-top: -5px;
+            /* Hafif hizalama ayarı */
+            z-index: 1050;
+        }
+
+
+        .dropdown-submenu:hover {
+            background-color: #9fffb1;
+        }
+
+        .dropdown-menu .dropdown-item:hover {
+            background-color: #69fd84;
+        }
+
+        /* Hover ile alt menüyü göster */
+        .dropdown-submenu:hover>.dropdown-menu {
+            display: block;
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Mobil cihazlar için düzenleme */
+        @media (max-width: 768px) {
+            .dropdown-menu {
+                position: static;
+                /* Mobilde menülerin düzgün görünmesi için statik pozisyon */
+            }
+
+            .dropdown-submenu>.dropdown-menu {
+                position: static;
+                /* Alt menüler için de statik pozisyon */
+                margin: 0;
+                /* Mobilde margin'e gerek yok */
+            }
+        }
+
+
+        /* Profil dropdown menüsünü sağa hizala */
+        .nav-item.dropdown .dropdown-menu {
+            position: absolute;
+            right: 0;
+            /* Menüyü sağ kenara hizala */
+            top: 100%;
+            /* Düğmenin hemen altına yerleştir */
+            margin-top: 0.5rem;
+            /* Hafif bir boşluk */
+            z-index: 1050;
+            /* Üstte görünmesini sağla */
+            border-radius: 0.25rem;
+            /* Yuvarlatılmış köşeler */
+            box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+            /* Hafif gölge */
+        }
+
+        /* Profil bilgilerinin stili */
+        .profile-info {
+            padding: 0.5rem 1rem;
+            /* İç boşluk */
+            border-bottom: 1px solid #e9ecef;
+            /* Alt çizgi */
+        }
+
+        .profile-info p {
+            margin: 0;
+            font-size: 13px;
+        }
+
+        /* Logout ve Upload Data butonlarının hover durumu */
+        .dropdown-item:hover {
+            background-color: #f8f9fa;
+            /* Hover arka plan rengi */
+            color: #212529;
+        }
+
+        .profile-upload-logout {
+            display: flex;
+        }
+
+        .upload-data-li>form>a {
+            text-decoration: none;
+        }
+
+        .logout-li>a {
+            text-decoration: none;
+        }
+
+        .upload-data-li:hover {
+            background-color: white;
+        }
+
+        .logout-li:hover {
+            background-color: white;
+        }
+
+        .dropdown-menu-sub {
+            width: 200px;
+        }
+
+        .nav-links2 {
+            width: 35%;
+        }
+
+
+        /* Mobil uyumluluk için düzenlemeler */
+        @media (max-width: 768px) {
+            .dropdown-menu {
+                position: static;
+                /* Mobilde menüleri statik yap */
+                width: 100%;
+                /* Tam genişlik */
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+
+            <div class="navbar-brand text-light ms-4 d-flex align-items-center">
+                <img src="/static/image/fleet_logo.png" alt="Logo" class="me-2" style="width: 100px; height: 50px;">
+            </div>
+
+            <div class="nav-links mx-auto">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a href="../admin/yonetim" class="nav-link text-muted p-2 mx-3">Map</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link text-muted p-2 mx-3">Map <span
+                                class="badge text-dark bg-light">LEGACY</span></a></li>
+                    <li class="nav-item"><a href="#" class="nav-link text-muted p-2 mx-3">Fleet</a></li>
+                    <!--<li class="nav-item"><a href="../admin/dashboard" class="nav-link text-muted p-2 mx-3">Tools</a></li>-->
+
+
+                    <button class="btn dropdown-toggle bg-dark text-muted p-2" id="toolsDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Tools
+                    </button>
+                    <ul class="dropdown-menu mx-auto w-25 w-sm-100" aria-labelledby="toolsDropdown">
+
+
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle dropdown-toggle-2" href="#">EU/UK Compliance
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-sub">
+                                <li><a class="dropdown-item" href="../admin/uk-eu">EU/UK Compliance</a></li>
+                                <li><a class="dropdown-item" href="../admin/fuel">Fuel Consumption Fleet</a></li>
+                            </ul>
+                        </li>
+
+
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle dropdown-toggle-2" href="#">Technical Performance
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-sub">
+                                <li><a class="dropdown-item" href="../admin/indicator">EU/UK MRV indicator</a></li>
+                               
+                            </ul>
+                        </li>
+                        <a class="dropdown-item" href="../admin/dashboard">Dasboards</a>
+
+                        <a class="dropdown-item" href="../admin/showGraph">Ship Based Measures</a>
+
+                        <a class="dropdown-item" href="../admin/taxAndEuaGraph">Tax & EUA</a>
+                    </ul>
+                </ul>
+            </div>
+
+
+            </ul>
+        </div>
+
+        <div class="nav-links2 ms-auto">
+            <ul class="navbar-nav">
+                <li class="nav-item m-2"><a href="" class="nav-link text-light p-2"><i
+                            class="fa-solid fa-question"></i></a></li>
+                <li class="nav-item mt-2"><a href="#" class="nav-link text-light p-2"><i
+                            class="fa-regular fa-bell"></i></a></li>
+
+                <!-- Üç Nokta Simgesi ile Profil Dropdown Menüsü -->
+                <li class="nav-item ps-2">
+                    <ul class="profile-upload-logout" style="list-style-type: none;">
+                        
+                        <li class="upload-data-li p-1 me-2 w-50 rounded">
+                            <form id="uploadForm" action="/upload" method="POST" enctype="multipart/form-data">
+                                <input type="file" name="file" id="fileInput" style="display: none;"
+                                    accept=".xlsx, .xls" onchange="document.getElementById('uploadForm').submit();">
+                                <a href="#" class="nav-item"
+                                    onclick="document.getElementById('fileInput').click();">Upload Data</a>
+                            </form>
+                        </li>
+
+                        <li class="logout-li p-1 me-1 rounded"><a href="/logout" class="nav-item text-danger pt-3 p-3">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        </div>
+    </nav>
+
+
+
+    <script>
+        // document.addEventListener("DOMContentLoaded", function () {
+        //     const ellipsisIcon = document.querySelector(".nav-item .fa-ellipsis");
+        //     const dropdownMenu = document.querySelector(".dropdown-menu");
+
+        //     if (ellipsisIcon && dropdownMenu) {
+        //         ellipsisIcon.addEventListener("click", function () {
+        //             dropdownMenu.classList.toggle("show");
+        //         });
+        //     }
+        // });
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Tools dropdown için tetikleyici
+            const toolsDropdown = document.getElementById('toolsDropdown');
+            const toolsMenu = toolsDropdown.nextElementSibling;
+            toolsDropdown.addEventListener('click', function () {
+                toolsMenu.classList.toggle('show');
+            });
+
+            // Profile dropdown için tetikleyici
+            const profileDropdown = document.getElementById('profileDropdown');
+            const profileMenu = profileDropdown.nextElementSibling;
+            profileDropdown.addEventListener('click', function () {
+                profileMenu.classList.toggle('show');
+            });
+        });
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Alt menüleri hedef al
+            const dropdownSubmenus = document.querySelectorAll(".dropdown-submenu");
+
+            dropdownSubmenus.forEach((submenu) => {
+                submenu.addEventListener("mouseenter", function () {
+                    const subMenuElement = submenu.querySelector(".dropdown-menu-sub");
+                    if (subMenuElement) {
+                        subMenuElement.classList.add("show");
+                    }
+                });
+
+                submenu.addEventListener("mouseleave", function () {
+                    const subMenuElement = submenu.querySelector(".dropdown-menu-sub");
+                    if (subMenuElement) {
+                        subMenuElement.classList.remove("show");
+                    }
+                });
+            });
+        });
+
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+
+    <%- body %>
+
+        <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+            integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRc+b0aQ+qqU4q1Bgi4z2ZcZstDoKfssDP1eUeyJ" crossorigin="anonymous">
+            </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+            </script>
+        <script src="https://kit.fontawesome.com/d3e65f0abc.js" crossorigin="anonymous"></script>
+        <script>
+            // İşlem başarılı olduğunda modalı göster
+            if (window.location.href.includes('success=true')) {
+                var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                successModal.show();
+            }
+
+            // İşlem başarısız olduğunda modalı göster
+            if (window.location.href.includes('error=true')) {
+                var errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+                errorModal.show();
+            }
+        </script>
+
+</body>
+
+</html>

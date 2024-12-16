@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VooSust Digital Solutions</title>
+    <meta name="google-signin-client_id" content="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="/static/image/favicon-16x16.png" type="image/x-icon">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+   <!-- navbar -->
+   <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <img src="/static/image/voosust logo.png" alt=" logo" width="60" height="60">
+      </a>
+      <div class="dropdown d-inline"> 
+        <button class="btn btn-sm px-0 dropdown-toggle text-dark" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          EN
+        
+        </button>
+        <ul class="dropdown-menu border shadow" style="left:0 ;">
+          <li>
+            <a class="dropdown-item small py-1" href="./tr">Türkçe</a>
+          </li>
+          <li>
+            <a class="dropdown-item small py-1" href="./">English</a>
+          </li>
+        </ul>
+      </div>
+   
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mg-lg">
+          <li class="nav-item">
+            <a class="nav-link " aria-current="page" href="#">HOME</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#about_us">ABOUT US</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#blog" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              BLOG
+            </a>
+            <ul class="dropdown-menu">
+              
+              <li><a style="color: green;" class="dropdown-item" href="./blog"> VooSust Blog</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a style="color: green;" class="dropdown-item" href="./carbon_credi">Carbon Credit Trading</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a style="color: green;" class="dropdown-item" href="./cdr">What is
+                CDR</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a style="color: green;" class="dropdown-item" href="./turkey_rapor">Turkey Sustainability Reports</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a style="color: green;" class="dropdown-item" href="./avrupa">Fuel EU </a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#special">SERVICES</a>
+          </li>
+  
+         
+          
+          <!-- <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#special" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            PRICING
+            </a>
+            <ul class="dropdown-menu">
+              
+              
+              <li><a style="color: rgb(127, 156, 165);" class="dropdown-item" href="#">SILVER</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a style="color: rgb(94, 91, 85);" class="dropdown-item" href="#">GOLD</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a style="color: rgb(135, 155, 203);" class="dropdown-item" href="#">PLATINIUM</a></li>
+            </ul>
+          </li> -->
+            <li class="nav-item">
+                <a class="nav-link " href="#faq">FAQ</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link " href="#contact">CONTACT US</a>
+              </li>
+               <li class="nav-item">
+                <a style="color: rgb(60, 22, 200);" class="nav-link " href="/login">LOG IN</a>
+              </li> 
+              <li class="nav-item">
+                <a style="color: rgb(60, 22, 200);" class="nav-link " href="/register">SIGN UP</a>
+              </li> 
+              
+              
+          
+      </div>
+    </div>
+  </nav>
+
+
+<!-- 
+  carousel -->
+  <div id="carouselExampleAutoplaying" class="carousel slide">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="/static/image/forest.jpg" class="d-block w-100 height" alt="orman">
+        <div class="carousel-caption carousel1">
+            <h1>Step into a Green Future with VooSust!</h1> 
+            <p >With a sustainability goal, VooSust aims to help companies minimize their environmental impact. By offering innovative technologies and solutions, we enable them to reduce their carbon footprint and support them in building a more sustainable future. Our mission is to promote the adoption of environmentally conscious practices in the business world, contributing to the protection of our planet.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="/static/image/computer-2982270_1920.jpg" class="d-block w-100 height" alt="Ofis">
+        <div class="carousel-caption carousel1">
+            <h1>Sustainable Offices, Healthy Planet</h1>
+            <p >As VooSust, we enable you to take a significant step towards a sustainable future by accurately and reliably calculating the carbon footprint of your offices. With our innovative technologies and expert team, we optimize your energy consumption and minimize your impact on nature. Together, we work towards a cleaner and more livable world.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="/static/image/gemi.jpg" class="d-block w-100 height" alt="gemi">
+        <div class="carousel-caption carousel1">
+            <h1>Protect the Future, Reduce Carbon</h1>
+            <p >Our mission is to contribute to a greener future by helping businesses reduce their environmental impact. With our high-tech supported services, we provide our clients with the tools they need to achieve their carbon-neutral goals.</p>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+  <!-- Hakkımızda -->
+  <section id="analysis" class="bg-light py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 pt-5">
+                <img src="/static/image/VooSust .png" class="img-fluid photo" alt="" />
+            </div>
+            <div class="col-md-6 align-self-center mt-3">
+                <h3 id="about_us" class="text-align-CENTER text">About Us</h3>
+                <p class="text" style="font-size: larger; color: darkgreen;">
+                    VooSust is an organization that centers its principles on sustainability. Our mission is to provide solutions that minimize environmental impacts, deliver societal benefits, and leave a sustainable world for future generations. We showcase our expertise in the industry through sustainability reporting, carbon footprint measurement and reporting, carbon management, and carbon offsetting.
+                    <br /><br />
+                    VooSust aims to enhance efficiency while reducing environmental impact in supply chain processes with sustainable logistics solutions. We assess and offer improvement opportunities for sustainability performance through life cycle analysis and certification processes of products and services.
+                    <br /><br />
+                    With our extensive knowledge and experience in sustainability, VooSust is committed to creating positive change in the business world and society. We fulfill our environmental and social responsibilities at every step, working towards a sustainable future.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+  <!-- EKİBİMİZ -->
+
+  <section id="team" class="py-5">
+    <div class="container">
+        <div class="row text-center mb-3">
+            <div class="col-md-8 offset-md-2">
+                <h2>Our Team</h2>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-3 mb-3">
+                <div class="card team-card">
+                    <div class="card-body text-center bg-light">
+                        <img src="/static/image/yeni_orcun.png" class="img-fluid mb-3 team-img" alt="" />
+                        <h4>Orçun ERBAYRAKTAR</h4>
+                        <p>CO-FOUNDER</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card team-card">
+                    <div class="card-body text-center bg-light">
+                        <img src="/static/image/VOLKAN.jpg" class="img-fluid mb-3 team-img" alt="" />
+                        <h4>Volkan ÇETİNKAYA</h4>
+                        <p>CO-FOUNDER</p>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card team-card">
+                    <div class="card-body text-center bg-light">
+                        <img src="/static/image/ONUR.jpg" class="img-fluid mb-3 team-img" alt="" />
+                        <h4>Onur AKDAŞ</h4>
+                        <p>CO-FOUNDER</p>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card team-card">
+                    <div class="card-body text-center bg-light">
+                        <img src="/static/image/ATA.jpg" class="img-fluid mb-3 team-img" alt="" />
+                        <h4>Ata AVCI</h4>
+                        <p>FULL STACK DEVELOPER</p>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- sertifikasyon -->
+
+
+
+<div class="wrapper">
+  <h2  style="color: green;" id="special">OUR SERVICES</h2>
+  <div class="content-box">
+    <div class="card">
+      <i class="fa-solid fa-user-graduate bx-md"></i>
+      <h2>SUSTAINABILITY MANAGEMENT</h2>
+      <details>
+        <summary class="detail-btn">Details</summary>
+        <div class="details-box">
+          <p>-	Sustainability Consulting</p>
+          <p>-	Net-Zero Road Map</p>
+          <p>-	ESG Consulting</p>
+          <p>-	ESG Maturity Analysis</p>
+          <p> -	Sustainability Reporting (GRI-TSRS)</p>
+          <p>-	Green Certification Consultancy</p>
+
+          <p>-	EU-ETS and CBAM Consultancy</p>
+          <p>-	EcoVadis Consultancy</p>
+          <p>-	Corporate Sustainability Training</p>
+        </div>
+      </details>
+    </div>
+    <div class="card">
+      <i class="fa-solid fa-chart-line bx-md"></i>
+      <h2>PROJECT MANAGEMENT</h2>
+      <details>
+        <summary class="detail-btn">Details</summary>
+        <div class="details-box">
+          <p>-	Renewable Energy</p>
+          <p>-	Fuel and Energy Efficiency Management</p>
+          <p>-	Waste and Resource Management Solutions</p>
+          <p>-	Logistics and Supply Chain Solutions</p>
+         
+        </div>
+      </details>
+    </div>
+    <div class="card">
+      <i class="fa-solid fa-chart-line bx-md"></i>
+      <h2>MARITIME AND LOGISTICS ENVIRONMENTAL CONSULTANCY </h2>
+      <details>
+        <summary class="detail-btn">Details</summary>
+        <div class="details-box">
+          <p>- EU-ETS (European Union Emission Trading System)  </p>
+          <p>- MRV (Monitoring Reporting and Verification)</p>
+          <p>-	CII (Corbon Intensity Indicator)</p>
+          <p>-	Fuel-EU</p>
+          <P>-EUA Transfer</P>
+   
+         
+        </div>
+      </details>
+    </div>
+    <div class="card">
+      <i class="fa-solid fa-tree"></i>
+      <h2>CLIMATE CHANGE AND DECARBONIZATION</h2>
+      <details>
+        <summary class="detail-btn">Details</summary>
+        <div class="details-box">
+          <p>-	Carbon Footprint Calculation and Reporting </p>
+          <p>-	Carbon Footprint Decision Support Systems</p>
+          <p> -	Carbon Offsetting</p>
+          <p>-	Carbon Market Consultancy</p>
+          <p>-	Carbon Credit Management</p>
+          <p>-	EUA Transfer Service</p>
+          <p>-	SBTI (Science Based Targets Initiatve) Compliance</p>
+          <p>-	CTI (Carbon Transperancy Initiative) Compliance</p>
+
+        </div>
+      </details>
+    </div>
+   
+  </div>
+</div>
+<br>
+<br>
+<br>
+
+ <div class="container" id="custom-container">
+  <div class="row">
+    
+      <div class="col-md-6" id="left-section">
+          <h2>Carbon Calculate For Office</h2>
+          <p >This tool helps you measure the carbon footprint of your office activities, allowing you to make informed decisions about carbon offsetting.</p>
+          <p >Enter the required parameters to calculate the total carbon emissions generated by your office over a specific period.</p>
+          <p >By accurately calculating your office's carbon emissions, you can contribute to reducing environmental impact and promoting sustainability.</p>
+          <a href="./office_price" class="btn btn-info" target="_blank">Package Details</a>
+          
+      </div>
+      
+     
+      <div class="col-md-6" id="right-section">
+          <h3>Emission Calculator</h3>
+          <form id="offsetForm">
+              <div class="mb-3">
+                  <label for="custom-tonnage" class="form-label">Country</label>
+                  <input type="text" class="form-control" id="custom-tonnage" placeholder="select country">
+              </div>
+              <div class="mb-3">
+                  <label for="custom-distance" class="form-label">electric</label>
+                  <input type="float" class="form-control" id="custom-electric" placeholder="Enter kWh">
+              </div>
+              <div class="mb-3">
+                <label for="custom-distance" class="form-label">Water</label>
+                <input type="float" class="form-control" id="custom-water" placeholder="Enter m3">
+            </div>
+              <div class="mb-3">
+                  <label for="custom-emissionFactor" class="form-label">Natural Gas</label>
+                  <input type="float" class="form-control" id="custom-gas" placeholder="m3">
+              </div>
+              <button type="button" id="calculateButton" class="btn-success" onclick="calculateOffset()">Calculate</button>
+          </form>
+      </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="resultModalLabel">Calculation Result</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p id="offsetResult">Offset Quantity: -- tons CO₂</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <a href="./office_price" class="btn btn-info" target="_blank">Package Details</a>
+      </div>
+    </div>
+  </div>
+</div> 
+
+
+
+
+
+<section id="photo-gallery" class="py-5">
+  <div class="container">
+    <h2 id="photo-gallery-title" class="text-center">DIGITAL SOLUTIONS</h2>
+    <div id="photo-gallery-row">
+      <div class="photo-card">
+        <img src="/static/image/data4.png" alt="Özellik 1" class="photo-img">
+        <div class="photo-description">
+          <h3>Advanced Reporting</h3>
+          <p>Allows you to generate various reports through data analysis.</p>
+        </div>
+      </div>
+      <div class="photo-card">
+        <img src="/static/image/data3.png" alt="Özellik 2" class="photo-img">
+        <div class="photo-description">
+          <h3>User Management</h3>
+          <p>Provides the ability to create, edit, and manage user accounts.</p>
+        </div>
+      </div>
+      <div class="photo-card">
+        <img src="/static/image/data2.png" alt="Özellik 3" class="photo-img">
+        <div class="photo-description">
+          <h3>Data Backup and Restore</h3>
+          <p>Allows you to regularly back up and restore your data.</p>
+        </div>
+      </div>
+      <div class="photo-card">
+        <img src="/static/image/data1.png" alt="Özellik 4" class="photo-img">
+        <div class="photo-description">
+          <h3>Data Management</h3>
+           <p>Provides secure data management and access control.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+<section id="sertifika" class="mt-5">
+  
+  <h2 style=" color: blue; " class=" text-center"> CERTIFICATES</h2>
+<section class="py-5" id="service">
+<div class="container px-4 text-center">
+  <div class="row gx-5">
+    <div class="col">
+      <a href="/static/image/3.pdf" target="_blank" class="p-3 border bg-light d-block text-decoration-none">
+        ISO 14001:2015 Environmental Management System
+      </a>
+  </div>
+    <div class="col">
+      <a href="/static/image/1.pdf" target="_blank" class="p-3 border bg-light d-block text-decoration-none">
+        ISO/IEC 27001:2022 Information Security Management System
+      </a>
+  </div>
+  <div class="col">
+    <a href="/static/image/2.pdf" target="_blank" class="p-3 border bg-light d-block text-decoration-none">
+      ISO 9001:2015 Quality Management System
+    </a>
+</div>
+  
+  </div>
+</div>
+
+<br>
+<br>
+<br>
+
+
+
+<!-- blog -->
+ <!-- <div style="margin-top: 20px; margin-bottom: 20px;" id="blog">
+  <h2 style="text-align: center;">Blog</h2>
+</div>
+
+<div class="container blog-container">
+  <div class="row">
+    <div class="col-md-3 mb-4">
+      <div class="card-blog card">
+        <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7229772052281364480" height="544" width="100%" frameborder="0" allowfullscreen="" title="Gömülü gönderi"></iframe>
+        <div class="card-body">
+          <p class="card-text">FuelEU Maritime</p>
+          <a href="https://www.linkedin.com/company/voosust-sustainability-solutions/" class="btn btn-primary" target="_blank">Details</a>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="col-md-3 mb-4">
+      <div class="card-blog card">
+        <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7182470139223621632" height="400" width="100%" frameborder="0" allowfullscreen="" title="Gömülü gönderi"></iframe>
+        <div class="card-body">
+          <p class="card-text">Discover how VooSust can elevate your company’s market performance by preparing a sustainability report. Experience the power of sustainability in enhancing your brand’s value.</p>
+          <a href="https://www.linkedin.com/company/voosust-sustainability-solutions/" class="btn btn-primary" target="_blank">Details</a>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="col-md-3 mb-4">
+      <div class="card-blog card">
+        <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7192058526402334721" height="400" width="100%" frameborder="0" allowfullscreen="" title="Gömülü gönderi"></iframe>
+        <div class="card-body">
+          <p class="card-text">Let’s Lead You to Your SBTi Targets while it is getting a requirement of global trade</p>
+          <a href="https://www.linkedin.com/company/voosust-sustainability-solutions/" class="btn btn-primary" target="_blank">Details</a>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="col-md-3 mb-4">
+      <div class="card-blog card">
+        <iframe src="https://www.linkedin.com/company/voosust-sustainability-solutions/" height="400" width="100%" frameborder="0" allowfullscreen="" title="Gömülü gönderi"></iframe>
+        <div class="card-body">
+          <p class="card-text">Taking Steps in Your Sustainability Journey: Our EU-ETS Road Map Report for Maritime Businesses is Out</p>
+          <a href="https://www.linkedin.com/company/voosust-sustainability-solutions/" class="btn btn-primary" target="_blank">Details</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
+ -->
+
+
+
+<!-- sıkça sorulan sorular -->
+<section id="faq" class="bg-light py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5">
+        <img src="/static/image/faq.svg" class="img-fluid" alt="" />
+      </div>
+      <div class="col-md-7 align-self-center pt-3">
+        <h2>FAQ</h2>
+        <div class="accordion mt-9">
+          <div class="accordion-item">
+            <div class="accordion-header">
+              <button
+                class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#acc_01"
+              >
+              	What is a Net Zero Target and Why is it Important?
+              </button>
+            </div>
+            <div id="acc_01" class="accordion-collapse collapse show">
+              <div class="accordion-body">
+                <p>A net zero target means that a company, institution, or country aims to completely eliminate its greenhouse gas emissions into the atmosphere. This is usually achieved by reducing emissions and offsetting the remaining emissions. To set net zero targets, companies must first calculate and analyze their current emissions. Then, they should set specific targets and strategies to reduce these emissions. </p>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header">
+              <button
+                class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#acc_02"
+              >
+              What is the Relationship Between Net Zero Targets and Carbon Footprint Tracking?
+              </button>
+            </div>
+            <div id="acc_02" class="accordion-collapse collapse">
+              <div class="accordion-body">
+                <p>Net zero targets include tracking the carbon footprint. To achieve net zero targets, companies must continuously monitor and aim to reduce their carbon footprints. The carbon footprint represents the total amount of greenhouse gases directly and indirectly emitted by an individual, company, or product. The carbon footprint is usually calculated in CO2 equivalent (CO2e). The calculation includes emissions from energy consumption, transportation, waste management, and other activities. Tracking these emissions by companies and governments is necessary. Emission Trading Systems implemented worldwide allow for this tracking by governments. One of the first systems implemented in this regard is the EU-ETS. </p>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header">
+              <button
+                class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#acc_03"
+              >
+              	What is the EU Emission Trading System (EU ETS) and How Does it Work?
+              </button>
+            </div>
+            <div id="acc_03" class="accordion-collapse collapse">
+              <div class="accordion-body">
+                <p>The EU Emission Trading System (EU ETS) is an emission trading system established by the European Union to reduce carbon emissions. In this system, a certain amount of emission allowances (cap) is determined, and companies can trade these allowances. Companies can sell their surplus allowances if they reduce their emissions below the cap or buy allowances if they need to offset their emissions. An additional tax is applied to the carbon emissions of imported products under the EU ETS. This system is named CBAM (Carbon Border Adjustment Mechanism).</p>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header">
+              <button
+                class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#acc_04"
+              >
+              	What is the Carbon Border Adjustment Mechanism (CBAM) and Why is it Applied?
+              </button>
+            </div>
+            <div id="acc_04" class="accordion-collapse collapse">
+              <div class="accordion-body">
+                <p>The Carbon Border Adjustment Mechanism (CBAM) is an application of the European Union that works according to the carbon content of imported products. CBAM is applied to ensure a level playing field between domestic producers and importers and to prevent carbon leakage. Mechanisms such as the EU-ETS and CBAM encourage companies to monitor and reduce their carbon emissions and achieve sustainability targets.</p>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header">
+              <button
+                class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#acc_05"
+              >
+              	What are Sustainability and ESG (Environmental, Social, and Governance)?
+              </button>
+            </div>
+            <div id="acc_05" class="accordion-collapse collapse">
+              <div class="accordion-body">
+
+               <p>Sustainability is the ability to meet the needs of future generations by preserving natural resources and balancing environmental, social, and economic factors. Companies that comply with ESG criteria are perceived as more reliable and responsible by investors, customers, and other stakeholders. Additionally, companies with high ESG performance have a higher likelihood of achieving long-term financial success and sustainable growth, and they need to report this performance.</p>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header">
+              <button
+                class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#acc_06"
+              >
+              	What is a Sustainability Report and Why is it Necessary?
+              </button>
+            </div>
+            <div id="acc_06" class="accordion-collapse collapse">
+              <div class="accordion-body">
+                <p>A sustainability report is a document that explains a company's environmental, social, and economic performance and progress towards sustainability goals. These reports allow companies to transparently share their sustainability efforts, achievements, and future goals. Two widely used standards for this reporting in the world and Turkey are GRI Standards, which provide guidelines for companies to report their economic, environmental, and social impacts, and TSRS (Turkey Sustainability Reporting Standards), which guide sustainability reporting for companies operating in Turkey. Companies in Turkey with annual total assets of 500 million Turkish Liras, annual net sales revenue of 1 billion Turkish Liras, and meeting any two of the criteria of employing 250 people are required to report sustainability under TSRS.</p>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header">
+              <button
+                class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#acc_07"
+              >
+              	What is a Carbon Credit and How Does it Work?
+              </button>
+            </div>
+            <div id="acc_07" class="accordion-collapse collapse">
+              <div class="accordion-body">
+                <p>
+                  A carbon credit is a certificate representing the reduction, removal, or avoidance of one ton of carbon dioxide (CO2) or an equivalent amount of another greenhouse gas emission. These certificates are produced by emission reduction projects and can be bought and sold in voluntary or regulatory carbon markets. Certified carbon credits can be bought and sold in voluntary or regulatory carbon markets. Companies and individuals can purchase these credits to offset their carbon footprints.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header">
+              <button
+                class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#acc_08"
+              >
+              What is Carbon Offsetting and Why is it Important?
+              </button>
+            </div>
+            <div id="acc_08" class="accordion-collapse collapse">
+              <div class="accordion-body">
+                <p>Companies and individuals can offset their emissions by purchasing carbon credits. For example, if a company has an annual carbon footprint of 10,000 tons of CO2, it can offset this amount by purchasing 10,000 carbon credits. Carbon offsetting is an important strategy, especially for organizations aiming to achieve net zero targets.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="contact" class="py-5">
+  <div class="container">
+      <div class="row">
+          <div class="col-md-6">
+              <h2>CONTACT US</h2>
+              <p>Doğuş Caddesi No: 207/Z<br>
+                 DEÜ Tınaztepe Yerleşkesi<br>
+                 Buca 35390 İzmir/Türkiye</p>
+              <h5>with e-mail</h5>
+              <p> info@voosust.com <a href="mailto:info@voosust.com">Click here</a>.</p>
+              <h5>Phone Number</h5>
+              <p> +905333572747 <a href="tel:+905333572747">Click here</a>.</p>
+          </div>
+          
+          <!-- Sadece Harita -->
+          <div style="position: relative; width: 50%; height: 480px; overflow: hidden;">
+            <iframe 
+                src="https://www.google.com/maps/d/u/0/embed?mid=1cF75pW_iyqOW7lVE3uc8Ne9ePkWlTI4&ehbc=2E312F" 
+                style="position: absolute; top: -75px; left: 0; width: 100%; height: 520px; border: none;">
+            </iframe>
+        </div>
+        
+        
+        
+      </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footerContainer">
+    <h2>OUR PARTNERS</h2>
+    <div class="companyLogos">
+      <img src="/static/image/shipsgo.png" alt="Company Logo 1" class="company-logo">
+      <img src="/static/image/medirterline.png" alt="Company Logo 2" class="company-logo">
+      <img src="/static/image/logo3.png" alt="Company Logo 3" class="company-logo">
+      <img src="/static/image/İBB.png" alt="Company Logo 3" class="company-logo">
+      <img src="/static/image/ERKPORT.png" alt="Company Logo 4" class="company-logo">
+      
+    </div>
+    <div class="socialIcons">
+      <li>
+        <a href="https://www.linkedin.com/company/voosust-sustainability-solutions/"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a>
+      </li>
+      <li>
+        <a href="#0"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i> Facebook</a>
+      </li>
+      <li>
+        <a href="https://www.instagram.com/voosust?igsh=MXQyMTNuN2wyd2xkZA=="><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a>
+      </li>
+      <li>
+        <a href="#0"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i> Twitter</a>
+      </li>
+      <li>
+        <a href="#0"><i class="fab fa-fw fa-youtube" aria-hidden="true"></i> YouTube</a>
+      </li>
+     
+    </div>
+  </div>
+</footer>
+
+    <SCript src="/static/js/script.js"></SCript>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

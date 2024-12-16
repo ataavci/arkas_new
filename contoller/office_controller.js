@@ -1,7 +1,7 @@
 const auth_middleware = require("../middleware/auth_middileware");
-const CountryData=require("../modals/country_data");
-const OfficeDetayInput=require("../modals/office");
-const OfficeEmission=require("../modals/ProcessedData");
+const CountryData=require("../models/country_data");
+const OfficeDetayInput=require("../models/office");
+const OfficeEmission=require("../models/ProcessedData");
 const sequelize = require('sequelize');
 const { Op } = require("sequelize");
 

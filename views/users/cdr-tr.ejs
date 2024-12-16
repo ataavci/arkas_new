@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VooSust Dijital Çözümler</title>
+    <meta name="google-signin-client_id" content="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="/static/image/favicon-16x16.png" type="image/x-icon">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+   <!-- navbar -->
+   <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <img src="/static/image/voosust logo.png" alt=" logo" width="60" height="60">
+      </a>
+      <div class="dropdown d-inline"> 
+        <button class="btn btn-sm px-0 dropdown-toggle text-dark" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          TR
+        
+        </button>
+        <ul class="dropdown-menu border shadow" style="left:0 ;">
+          <li>
+            <a class="dropdown-item small py-1" href="./cdr-tr">Türkçe</a>
+          </li>
+          <li>
+            <a class="dropdown-item small py-1" href="./cdr">English</a>
+          </li>
+        </ul>
+      </div>
+   
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mg-lg">
+          <li class="nav-item">
+            <a class="nav-link " aria-current="page" href="./tr">ANASAYFA</a>
+          </li>
+          
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#blog" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              BLOG
+            </a>
+            <ul class="dropdown-menu">
+              
+              <li><a style="color: green;" class="dropdown-item" href="./blog"> VooSust Blog</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a style="color: green;" class="dropdown-item" href="./carbon_credi-tr">Karbon Kredisi Ticareti</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a style="color: green;" class="dropdown-item" href="./cdr-tr">CDR Nedir ?
+                </a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a style="color: green;" class="dropdown-item" href="./turkey_rapor-tr">Türkiye Sürdürülebilirlik Raporu</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a style="color: green;" class="dropdown-item" href="./avrupa-tr">Fuel EU</a></li>
+            </ul>
+          </li>
+         
+         
+          <li class="nav-item">
+            <a class="nav-link" href="./tr/#special">HİZMETLERİMİZ</a>
+            <li class="nav-item">
+              <a class="nav-link " href="#contact">BİZE ULAŞ</a>
+            </li>
+          </li>
+  
+              <li class="nav-item">
+                <a style="color: green;" class="nav-link btn-primary" data-bs-toggle="modal" data-bs-target="#signUpModal" >ÜYE OL</a>
+              </li>
+              
+              
+          
+      </div>
+    </div>
+  </nav>
+
+<!-- UYOLMA MODEL -->
+<div class="modal fade" id="signUpModal" tabindex="-1" aria-labelledby="signUpModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="signUpModalLabel">Sign Up</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="py-3 text-start">
+          <div class="row mb-3">
+            <div class="col-md-6 mb-3">
+              <input type="text" placeholder="Name and Surname" class="form-control" />
+            </div>
+            <div class="col-md-6 mb-3">
+              <input type="email" placeholder="Mail Address" class="form-control" />
+            </div>
+          </div>
+          <div class="mb-3">
+            <input type="text" class="form-control" placeholder="Username" />
+          </div>
+          <div class="mb-3">
+            <input type="password" class="form-control" placeholder="Password" />
+          </div>
+          <div class="mb-3">
+            <input type="password" class="form-control" placeholder="Confirm Password" />
+          </div>
+          <button type="button" class="btn btn-primary">
+            Sign Up
+          </button>
+        </form>
+        <hr>
+        <div class="text-center">
+          <p>or</p>
+          <button type="button" class="btn btn-danger" onclick="signInWithGoogle()">
+            Sign in with Google
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+
+<div id="blog-entry">
+  <div id="blog-photo">
+      <img src="/static/image/blog_giris.jpg" alt="Blog Fotoğrafı">
+  </div>
+  <div id="blog-content">
+      <h2>CDR Nedir?</h2>
+      <p>Karbon dioksiti atmosferden doğa temelli (mühendislik olmayan/mühendislik) veya teknolojik yaklaşımlar ile gideren birincil faaliyet. Ayrıca süreç sırasında diğer sera gazlarının iz miktarlarını gidermek için ikincil bir fayda sağlayabilir.</p>
+  </div>
+</div>
+        
+        
+
+    <div id="comments">
+      <div class="comment">
+          <img src="/static/image/tanım.png" alt="Kullanıcı Avatarı">
+          <div class="comment-content">
+              <h3>Amacı</h3>
+              <p>Daha fazla emisyonu absorbe etmek ve bunu doğal veya mühendislik çözümlerinde depolamak
+                Karbon azaltma faaliyetlerini tamamlamak
+                Net sıfıra ulaşmayı hedefleyen diğer iklim teknolojilerini tamamlamak.</p>
+          </div>
+      </div>
+      <div id="blog-entry">
+        <div id="blog-photo">
+            <img src="/static/image/blog_2.jpg" alt="Blog Fotoğrafı">
+        </div>
+        <div id="blog-content">
+            <h2><br><br>CDR Türleri: Doğa Temelli</h2>
+        </div>
+      </div>
+
+      <div class="comment">
+          <img src="/static/image/yaprak.png" alt="Kullanıcı Avatarı">
+          <div class="comment-content">
+              <h3>Mühendislik Olmayan</h3>
+              <p>Minimum teknoloji odaklı doğal çözümlerle sekestrasyon
+                Örnek: Yeni ormanlar oluşturmak vs.
+                Sınırlamalar: Karbon giderim miktarının aşırı tahmin edilmesine karşı hassasiyet</p>
+          </div>
+      </div>
+      <div class="comment">
+          <img src="/static/image/ends.png" alt="Kullanıcı Avatarı">
+          <div class="comment-content">
+              <h3>Mühendislik</h3>
+              <p>Doğal kaynaklarla karbon giderimini artırmak için teknolojik yeniliklerin kullanımı
+                Örnek: Deniz Karı, Okyanus Alkalinizasyonu vs.
+                Sınırlamalar: Belirsiz yan ürünler ve genel ekolojik etkil</p>
+          </div>
+      </div>
+      <div id="blog-entry">
+        <div id="blog-photo">
+            <img src="/static/image/negative.jpg" alt="Blog Fotoğrafı">
+        </div>
+        <div id="blog-content">
+            <h2><br><br>CDR Türleri: Negatif Emisyon Teknolojileri</h2>
+        </div>
+      </div>
+      
+      <div class="comment">
+          <img src="/static/image/negative2.jpg" alt="Kullanıcı Avatarı">
+          <div class="comment-content">
+            <h3>Negatif Emisyon Teknolojileri</h3>
+              <p>Karbonu atmosferden gideren teknolojiler <br>
+                Örnek: Doğrudan Hava Yakalama vs. <br>
+                Sınırlamalar:
+                
+                    Uygulama maliyetleri yüksek
+                    Belirsiz yan ürünler
+                    Üretim ve depolama sınırlamaları</p>
+          </div>
+      </div>
+  </div>
+
+  <section id="contact" class="py-5">
+    <div class="container">
+        <div class="row">
+              <div class="col-md-6">
+              <h2>BİZE ULAŞIN</h2>
+                <p>Doğuş Caddesi No: 207/Z<br>
+                   DEÜ Tınaztepe Yerleşkesi<br>
+                   Buca 35390 İzmir/Türkiye</p>
+                <h5> Mail</h5>
+                <p> info@voosust.com <a href="mailto:info@voosust.com">Tıkla</a>.</p>
+                <h5>Telefon Numarası</h5>
+                <p> +905333572747 <a href="tel:+905333572747">Tıkla</a>.</p>
+            </div>
+            
+            <!-- Harita -->
+            <div style="position: relative; width: 50%; height: 480px; overflow: hidden;">
+              <iframe 
+                  src="https://www.google.com/maps/d/u/0/embed?mid=1cF75pW_iyqOW7lVE3uc8Ne9ePkWlTI4&ehbc=2E312F" 
+                  style="position: absolute; top: -75px; left: 0; width: 100%; height: 520px; border: none;">
+              </iframe>
+          </div>
+        </div>
+    </div>
+  </section>
+  <footer>
+    <div class="footerContainer">
+      <h2>İŞ ORTAKLARIMIZ</h2>
+      <div class="companyLogos">
+        <img src="/static/image/shipsgo.png" alt="Company Logo 1" class="company-logo">
+        <img src="/static/image/medirterline.png" alt="Company Logo 2" class="company-logo">
+        <img src="/static/image/logo3.png" alt="Company Logo 3" class="company-logo">
+        <img src="/static/image/İBB.png" alt="Company Logo 3" class="company-logo">
+        <img src="/static/image/ERKPORT.png" alt="Company Logo 4" class="company-logo">
+        
+      </div>
+      <div class="socialIcons">
+        <li>
+          <a href="https://www.linkedin.com/company/voosust-sustainability-solutions/"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a>
+        </li>
+        <li>
+          <a href="#0"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i> Facebook</a>
+        </li>
+        <li>
+          <a href="https://www.instagram.com/voosust?igsh=MXQyMTNuN2wyd2xkZA=="><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a>
+        </li>
+        <li>
+          <a href="#0"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i> Twitter</a>
+        </li>
+        <li>
+          <a href="#0"><i class="fab fa-fw fa-youtube" aria-hidden="true"></i> YouTube</a>
+        </li>
+        
+      </div>
+    </div>
+  </footer>
+  
+    <SCript src="/static/js/script.js"></SCript>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
