@@ -33,22 +33,32 @@
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-6 mb-3 mb-sm-0">
-                                <input type="password" name="password" value="<%= typeof password !== 'undefined' ? password : '' %>" 
+                                <input type="password" name="password" 
                                        class="form-control form-control-user" id="password" placeholder="Password">
                             </div>
                             <div class="col-sm-6">
-                                <input type="password" name="repassword" value="<%= typeof repassword !== 'undefined' ? repassword : '' %>" 
+                                <input type="password" name="repassword" 
                                        class="form-control form-control-user" id="repassword" placeholder="Repeat Password">
                             </div>
                         </div>
+                        
+                        <!-- Google reCAPTCHA -->
+                        <!-- Honeypot Alanı -->
+<div style="display:none;">
+    <label for="honeypot">Bu alanı boş bırakın</label>
+    <input type="text" name="honeypot" id="honeypot">
+</div>
+
+
                         <button type="submit" class="btn btn-primary btn-user btn-block">Create Account</button>
                     </form>
-                    
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Required reCAPTCHA Script -->
 
 <link rel="stylesheet" 
 href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css">
@@ -57,7 +67,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelI
 <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
 
 <!-- reCAPTCHA -->
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 
 <script>
 // Telefon numarası alanına intl-tel-input bağlama

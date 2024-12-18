@@ -1,5 +1,6 @@
 const{validationResult}=require("express-validator");
 const USER =require("../models/user");
+const axios = require("axios");
 
 const passport = require("../db/passport_local");
 
@@ -65,6 +66,13 @@ const register = async (req, res, next) => {
         console.log("Doğrulama hataları:", wrongs.array());
         return res.redirect("/register");
     }
+    // Honeypot Kontrolü
+if (req.body.honeypot) {
+    console.log("Bot algılandı. Honeypot alanı doldurulmuş.");
+    req.flash("error_message", "Geçersiz bir gönderim tespit edildi.");
+    return res.redirect("/register");
+}
+
 
     try {
         // Şifre alanının dolu olup olmadığını kontrol et

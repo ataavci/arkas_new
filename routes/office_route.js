@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
-const admin_controller=require("../contoller/office_controller");
-const simulation_contoller=require("../contoller/carbon_simulation_contoller");
-const office=require("../contoller/office_controller");
+const admin_controller=require("../controller/office_controller");
+const simulation_contoller=require("../controller/carbon_simulation_contoller");
+const office=require("../controller/office_controller");
 const authMiddleware=require("../middleware/auth_middileware");
 
 

@@ -1,7 +1,7 @@
 // In adminRoutes.js
 const express = require('express');
 const router = express.Router();
-const adminController = require('../contoller/admin_controller');
+const adminController = require('../controller/admin_controller');
 
 const multer = require('multer');
 const path = require('path');

@@ -8,7 +8,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const sequelize = require("./db/db");
-const simulation_contoller = require("./contoller/carbon_simulation_contoller"); 
+ 
 require("dotenv").config();
 
 const expressLayouts = require("express-ejs-layouts");
