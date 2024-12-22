@@ -2,6 +2,8 @@ const simulation = require("../models/simulation");
 const portdata = require("../models/portdata");
 const vessel_data = require("../models/vessel_data");
 const FuelData = require("../models/fueldata"); // FuelData model
+const SimulationSummary = require("../models/simulation_summary");
+const { Op } = require("sequelize");
 
 const simulate = async (req, res) => {
   try {
@@ -80,8 +82,9 @@ if (isNaN(departureDate)) {
     const arrivelDate = new Date(departureDate.getTime() + totalDays * 24 * 60 * 60 * 1000);
     console.log("7. Seferin bitiş tarihi (arrivel):", arrivelDate);
 
-    const sea_consumption = daily_consumption_at_sea *(distance / speed) ;
-    const eca_consumption = daily_consumption_at_sea * (distance_eca / speed);
+    const sea_consumption = daily_consumption_at_sea *(distance /( 24*speed)) ;
+    const eca_consumption = daily_consumption_at_sea * (distance_eca /( 24*speed));
+    
     const port_consumption = daily_consumption_at_port * port_day;
 
     console.log("8. Sea Consumption:", sea_consumption);
@@ -225,7 +228,77 @@ if (GHG_ACTUAL > target_ghg) {
     return res.status(500).json({ error: "Bir hata oluştu, lütfen tekrar deneyin" });
   }
 };
+const calculateRouteSummary = async (req, res) => {
+  try {
+    const { expedition, year } = req.query;
 
+    if (!expedition || !year) {
+      return res.status(400).json({ error: "Expedition ve year parametreleri zorunludur." });
+    }
 
+    const simulations = await simulation.findAll({
+      where: {
+        expedition,
+        departure: {
+          [Op.gte]: new Date(`${year}-01-01`),
+          [Op.lte]: new Date(`${year}-12-31`),
+        },
+      },
+    });
 
-module.exports = { simulate };
+    if (!simulations || simulations.length === 0) {
+      return res.status(404).json({ error: "Belirtilen sefer veya yıl için kayıt bulunamadı." });
+    }
+
+    // Verileri toplama
+    const totalPortDay = simulations.reduce((sum, row) => sum + row.port_day, 0);
+    const totalDayOfSea = simulations.reduce((sum, row) => {
+      const departureDate = new Date(row.departure);
+      const arrivelDate = new Date(row.arrivel);
+      const daysForThisSimulation = (arrivelDate - departureDate) / (1000 * 60 * 60 * 24);
+      return sum + daysForThisSimulation - row.port_day;
+    }, 0);
+
+    const totalDays = totalPortDay + totalDayOfSea;
+    const totalEts = simulations.reduce((sum, row) => sum + row.ets, 0);
+    const totalComplianceBalance = simulations.reduce((sum, row) => sum + row.COMPLIANCE_BALANCE, 0);
+    const totalFuelEu = simulations.reduce((sum, row) => sum + row.fuel_eu, 0);
+
+    const totalDaysInYear = simulations.reduce((sum, row) => {
+      const departureDate = new Date(row.departure);
+      const arrivelDate = new Date(row.arrivel);
+      const daysForThisSimulation = (arrivelDate - departureDate) / (1000 * 60 * 60 * 24);
+      return sum + daysForThisSimulation;
+    }, 0);
+
+    const timesPerYear = Math.round(365 / (totalDaysInYear / simulations.length));
+
+    const toPortStatuses = simulations.map((row) => ({
+      to_port: row.to_port,
+      port_day: row.port_day,
+      status: row.arrivel ? "Limanda" : "Seyirde",
+    }));
+
+    const newSummary = await SimulationSummary.create({
+      expedition,
+      total_port_day: totalPortDay,
+      total_day_of_sea: totalDayOfSea,
+      total_days: totalDays,
+      total_ets: totalEts,
+      total_compliance_balance: totalComplianceBalance,
+      total_fuel_eu: totalFuelEu,
+      times_per_year: timesPerYear,
+      to_port_status: JSON.stringify(toPortStatuses),
+    });
+
+    res.status(201).json({
+      message: "Sefer özeti başarıyla oluşturuldu.",
+      data: newSummary,
+    });
+  } catch (error) {
+    console.error("Rotaya göre özet oluşturulurken hata:", error.message);
+    res.status(500).json({ error: "Sunucu hatası oluştu." });
+  }
+};
+
+module.exports = { simulate ,calculateRouteSummary};
