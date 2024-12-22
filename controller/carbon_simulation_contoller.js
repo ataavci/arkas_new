@@ -244,13 +244,13 @@ const calculateRouteSummary = async (req, res) => {
           [Op.lte]: new Date(`${year}-12-31`),
         },
       },
+      order: [["departure", "DESC"]], // Son seferi bulmak için sıralama
     });
 
     if (!simulations || simulations.length === 0) {
       return res.status(404).json({ error: "Belirtilen sefer veya yıl için kayıt bulunamadı." });
     }
 
-    // Verileri toplama
     const totalPortDay = simulations.reduce((sum, row) => sum + row.port_day, 0);
     const totalDayOfSea = simulations.reduce((sum, row) => {
       const departureDate = new Date(row.departure);
@@ -273,11 +273,16 @@ const calculateRouteSummary = async (req, res) => {
 
     const timesPerYear = Math.round(365 / (totalDaysInYear / simulations.length));
 
-    const toPortStatuses = simulations.map((row) => ({
-      to_port: row.to_port,
-      port_day: row.port_day,
-      status: row.arrivel ? "Limanda" : "Seyirde",
-    }));
+    // Son limanın durumu
+    const lastSimulation = simulations[0]; // En son sefer
+    const lastPortName = lastSimulation.to_port;
+    const lastPortStatus = lastSimulation.arrivel ? "Limanda" : "Seyirde";
+
+    // `to_port_status` bilgisi oluşturuluyor
+    const toPortStatus = {
+      last_port: lastPortName,
+      status: lastPortStatus,
+    };
 
     const newSummary = await SimulationSummary.create({
       expedition,
@@ -288,7 +293,8 @@ const calculateRouteSummary = async (req, res) => {
       total_compliance_balance: totalComplianceBalance,
       total_fuel_eu: totalFuelEu,
       times_per_year: timesPerYear,
-      to_port_status: JSON.stringify(toPortStatuses),
+      to_port_status: JSON.stringify(toPortStatus), // Sadece son liman bilgisi ve durumunu sakla
+      last_port_status: lastPortStatus, // Ayrıca son limanın durumu
     });
 
     res.status(201).json({

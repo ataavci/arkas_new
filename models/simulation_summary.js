@@ -38,6 +38,10 @@ const SimulationSummary = sequelize.define("simulation_summaries", {
     type: DataTypes.TEXT, // Liman durumu JSON olarak saklanır
     allowNull: false,
   },
+  last_port_status: {
+    type: DataTypes.STRING(50), // "Limanda" veya "Seyirde" olacak
+    allowNull: false,
+  },
 });
 
 async function sync() {
