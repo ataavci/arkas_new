@@ -275,12 +275,21 @@ const calculateRouteSummary = async (req, res) => {
 
     // Son limanın durumu
     const lastSimulation = simulations[0]; // En son sefer
-    const lastPortName = lastSimulation.to_port;
-    const lastPortStatus = lastSimulation.arrivel ? "Limanda" : "Seyirde";
+    const departureDate = new Date(lastSimulation.departure);
+    const arrivelDate = new Date(lastSimulation.arrivel);
+    const daysElapsed = (arrivelDate - departureDate) / (1000 * 60 * 60 * 24);
+
+    // Son limanın durumu hesaplama
+    let lastPortStatus;
+    if (daysElapsed <= totalDayOfSea) {
+      lastPortStatus = "Seyirde";
+    } else if (daysElapsed > totalDayOfSea) {
+      lastPortStatus = "Limanda";
+    }
 
     // `to_port_status` bilgisi oluşturuluyor
     const toPortStatus = {
-      last_port: lastPortName,
+      last_port: lastSimulation.to_port,
       status: lastPortStatus,
     };
 
