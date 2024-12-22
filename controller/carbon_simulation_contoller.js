@@ -26,8 +26,8 @@ const simulate = async (req, res) => {
 
     if (
       !expedition || !vessel_name || !from_port || !to_port || !departure ||
-      !speed || !distance || !distance_eca || port_day === undefined ||
-      daily_consumption_at_sea === undefined || daily_consumption_at_port === undefined ||
+      speed == null || distance == null || distance_eca == null || port_day == null ||
+      daily_consumption_at_sea == null || daily_consumption_at_port == null ||
       !sea_fuel_pathway || !eca_fuel_pathway || !port_fuel_pathway
     ) {
       console.log("Eksik veya geçersiz parametreler:", req.body);
@@ -35,7 +35,7 @@ const simulate = async (req, res) => {
         error: "Tüm alanlar zorunludur ve boş bırakılamaz",
       });
     }
-
+    
     console.log("1. Gelen veriler (parsed):", req.body);
 
     const fromportdata = await portdata.findOne({ where: { port: from_port } });
@@ -68,10 +68,14 @@ const simulate = async (req, res) => {
       return res.status(404).json({ error: "Belirtilen yakıt verilerinden biri bulunamadı" });
     }
 
-    const day_of_sea = (distance / speed) + (distance_eca / speed);
+    const day_of_sea = (distance /( 24*speed)) + (distance_eca /( 24*speed));
     console.log("6. Denizde geçen süre (gün):", day_of_sea);
 
     const departureDate = new Date(departure);
+if (isNaN(departureDate)) {
+  return res.status(400).json({ error: "Geçersiz tarih formatı: departure" });
+}
+
     const totalDays = day_of_sea + port_day;
     const arrivelDate = new Date(departureDate.getTime() + totalDays * 24 * 60 * 60 * 1000);
     console.log("7. Seferin bitiş tarihi (arrivel):", arrivelDate);

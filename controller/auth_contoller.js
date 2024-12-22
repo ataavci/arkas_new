@@ -303,7 +303,7 @@ const forget_password = async (req, res) => {
 
         // Nodemailer ile email gönderimi
         const transporter = nodemailer.createTransport({
-            host: "ns80-out.dnscini.com",
+            host: "127.0.0.1",
             port: 587,
             secure: false,
             auth: {

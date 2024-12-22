@@ -10,7 +10,7 @@ const authMiddleware=require("../middleware/auth_middileware");
 
 router.get("/office/office_dashboard",authMiddleware.openup,admin_controller.dashboard_page_show);
 router.get("/office/office_input",authMiddleware.openup,admin_controller.input_page_show)
-router.post('/simulation',authMiddleware.openup, simulation_contoller.simulate);
+router.post('/simulation', simulation_contoller.simulate);
 router.get('/countries',authMiddleware.openup,office.getCountries)
 router.post('/input',authMiddleware.openup, office.office_calculate);
 router.get('/office/scope-emissions',authMiddleware.openup,office.getScopePieCharts);
