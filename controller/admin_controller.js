@@ -1,4 +1,4 @@
-const xlsx = require('xlsx');
+const ExcelJS = require('exceljs');
 const CalculateData = require('../models/calculate_data');
 const ShipsData = require('../models/vessel_data');
 const PortData = require('../models/portdata');
@@ -23,10 +23,23 @@ const uploadAndProcessExcel = async (req, res) => {
         console.log("File successfully uploaded:", req.file.path);
 
         const userEmail = req.user.email;
-        const workbook = xlsx.readFile(req.file.path);
-        const sheetName = workbook.SheetNames[0];
-        const sheet = workbook.Sheets[sheetName];
-        const data = xlsx.utils.sheet_to_json(sheet);
+        const workbook = new ExcelJS.Workbook();
+        await workbook.xlsx.readFile(req.file.path);
+        const sheet = workbook.worksheets[0];
+
+        const data = [];
+
+        sheet.eachRow({ includeEmpty: false }, (row, rowNumber) => {
+            if (rowNumber === 1) return; // Skip header row
+
+            const rowData = {};
+            row.eachCell((cell, colNumber) => {
+                const header = sheet.getRow(1).getCell(colNumber).value;
+                rowData[header] = cell.value;
+            });
+
+            data.push(rowData);
+        });
 
         if (data.length === 0) {
             console.log("The Excel file is empty.");
@@ -37,16 +50,13 @@ const uploadAndProcessExcel = async (req, res) => {
             const startDate = parseExcelDate(row.start);
             const finishDate = parseExcelDate(row.finish);
 
-            
             const fromPort = await PortData.findOne({ where: { port: row.from } });
             const toPort = await PortData.findOne({ where: { port: row.to } });
             const status = fromPort && toPort ? `${fromPort.status}/${toPort.status}` : "Unknown";
 
-            
             const fuelTypeSea = row.FUEL_TYPE_SEA;
             const fuelTypePort = row["FUEL TYPE PORT"];
-            
-            
+
             const fuelSea = fuelTypeSea ? await FuelData.findOne({ where: { Pathway_Name: fuelTypeSea } }) : null;
             const fuelPort = fuelTypePort ? await FuelData.findOne({ where: { Pathway_Name: fuelTypePort } }) : null;
 
@@ -55,7 +65,6 @@ const uploadAndProcessExcel = async (req, res) => {
 
             const totalEmission = emissionSea + emissionPort;
 
-            
             let multiplierStatus;
             if (status === "EU/EU") {
                 multiplierStatus = 1;
@@ -66,46 +75,40 @@ const uploadAndProcessExcel = async (req, res) => {
             } else {
                 multiplierStatus = 0; 
             }
-            
+
             const carbonPrice = parseFloat(row.carbon_price);
-            
+
             const taxSea = emissionSea * carbonPrice * multiplierStatus * 0.7;
             const taxPortMultiplier = toPort && toPort.status === "EU" ? 1 : 0;
             const taxPort = emissionPort * carbonPrice * taxPortMultiplier * 0.7;
-            const totalTax = taxSea + taxPort; 
+            const totalTax = taxSea + taxPort;
 
             const nonTaxEmissionSea = emissionSea * carbonPrice * multiplierStatus;
             const nonTaxEmissionPort = emissionPort * carbonPrice * taxPortMultiplier;
 
-            
             const Cf_CO2eq_TtW_Sea = fuelSea ? fuelSea.Cf_CO2eq_TtW : 0;
             const Cf_CO2eq_TtW_Port = fuelPort ? fuelPort.Cf_CO2eq_TtW : 0;
-            const CO2eqTTWsea=fuelSea ? fuelSea.CO2eqTTW:0
-            const CO2eqTTWport =fuelPort? fuelPort.CO2eqTTW:0
+            const CO2eqTTWsea = fuelSea ? fuelSea.CO2eqTTW : 0;
+            const CO2eqTTWport = fuelPort ? fuelPort.CO2eqTTW : 0;
 
             const LCV_Sea = fuelSea ? fuelSea.LCV : 0;
             const LCV_Port = fuelPort ? fuelPort.LCV : 0;
 
-            
             const ttwSea = nonTaxEmissionSea * Cf_CO2eq_TtW_Sea;
             const ttwPort = nonTaxEmissionPort * Cf_CO2eq_TtW_Port;
             const lcvSea = nonTaxEmissionSea * LCV_Sea;
             const lcvPort = nonTaxEmissionPort * LCV_Port;
-            const wttsea = nonTaxEmissionSea *LCV_Sea*CO2eqTTWsea;
-            const wttport =nonTaxEmissionPort*lcvPort*CO2eqTTWport;
+            const wttsea = nonTaxEmissionSea * LCV_Sea * CO2eqTTWsea;
+            const wttport = nonTaxEmissionPort * lcvPort * CO2eqTTWport;
 
-            const wttsea_ = nonTaxEmissionSea *CO2eqTTWsea;
-            const wttport_ =nonTaxEmissionPort*CO2eqTTWport;
+            const wttsea_ = nonTaxEmissionSea * CO2eqTTWsea;
+            const wttport_ = nonTaxEmissionPort * CO2eqTTWport;
 
-
-
-
-            const wtt =(wttsea+wttport)/(wttport_+wttsea_)
+            const wtt = (wttsea + wttport) / (wttport_ + wttsea_);
             const ttw = (lcvSea + lcvPort) !== 0 ? (ttwSea + ttwPort) / (lcvSea + lcvPort) : 0;
-            const ghg =(wtt+ttw);
-            const complian_balance= (89,34-ghg)*(nonTaxEmissionSea*LCV_Sea+nonTaxEmissionPort*LCV_Port)*1000000
-            const fuel_eu = ghg > (89,34) ? Math.abs(complian_balance) / (ghg * 41000) * 2400 : 0;
-
+            const ghg = wtt + ttw;
+            const complian_balance = (89.34 - ghg) * (nonTaxEmissionSea * LCV_Sea + nonTaxEmissionPort * LCV_Port) * 1000000;
+            const fuel_eu = ghg > 89.34 ? Math.abs(complian_balance) / (ghg * 41000) * 2400 : 0;
 
             await CalculateData.create({
                 user_email: userEmail,
@@ -128,10 +131,10 @@ const uploadAndProcessExcel = async (req, res) => {
                 emission: totalEmission,
                 tax: totalTax,
                 ttw: ttw,
-                wtt:wtt,
-                ghg:ghg,
-                compliance_balance:complian_balance,
-                fuel_eu:fuel_eu
+                wtt: wtt,
+                ghg: ghg,
+                compliance_balance: complian_balance,
+                fuel_eu: fuel_eu
             });
         }
 

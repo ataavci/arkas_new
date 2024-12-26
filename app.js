@@ -8,8 +8,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const sequelize = require("./db/db");
+const Iyzipay = require('iyzipay');
  
 require("dotenv").config();
+
 
 const expressLayouts = require("express-ejs-layouts");
 const session = require("express-session"); // session tanımını buraya taşıdık
@@ -24,6 +26,13 @@ const cors = require("cors");
 
 
 var app = express();
+
+
+var iyzipay = new Iyzipay({
+    apiKey: process.env.API_KEY,
+    secretKey: process.env.SECRET_KEY,
+    uri: 'https://sandbox-api.iyzipay.com'
+});
 
 const MySQLStore = require('express-mysql-session')(session); // Bu artık session'dan sonra
 
