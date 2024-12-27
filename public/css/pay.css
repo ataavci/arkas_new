@@ -1,0 +1,250 @@
+/* Genel Stil */
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #1e3a8a, #1d4ed8);
+  color: #fff;
+}
+
+.container {
+  max-width: 700px;
+  margin: 50px auto;
+  padding: 20px;
+  text-align: center;
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  color: #333;
+}
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+  background: linear-gradient(90deg, #6366f1, #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+p {
+  margin-bottom: 30px;
+  font-size: 1.2rem;
+  color: #475569;
+}
+
+hr {
+  border: none;
+  border-top: 2px solid #e2e8f0;
+  margin: 20px 0 30px;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Kart Seçim Alanı */
+.card-selection {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.card {
+  flex: 1;
+  background: linear-gradient(135deg, #64748b, #1e293b);
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  color: #fff;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.card img {
+  width: 80px;
+  margin-top: 10px;
+}
+
+.card h3 {
+  font-size: 1.4rem;
+  margin-top: 15px;
+  color: #e2e8f0;
+}
+
+/* Kredi Kartı Görseli */
+.credit-card {
+  width: 100%;
+  max-width: 400px;
+  height: 240px;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  border-radius: 15px;
+  margin: 20px auto;
+  padding: 20px;
+  color: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  position: relative;
+  perspective: 1000px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.card-front,
+.card-back {
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  backface-visibility: hidden;
+  position: absolute;
+  transition: transform 0.6s ease-in-out;
+}
+
+.card-front {
+  background: linear-gradient(135deg, #4f46e5, #818cf8);
+  padding: 20px;
+  color: white;
+}
+
+.card-back {
+  background: #1e293b;
+  transform: rotateY(180deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.card-chip {
+  width: 50px;
+  height: 30px;
+  background: #ffd700;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.card-number {
+  margin: 20px 0;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+.card-info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.card-holder,
+.card-expiry {
+  text-align: left;
+}
+
+.card-holder span,
+.card-expiry span {
+  font-size: 0.9rem;
+  color: #d1d5db;
+}
+
+.card-holder p,
+.card-expiry p {
+  font-size: 1.2rem;
+  margin: 5px 0;
+}
+
+.cvc-label {
+  font-size: 1rem;
+  color: #d1d5db;
+}
+
+.cvc-code {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Kart Çevirme */
+.credit-card.flipped .card-front {
+  transform: rotateY(180deg);
+}
+
+.credit-card.flipped .card-back {
+  transform: rotateY(0);
+}
+
+/* Form Stilleri */
+form {
+  text-align: left;
+  margin-top: 40px; /* Formu aşağıya indir */
+}
+
+label {
+  font-weight: bold;
+  color: #475569;
+  display: block;
+  margin-top: 20px; /* Alanlar arası boşluk artırıldı */
+}
+
+input {
+  width: 100%;
+  padding: 15px;
+  margin-top: 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+input:focus {
+  border-color: #6366f1;
+  outline: none;
+  box-shadow: 0 0 5px rgba(99, 102, 241, 0.5);
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  margin-top: 30px;
+  transition: transform 0.2s ease-in-out, background 0.3s ease-in-out;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  transform: scale(1.05);
+}
+
+button:active {
+  transform: scale(1);
+}
+
+.hidden {
+  display: none;
+}
+.footer {
+  margin-top: 40px;
+  padding: 20px 0;
+  background: #f3f4f6;
+  text-align: center;
+  border-top: 2px solid #e5e7eb;
+}
+
+.footer-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.footer-logo {
+  height: 50px;
+  object-fit: contain;
+}

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Satın Alma Ekranı</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/pay.css">
+</head>
+<div class="container">
+  <h1>Select Your Card</h1>
+  <p>Choose between a local or foreign card to proceed.</p>
+
+  <!-- Kart Seçim Alanı -->
+  <div id="card-selection" class="card-selection">
+    <div class="card" onclick="selectCard('local')">
+      <div class="credit-card">
+        <div class="card-chip"></div>
+        <div class="card-number">5528 7900 0000 0008</div>
+        <div class="card-info">
+          <div class="card-holder">
+            <span>Card Holder</span>
+            <p>OVO BİLİŞİM</p>
+          </div>
+          <div class="card-expiry">
+            <span>Expires</span>
+            <p>12/30</p>
+          </div>
+        </div>
+      </div>
+      <h3>Local Card</h3>
+    </div>
+    <div class="card" onclick="selectCard('foreign')">
+      <div class="credit-card">
+        <div class="card-chip"></div>
+        <div class="card-number">4508 0300 0000 0004</div>
+        <div class="card-info">
+          <div class="card-holder">
+            <span>Card Holder</span>
+            <p>OVO BİLİŞİM</p>
+          </div>
+          <div class="card-expiry">
+            <span>Expires</span>
+            <p>12/30</p>
+          </div>
+        </div>
+      </div>
+      <h3>Foreign Card</h3>
+    </div>
+  </div>
+
+  <!-- Kart Görseli ve Form -->
+  <div id="card-container" class="hidden">
+    <div class="credit-card" id="credit-card">
+      <div class="card-front">
+        <div class="card-chip"></div>
+        <div class="card-number" id="display-card-number">#### #### #### ####</div>
+        <div class="card-info">
+          <div class="card-holder">
+            <span>Card Holder</span>
+            <p id="display-card-user">OVO BİLİŞİM</p>
+          </div>
+          <div class="card-expiry">
+            <span>Expires</span>
+            <p id="display-expiry-date">MM/YY</p>
+          </div>
+        </div>
+      </div>
+      <div class="card-back hidden">
+        <div class="cvc-label">CVC</div>
+        <div class="cvc-code" id="display-cvc">###</div>
+      </div>
+    </div>
+
+    <form id="payment-form">
+      <label for="cardNumber">Card Number:</label>
+      <input type="text" id="cardNumber" name="cardNumber" placeholder="#### #### #### ####" maxlength="16" oninput="updateCardDisplay()">
+
+      <label for="expireMonth">Expire Month:</label>
+      <input type="text" id="expireMonth" name="expireMonth" placeholder="MM" maxlength="2" oninput="updateCardDisplay()">
+
+      <label for="expireYear">Expire Year:</label>
+      <input type="text" id="expireYear" name="expireYear" placeholder="YY" maxlength="2" oninput="updateCardDisplay()">
+
+      <label for="cvc">CVC:</label>
+      <input type="text" id="cvc" name="cvc" placeholder="###" maxlength="3" onfocus="flipCard(true)" onblur="flipCard(false)" oninput="updateCardDisplay()">
+
+      <button type="submit">Purchase</button>
+    </form>
+  </div>
+</div>
+<div class="footer">
+  <div class="footer-logos">
+   
+    <img src="/image/iyzico1.png" alt="Payment Logos" class="footer-logo">
+  </div>
+</div>
+
+  <script src="script.js"></script>
+  <script>
+  function selectCard(cardType) {
+  document.getElementById('card-selection').classList.add('hidden');
+  document.getElementById('card-container').classList.remove('hidden');
+
+  if (cardType === 'local') {
+    document.getElementById('display-card-number').textContent = "5528 7900 0000 0008";
+    document.getElementById('display-card-user').textContent = "OVO BİLİŞİM";
+    document.getElementById('display-expiry-date').textContent = "12/30";
+  } else if (cardType === 'foreign') {
+    document.getElementById('display-card-number').textContent = "4508 0300 0000 0004";
+    document.getElementById('display-card-user').textContent = "OVO BİLİŞİM";
+    document.getElementById('display-expiry-date').textContent = "12/30";
+  }
+}
+
+function updateCardDisplay() {
+  const cardNumber = document.getElementById('cardNumber').value || "#### #### #### ####";
+  const expireMonth = document.getElementById('expireMonth').value || "MM";
+  const expireYear = document.getElementById('expireYear').value || "YY";
+  const cvc = document.getElementById('cvc').value || "###";
+
+  document.getElementById('display-card-number').textContent = cardNumber.match(/.{1,4}/g)?.join(" ") || "#### #### #### ####";
+  document.getElementById('display-expiry-date').textContent = `${expireMonth}/${expireYear}`;
+  document.getElementById('display-cvc').textContent = cvc;
+}
+
+function flipCard(showBack) {
+  const card = document.getElementById('credit-card');
+  if (showBack) {
+    card.classList.add('flipped');
+  } else {
+    card.classList.remove('flipped');
+  }
+}
+
+  
+  </script>
+</body>
+</html>
