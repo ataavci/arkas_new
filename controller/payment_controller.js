@@ -1,6 +1,8 @@
 const { v4: uuidv4 } = require('uuid');
 const Iyzipay = require('iyzipay');
 require('dotenv').config();
+const Payment = require('../models/payment'); // Payment modelini içe aktar
+const moment = require('moment'); // Tarih hesaplama için kullanılabilir
 
 const iyzipay = new Iyzipay({
     apiKey: process.env.IYZIPAY_API_KEY,
@@ -8,29 +10,23 @@ const iyzipay = new Iyzipay({
     uri: process.env.IYZIPAY_URI
 });
 
-
-const STATIC_EXCHANGE_RATE = 35.50; 
+const STATIC_EXCHANGE_RATE = 35.50;
 
 const payment = async (req, res) => {
     const id = uuidv4();
-    const { priceUSD, cardUserName, cardNumber, expireMonth, expireYear, cvc, registerCard, isLocalCard } = req.body;
+    const { priceUSD, cardUserName, cardNumber, expireMonth, expireYear, cvc, registerCard } = req.body;
 
     if (!priceUSD || !cardUserName || !cardNumber || !expireMonth || !expireYear || !cvc) {
         return res.status(400).json({ error: "Eksik veya geçersiz bilgi gönderildi." });
     }
 
     try {
-        let price, currency;
+        const price = (priceUSD * STATIC_EXCHANGE_RATE).toFixed(2); // USD -> TRY
+        const currency = "TRY";
 
-        
-        if (isLocalCard) {
-            price = (priceUSD * STATIC_EXCHANGE_RATE).toFixed(2); // USD -> TRY
-            currency = "TRY";
-        } else {
-           
-            price = priceUSD;
-            currency = "USD";
-        }
+        // Tarih hesaplama
+        const startDate = moment(); // Bugünün tarihi
+        const endDate = moment().add(30, 'days'); // Başlangıç tarihine 30 gün eklenir
 
         const data = {
             locale: "tr",
@@ -90,8 +86,16 @@ const payment = async (req, res) => {
             ]
         };
 
-       
-        iyzipay.payment.create(data, function (err, result) {
+        // Ödeme isteği oluştur
+        iyzipay.payment.create(data, async function (err, result) {
+            // İstek ve yanıt verilerini tabloya kaydet
+            await Payment.create({
+                sendData: JSON.stringify(data), // İstek verisi
+                resultData: JSON.stringify(err || result), // Yanıt verisi
+                startDate: startDate.toDate(), // Başlangıç tarihi
+                endDate: endDate.toDate() // Bitiş tarihi
+            });
+
             if (err) {
                 console.error("Ödeme sırasında bir hata oluştu:", err);
                 return res.status(500).json({ error: "Ödeme işlemi başarısız.", details: err });
