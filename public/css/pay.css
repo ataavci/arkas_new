@@ -1,4 +1,4 @@
-/* Genel Stil */
+/* General Styles */
 body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
@@ -32,16 +32,7 @@ p {
   color: #475569;
 }
 
-hr {
-  border: none;
-  border-top: 2px solid #e2e8f0;
-  margin: 20px 0 30px;
-  width: 50%;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* Kart Seçim Alanı */
+/* Card Selection */
 .card-selection {
   display: flex;
   justify-content: space-between;
@@ -50,15 +41,10 @@ hr {
 
 .card {
   flex: 1;
-  background: linear-gradient(135deg, #64748b, #1e293b);
   border-radius: 15px;
-  padding: 20px;
   text-align: center;
   cursor: pointer;
-  color: #fff;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-  position: relative;
-  overflow: hidden;
 }
 
 .card:hover {
@@ -66,126 +52,89 @@ hr {
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
 }
 
-.card img {
-  width: 80px;
-  margin-top: 10px;
-}
-
 .card h3 {
   font-size: 1.4rem;
-  margin-top: 15px;
-  color: #e2e8f0;
+  margin-top: 10px;
+  color: #475569;
 }
 
-/* Kredi Kartı Görseli */
+/* Credit Card Styles */
 .credit-card {
-  width: 100%;
-  max-width: 400px;
-  height: 240px;
-  background: linear-gradient(135deg, #6366f1, #818cf8);
-  border-radius: 15px;
-  margin: 20px auto;
-  padding: 20px;
+  width: 300px;
+  height: 180px;
+  border-radius: 10px;
   color: white;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  position: relative;
-  perspective: 1000px;
-  transition: transform 0.3s ease-in-out;
-}
-
-.card-front,
-.card-back {
-  width: 100%;
-  height: 100%;
-  border-radius: 15px;
-  backface-visibility: hidden;
-  position: absolute;
-  transition: transform 0.6s ease-in-out;
-}
-
-.card-front {
-  background: linear-gradient(135deg, #4f46e5, #818cf8);
   padding: 20px;
-  color: white;
-}
-
-.card-back {
-  background: #1e293b;
-  transform: rotateY(180deg);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  margin: 0 auto;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
-.card-chip {
+.credit-card .card-chip {
   width: 50px;
   height: 30px;
   background: #ffd700;
   border-radius: 5px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
-.card-number {
-  margin: 20px 0;
-  font-size: 1.5rem;
-  letter-spacing: 2px;
-  text-align: center;
+.credit-card .card-number {
+  font-size: 1.4rem;
+  letter-spacing: 3px;
+  margin-bottom: 10px;
 }
 
-.card-info {
+.credit-card .card-info {
   display: flex;
   justify-content: space-between;
-  margin-top: 15px;
-}
-
-.card-holder,
-.card-expiry {
-  text-align: left;
+  margin-top: 10px;
 }
 
 .card-holder span,
 .card-expiry span {
-  font-size: 0.9rem;
-  color: #d1d5db;
+  font-size: 0.8rem;
+  color: #cbd5e1;
 }
 
 .card-holder p,
 .card-expiry p {
-  font-size: 1.2rem;
-  margin: 5px 0;
-}
-
-.cvc-label {
   font-size: 1rem;
-  color: #d1d5db;
+  margin-top: 5px;
 }
 
-.cvc-code {
-  font-size: 1.5rem;
-  font-weight: bold;
+.card-cvc {
+  text-align: right;
 }
 
-/* Kart Çevirme */
-.credit-card.flipped .card-front {
-  transform: rotateY(180deg);
+.card-cvc span {
+  font-size: 0.8rem;
+  color: #cbd5e1;
 }
 
-.credit-card.flipped .card-back {
-  transform: rotateY(0);
+.card-cvc p {
+  font-size: 1rem;
+  margin-top: 5px;
 }
 
-/* Form Stilleri */
-form {
-  text-align: left;
-  margin-top: 40px; /* Formu aşağıya indir */
+/* Local Card Style */
+.local-card {
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
 }
 
+/* Foreign Card Style */
+.foreign-card {
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+}
+
+/* Form Styles */
 label {
   font-weight: bold;
   color: #475569;
   display: block;
-  margin-top: 20px; /* Alanlar arası boşluk artırıldı */
+  margin-top: 20px;
 }
 
 input {
@@ -229,6 +178,8 @@ button:active {
 .hidden {
   display: none;
 }
+
+/* Footer Styles */
 .footer {
   margin-top: 40px;
   padding: 20px 0;
@@ -248,3 +199,16 @@ button:active {
   height: 50px;
   object-fit: contain;
 }
+
+/* Additional Styling */
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.navigation-buttons button {
+  width: 45%;
+  font-size: 1rem;
+}
+

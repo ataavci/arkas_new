@@ -12,11 +12,25 @@ const iyzipay = new Iyzipay({
 
 const STATIC_EXCHANGE_RATE = 35.50;
 
-const payment = async (req, res) => {
+/**
+ * Yerli kartlar için ödeme işlevi
+ */
+const localPayment = async (req, res) => {
     const id = uuidv4();
-    const { priceUSD, cardUserName, cardNumber, expireMonth, expireYear, cvc, registerCard } = req.body;
+    const {
+        priceUSD,
+        cardUserName,
+        cardNumber,
+        expireMonth,
+        expireYear,
+        cvc,
+        registerCard,
+        billingAddress,
+        shippingAddress,
+        buyerInfo,
+    } = req.body;
 
-    if (!priceUSD || !cardUserName || !cardNumber || !expireMonth || !expireYear || !cvc) {
+    if (!priceUSD || !cardUserName || !cardNumber || !expireMonth || !expireYear || !cvc || !billingAddress || !shippingAddress || !buyerInfo) {
         return res.status(400).json({ error: "Eksik veya geçersiz bilgi gönderildi." });
     }
 
@@ -24,9 +38,8 @@ const payment = async (req, res) => {
         const price = (priceUSD * STATIC_EXCHANGE_RATE).toFixed(2); // USD -> TRY
         const currency = "TRY";
 
-        // Tarih hesaplama
-        const startDate = moment(); // Bugünün tarihi
-        const endDate = moment().add(30, 'days'); // Başlangıç tarihine 30 gün eklenir
+        const startDate = moment();
+        const endDate = moment().add(30, 'days');
 
         const data = {
             locale: "tr",
@@ -46,34 +59,22 @@ const payment = async (req, res) => {
                 registerCard: registerCard || '0'
             },
             buyer: {
-                id: 'BY789',
-                name: 'John',
-                surname: 'Doe',
-                gsmNumber: '+905350000000',
-                email: 'email@email.com',
-                identityNumber: '74300864791',
-                lastLoginDate: '2015-10-05 12:43:35',
-                registrationDate: '2013-04-21 15:12:09',
-                registrationAddress: 'Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1',
+                id: buyerInfo.id || uuidv4(),
+                name: buyerInfo.name || "Unknown",
+                surname: buyerInfo.surname || "Unknown",
+                gsmNumber: buyerInfo.gsmNumber || "+905350000000",
+                email: buyerInfo.email || "email@email.com",
+                identityNumber: buyerInfo.identityNumber || "74300864791",
+                lastLoginDate: moment().format("YYYY-MM-DD HH:mm:ss"),
+                registrationDate: moment().subtract(1, 'years').format("YYYY-MM-DD HH:mm:ss"),
+                registrationAddress: buyerInfo.registrationAddress || "Default Address",
                 ip: req.ip || '85.34.78.112',
-                city: 'Istanbul',
-                country: 'Turkey',
-                zipCode: '34732'
+                city: buyerInfo.city || "Istanbul",
+                country: buyerInfo.country || "Turkey",
+                zipCode: buyerInfo.zipCode || "34732"
             },
-            shippingAddress: {
-                contactName: 'Jane Doe',
-                city: 'Istanbul',
-                country: 'Turkey',
-                address: 'Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1',
-                zipCode: '34742'
-            },
-            billingAddress: {
-                contactName: 'Jane Doe',
-                city: 'Istanbul',
-                country: 'Turkey',
-                address: 'Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1',
-                zipCode: '34742'
-            },
+            shippingAddress,
+            billingAddress,
             basketItems: [
                 {
                     id: 'BI101',
@@ -86,22 +87,21 @@ const payment = async (req, res) => {
             ]
         };
 
-        // Ödeme isteği oluştur
         iyzipay.payment.create(data, async function (err, result) {
+            const paymentResult = result?.status === "success" ? "success" : "failure";
+
             // İstek ve yanıt verilerini tabloya kaydet
             await Payment.create({
-                sendData: JSON.stringify(data), // İstek verisi
-                resultData: JSON.stringify(err || result), // Yanıt verisi
-                startDate: startDate.toDate(), // Başlangıç tarihi
-                endDate: endDate.toDate() // Bitiş tarihi
+                sendData: JSON.stringify(data),
+                resultData: paymentResult, // Sadece "success" veya "failure" kaydediliyor
+                startDate: startDate.toDate(),
+                endDate: endDate.toDate(),
             });
 
             if (err) {
                 console.error("Ödeme sırasında bir hata oluştu:", err);
                 return res.status(500).json({ error: "Ödeme işlemi başarısız.", details: err });
             }
-
-            console.log("Ödeme sonucu:", result);
 
             if (result.status === 'success') {
                 return res.status(200).json({ message: "Ödeme başarılı", result });
@@ -115,4 +115,106 @@ const payment = async (req, res) => {
     }
 };
 
-module.exports = { payment };
+
+
+const foreignPayment = async (req, res) => {
+    const id = uuidv4();
+    const {
+        priceUSD,
+        cardUserName,
+        cardNumber,
+        expireMonth,
+        expireYear,
+        cvc,
+        registerCard,
+        billingAddress,
+        shippingAddress,
+        buyerInfo,
+    } = req.body;
+
+    if (!priceUSD || !cardUserName || !cardNumber || !expireMonth || !expireYear || !cvc || !billingAddress || !shippingAddress || !buyerInfo) {
+        return res.status(400).json({ error: "Eksik veya geçersiz bilgi gönderildi." });
+    }
+
+    try {
+        const price = priceUSD;
+        const currency = "USD";
+
+        const startDate = moment();
+        const endDate = moment().add(30, 'days');
+
+        const data = {
+            locale: "en",
+            conversationId: id,
+            price,
+            paidPrice: price,
+            currency,
+            installment: '1',
+            paymentChannel: "WEB",
+            paymentGroup: "PRODUCT",
+            paymentCard: {
+                cardHolderName: cardUserName,
+                cardNumber,
+                expireMonth,
+                expireYear,
+                cvc,
+                registerCard: registerCard || '0'
+            },
+            buyer: {
+                id: buyerInfo.id || uuidv4(),
+                name: buyerInfo.name || "Unknown",
+                surname: buyerInfo.surname || "Unknown",
+                gsmNumber: buyerInfo.gsmNumber || "+905350000000",
+                email: buyerInfo.email || "email@email.com",
+                identityNumber: buyerInfo.identityNumber || "74300864791",
+                lastLoginDate: moment().format("YYYY-MM-DD HH:mm:ss"),
+                registrationDate: moment().subtract(1, 'years').format("YYYY-MM-DD HH:mm:ss"),
+                registrationAddress: buyerInfo.registrationAddress || "Default Address",
+                ip: req.ip || '85.34.78.112',
+                city: buyerInfo.city || "New York",
+                country: buyerInfo.country || "USA",
+                zipCode: buyerInfo.zipCode || "10001"
+            },
+            shippingAddress,
+            billingAddress,
+            basketItems: [
+                {
+                    id: 'BI102',
+                    name: 'Telescope',
+                    category1: 'Collectibles',
+                    category2: 'Accessories',
+                    itemType: Iyzipay.BASKET_ITEM_TYPE.PHYSICAL,
+                    price
+                }
+            ]
+        };
+
+        iyzipay.payment.create(data, async function (err, result) {
+            const paymentResult = result?.status === "success" ? "success" : "failure";
+
+            // İstek ve yanıt verilerini tabloya kaydet
+            await Payment.create({
+                sendData: JSON.stringify(data),
+                resultData: paymentResult, // Sadece "success" veya "failure" kaydediliyor
+                startDate: startDate.toDate(),
+                endDate: endDate.toDate(),
+            });
+
+            if (err) {
+                console.error("Ödeme sırasında bir hata oluştu:", err);
+                return res.status(500).json({ error: "Ödeme işlemi başarısız.", details: err });
+            }
+
+            if (result.status === 'success') {
+                return res.status(200).json({ message: "Ödeme başarılı", result });
+            } else {
+                return res.status(400).json({ message: "Ödeme başarısız", result });
+            }
+        });
+    } catch (error) {
+        console.error("Hata oluştu:", error.message);
+        return res.status(500).json({ error: "İşlem sırasında bir hata oluştu.", details: error.message });
+    }
+};
+
+module.exports = { localPayment, foreignPayment };
