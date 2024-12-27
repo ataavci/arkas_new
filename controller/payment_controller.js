@@ -2,7 +2,7 @@ const { v4: uuidv4 } = require('uuid');
 const Iyzipay = require('iyzipay');
 require('dotenv').config();
 const Payment = require('../models/payment'); // Payment modelini içe aktar
-const moment = require('moment'); // Tarih hesaplama için kullanılabilir
+const moment = require('moment'); 
 
 const iyzipay = new Iyzipay({
     apiKey: process.env.IYZIPAY_API_KEY,
