@@ -9,16 +9,34 @@
 </head>
 <body>
   <div class="container">
+    <!-- Step 0: Service Selection -->
+    <div id="step-0" class="service-selection">
+      <h2>Select a Service</h2>
+      <label>
+        <input type="radio" name="service" value="25" checked> 
+        <strong>Embrace Sustainable</strong> - $25
+      </label>
+      <label>
+        <input type="radio" name="service" value="50">
+        <strong>Premium Package</strong> - $50
+      </label>
+      <label>
+        <input type="radio" name="service" value="100">
+        <strong>Ultimate Support</strong> - $100
+      </label>
+      <button onclick="proceedToCardSelection()">Next</button>
+    </div>
+
     <!-- Persistent Selected Card Section -->
     <div id="selected-card-header" class="hidden">
       <div id="selected-card" class="credit-card"></div>
     </div>
 
     <!-- Main Title -->
-    <h1 id="main-title">Select Your Card</h1>
+    
 
     <!-- Step 1: Card Selection -->
-    <div id="step-1" class="card-selection">
+    <div id="step-1" class="card-selection hidden">
       <div class="card" onclick="selectCard('local')">
         <div class="credit-card local-card">
           <div class="card-chip"></div>
@@ -132,109 +150,125 @@
   </div>
 
   <script>
-    let selectedCardType = null;
-    let currentStep = 1;
+   let selectedCardType = null;
+let currentStep = 0;
+let selectedPriceUSD = 25; // Varsayılan hizmet fiyatı
 
-    function selectCard(cardType) {
-      selectedCardType = cardType;
+// Hizmet seçiminden sonraki adıma geçiş
+function proceedToCardSelection() {
+  const selectedService = document.querySelector('input[name="service"]:checked');
+  selectedPriceUSD = parseInt(selectedService.value);
 
-      const cardHTML = document.querySelector(`.${cardType === 'local' ? 'local-card' : 'foreign-card'}`).outerHTML;
+  // Step 0'ı gizle ve Step 1'e geç
+  document.getElementById('step-0').classList.add('hidden');
+  goToStep(1);
+}
 
-      // Update the persistent card display
-      const selectedCardContainer = document.getElementById('selected-card');
-      selectedCardContainer.innerHTML = cardHTML;
-      document.getElementById('selected-card-header').classList.remove('hidden');
+// Kart seçimi yapılırken çalışır
+function selectCard(cardType) {
+  selectedCardType = cardType;
 
-      // Hide the main title and move to the next step
-      document.getElementById('main-title').style.display = 'none';
-      goToStep(2);
-    }
+  const cardHTML = document.querySelector(`.${cardType === 'local' ? 'local-card' : 'foreign-card'}`).outerHTML;
 
-    function goToStep(step) {
-      currentStep = step;
+  // Seçili kartı göster
+  const selectedCardContainer = document.getElementById('selected-card');
+  selectedCardContainer.innerHTML = cardHTML;
+  document.getElementById('selected-card-header').classList.remove('hidden');
 
-      // Hide all steps and show the current one
-      document.querySelectorAll('.form-step, .card-selection').forEach(stepEl => stepEl.classList.add('hidden'));
-      document.getElementById(`step-${step}`).classList.remove('hidden');
+  // Step 2'ye geç
+  goToStep(2);
+}
 
-      // Adjust button visibility
-      if (currentStep === 4) {
-        document.getElementById('navigation-buttons').classList.add('hidden');
-        document.getElementById('submit-button').classList.remove('hidden');
+// Adımlar arasında geçiş yapmak için kullanılır
+function goToStep(step) {
+  currentStep = step;
+
+  // Tüm adımları gizle ve yalnızca belirtilen adımı göster
+  document.querySelectorAll('.form-step, .card-selection, .service-selection').forEach(stepEl => stepEl.classList.add('hidden'));
+  document.getElementById(`step-${step}`).classList.remove('hidden');
+
+  // Navigation ve Submit butonlarını ayarla
+  if (currentStep === 4) {
+    document.getElementById('navigation-buttons').classList.add('hidden');
+    document.getElementById('submit-button').classList.remove('hidden');
+  } else {
+    document.getElementById('navigation-buttons').classList.remove('hidden');
+    document.getElementById('submit-button').classList.add('hidden');
+  }
+}
+
+// Bir önceki adıma dönmek için kullanılır
+function goBack() {
+  if (currentStep > 1) {
+    currentStep--;
+    goToStep(currentStep);
+  }
+}
+
+// Bir sonraki adıma geçmek için kullanılır
+function goToNextStep() {
+  if (currentStep < 4) {
+    currentStep++;
+    goToStep(currentStep);
+  }
+}
+
+// Ödeme işlemini başlatır
+function submitPayment() {
+  const data = {
+    priceUSD: selectedPriceUSD, // Kullanıcının seçtiği hizmet fiyatı
+    cardUserName: document.getElementById('buyerName').value,
+    cardNumber: document.getElementById('cardNumber').value,
+    expireMonth: document.getElementById('expireMonth').value,
+    expireYear: document.getElementById('expireYear').value,
+    cvc: document.getElementById('cvc').value,
+    registerCard: '0',
+    billingAddress: {
+      contactName: document.getElementById('buyerName').value,
+      city: document.getElementById('billingCity').value,
+      country: document.getElementById('billingCountry').value,
+      address: document.getElementById('billingAddress').value,
+      zipCode: '34742',
+    },
+    shippingAddress: {
+      contactName: document.getElementById('buyerName').value,
+      city: document.getElementById('shippingCity').value,
+      country: document.getElementById('shippingCountry').value,
+      address: document.getElementById('shippingAddress').value,
+      zipCode: '34742',
+    },
+    buyerInfo: {
+      id: '123456789',
+      name: document.getElementById('buyerName').value,
+      surname: '',
+      gsmNumber: '+905350000000',
+      email: document.getElementById('buyerEmail').value,
+      identityNumber: '74300864791',
+      registrationAddress: document.getElementById('billingAddress').value,
+      city: document.getElementById('buyerCity').value,
+      country: document.getElementById('buyerCountry').value,
+      zipCode: '34732',
+    },
+  };
+
+  const url = selectedCardType === 'local' ? '/api/payment_tr' : '/api/payment_fr';
+
+  fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  })
+    .then(response => response.json())
+    .then(result => {
+      if (result.success) {
+        alert('Payment successful!');
       } else {
-        document.getElementById('navigation-buttons').classList.remove('hidden');
-        document.getElementById('submit-button').classList.add('hidden');
+        alert('Payment failed: ' + (result.message || 'Unknown error'));
       }
-    }
+    })
+    .catch(err => console.error('Error:', err));
+}
 
-    function goBack() {
-      if (currentStep > 1) {
-        currentStep--;
-        goToStep(currentStep);
-      }
-    }
-
-    function goToNextStep() {
-      if (currentStep < 4) {
-        currentStep++;
-        goToStep(currentStep);
-      }
-    }
-
-    function submitPayment() {
-      const data = {
-        priceUSD: 100,
-        cardUserName: document.getElementById('buyerName').value,
-        cardNumber: document.getElementById('cardNumber').value,
-        expireMonth: document.getElementById('expireMonth').value,
-        expireYear: document.getElementById('expireYear').value,
-        cvc: document.getElementById('cvc').value,
-        registerCard: '0',
-        billingAddress: {
-          contactName: document.getElementById('buyerName').value,
-          city: document.getElementById('billingCity').value,
-          country: document.getElementById('billingCountry').value,
-          address: document.getElementById('billingAddress').value,
-          zipCode: '34742',
-        },
-        shippingAddress: {
-          contactName: document.getElementById('buyerName').value,
-          city: document.getElementById('shippingCity').value,
-          country: document.getElementById('shippingCountry').value,
-          address: document.getElementById('shippingAddress').value,
-          zipCode: '34742',
-        },
-        buyerInfo: {
-          id: '123456789',
-          name: document.getElementById('buyerName').value,
-          surname: 'Doe',
-          gsmNumber: '+905350000000',
-          email: document.getElementById('buyerEmail').value,
-          identityNumber: '74300864791',
-          registrationAddress: document.getElementById('billingAddress').value,
-          city: document.getElementById('buyerCity').value,
-          country: document.getElementById('buyerCountry').value,
-          zipCode: '34732',
-        },
-      };
-
-      const url = selectedCardType === 'local' ? '/api/payment_tr' : '/api/payment_fr';
-
-      fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-        .then(response => response.json())
-        .then(result => {
-          if (result.success) {
-            alert('Payment successful!');
-          } else {
-            alert('Payment failed: ' + (result.message || 'Unknown error'));
-          }
-        })
-        .catch(err => console.error('Error:', err));
-    }
   </script>
 </body>
 </html>
