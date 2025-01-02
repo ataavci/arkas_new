@@ -211,7 +211,7 @@
 .card:nth-child(2):hover,
 .card:nth-child(3):hover
 {
-    background: linear-gradient(45deg, rgba(0, 255, 0, 0.7) 0%, rgba(0, 128, 0, 0.7) 100%), url(/static/image/forest.jpg);
+    background: linear-gradient(45deg, rgba(0, 255, 0, 0.7) 0%, rgba(0, 128, 0, 0.7) 100%), url(/image/forest.jpg);
     background-size: cover;
 }
 
@@ -279,7 +279,7 @@ details[open] .details-box {
     background: linear-gradient(45deg, 
                                 rgba(54, 69, 208, 0.7) 0%, 
                                 rgba(73, 60, 250, 0.7) 100%), 
-                                url(/static/image/beach-2413081.jpg);
+                                url(/image/beach-2413081.jpg);
     background-size: cover;
 }
 
@@ -512,7 +512,7 @@ details[open] .details-box {
   }
   
   footer {
-    background-image: url('/static/image/gemi.jpg');
+    background-image: url('/image/gemi.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -1051,7 +1051,7 @@ details[open] .details-box {
 }
 #left-section {
     position: relative; /* Overlay yerleşimi için gereklidir */
-    background-image: url('/static/image/carbon_ofis.jpg'); 
+    background-image: url('/image/carbon_ofis.jpg'); 
     background-size: cover;
     background-position: center;
     color: white;
