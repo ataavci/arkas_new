@@ -6,6 +6,7 @@ const moment = require('moment');
 const getPaymentPage = (req, res) => {
     try {
         const userEmail = req.session.email 
+        console.log("User Email:", userEmail);
         res.render("payment/payment", { userEmail ,layout: false  });
     } catch (err) {
         console.error("Error rendering payment page:", err);

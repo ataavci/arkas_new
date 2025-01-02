@@ -28,6 +28,16 @@ const login = (req, res, next) => {
                 return next(err);
             }
 
+            // Kullanıcının e-posta bilgisini oturuma ekle
+            req.session.email = user.email;
+
+            // Daha önce bir hedef rota belirlenmişse, oraya yönlendir
+            const redirectTo = req.session.redirectTo || null;
+            if (redirectTo) {
+                delete req.session.redirectTo; // Hedef rotayı temizle
+                return res.redirect(redirectTo);
+            }
+
             // Kullanıcı rolüne göre yönlendirme yap
             if (user.service_name === 'office') {
                 return res.redirect('/office/office_dashboard'); // Office sistemine yönlendir
@@ -41,6 +51,7 @@ const login = (req, res, next) => {
         });
     })(req, res, next);
 };
+
 
 const register_page_show = (req, res) => {
     

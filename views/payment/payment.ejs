@@ -127,7 +127,8 @@
 
       <label for="buyerEmail">Email</label>
       <!-- Backend'den gelen e-posta bilgisi otomatik olarak dolduruluyor -->
-      <input type="text" id="buyerEmail" name="buyerEmail" value="<%= userEmail %>" readonly>
+      <input type="text" id="buyerEmail" name="buyerEmail" value="<%= user ? user.email : 'Misafir' %>
+      " readonly>
     
 
 
