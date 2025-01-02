@@ -16,7 +16,7 @@
     background: #289a11;;
 }
 footer {
-    background-image: url('/static/image/gemi.jpg');
+    background-image: url('/image/gemi.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

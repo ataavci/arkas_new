@@ -98,246 +98,246 @@
 
     <form action="/input" method="POST" id="inputForm">
         <!-- Step 1 -->
-        <div class="form-section" data-step="1">
-            <label for="country">Ülke</label>
-            <select id="country" name="country" required>
-                <option value="">Ülke seçin</option>
-                <!-- Ülkeler buraya eklenecek -->
-            </select>
-            <label for="date">Elektrik Tüketimi (kWh)</label>
-            <input type="date" id="date" name="date" step="0.01">
+       
+    <div class="form-section" data-step="1">
+        <label for="country">Country</label>
+        <select id="country" name="country" required>
+            <option value="">Select a country</option>
+            <!-- Countries will be added here -->
+        </select>
 
-            <label for="Electricity_Consumption">Elektrik Tüketimi (kWh)</label>
-            <input type="number" id="Electricity_Consumption" name="Electricity_Consumption" step="0.01">
+        <label for="date">Date</label>
+        <input type="date" id="date" name="date" step="0.01">
 
-            <label for="Water_Consumption">Su Tüketimi (m3)</label>
-            <input type="number" id="Water_Consumption" name="Water_Consumption" step="0.01">
+        <label for="Electricity_Consumption">Electricity Consumption (kWh)</label>
+        <input type="number" id="Electricity_Consumption" name="Electricity_Consumption" step="0.01">
 
-            <label for="Big_Bottled_Water">Büyük Şişe Su (19 Litre)</label>
-            <input type="number" id="Big_Bottled_Water" name="Big_Bottled_Water" step="1">
+        <label for="Water_Consumption">Water Consumption (m³)</label>
+        <input type="number" id="Water_Consumption" name="Water_Consumption" step="0.01">
 
-            <label for="Pet_Water_0_5">Pet Su (0,5 Litre)</label>
-            <input type="number" id="Pet_Water_0_5" name="Pet_Water_0_5" step="1">
+        <label for="Big_Bottled_Water">Large Bottled Water (19 Liters)</label>
+        <input type="number" id="Big_Bottled_Water" name="Big_Bottled_Water" step="1">
 
-            <label for="Pet_Water_1_0">Pet Su (1 Litre)</label>
-            <input type="number" id="Pet_Water_1_0" name="Pet_Water_1_0" step="1">
+        <label for="Pet_Water_0_5">Pet Water (0.5 Liters)</label>
+        <input type="number" id="Pet_Water_0_5" name="Pet_Water_0_5" step="1">
 
-            <label for="Pet_Water_1_5">Pet Su (1,5 Litre)</label>
-            <input type="number" id="Pet_Water_1_5" name="Pet_Water_1_5" step="1">
+        <label for="Pet_Water_1_0">Pet Water (1 Liter)</label>
+        <input type="number" id="Pet_Water_1_0" name="Pet_Water_1_0" step="1">
 
-            <label for="Pet_Water_5_0">Pet Su (5 Litre)</label>
-            <input type="number" id="Pet_Water_5_0" name="Pet_Water_5_0" step="1">
+        <label for="Pet_Water_1_5">Pet Water (1.5 Liters)</label>
+        <input type="number" id="Pet_Water_1_5" name="Pet_Water_1_5" step="1">
 
-            <label for="Printing_Paper">Yazıcı Kağıdı (ream)</label>
-            <input type="number" id="Printing_Paper" name="Printing_Paper" step="1">
+        <label for="Pet_Water_5_0">Pet Water (5 Liters)</label>
+        <input type="number" id="Pet_Water_5_0" name="Pet_Water_5_0" step="1">
 
-            <label for="toilet_paper">Tuvalet Kağıdı (adet)</label>
-            <input type="number" id="toilet_paper" name="toilet_paper" step="1">
-        </div>
+        <label for="Printing_Paper">Printing Paper (reams)</label>
+        <input type="number" id="Printing_Paper" name="Printing_Paper" step="1">
 
+        <label for="toilet_paper">Toilet Paper (pieces)</label>
+        <input type="number" id="toilet_paper" name="toilet_paper" step="1">
+    </div>
         <!-- Step 2 -->
         <div class="form-section" data-step="2">
-            <label for="solid_waste_management">Katı Atık Yönetimi</label>
+            <label for="solid_waste_management">Solid Waste Management</label>
             <select id="solid_waste_management" name="solid_waste_management">
-                <option value="">Seçiniz</option>
-                <option value="yes">yes</option>
-                <option value="no">no</option>
+                <option value="">Select</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
             </select>
-
-            <label for="waste_paper_and_cardboard">Atık Kağıt ve Karton (kg)</label>
+        
+            <label for="waste_paper_and_cardboard">Waste Paper and Cardboard (kg)</label>
             <input type="number" id="waste_paper_and_cardboard" name="waste_paper_and_cardboard" step="0.01">
-
-            <label for="waste_food">Atık Gıda (kg)</label>
+        
+            <label for="waste_food">Waste Food (kg)</label>
             <input type="number" id="waste_food" name="waste_food" step="0.01">
-
-            <label for="glass">Cam (kg)</label>
+        
+            <label for="glass">Glass (kg)</label>
             <input type="number" id="glass" name="glass" step="0.01">
-
-            <label for="plastic">Plastik (kg)</label>
+        
+            <label for="plastic">Plastic (kg)</label>
             <input type="number" id="plastic" name="plastic" step="0.01">
-
+        
             <label for="stationary_combustion">Stationary Combustion</label>
             <input type="number" id="stationary_combustion" name="stationary_combustion" step="0.01">
-
-            <label for="heating_type">Isıtma Tipi</label>
+        
+            <label for="heating_type">Heating Type</label>
             <input type="text" id="heating_type" name="heating_type">
-
+        
             <label for="heating_central_with_natural_gas">Heating Central with Natural Gas</label>
             <input type="number" id="heating_central_with_natural_gas" name="heating_central_with_natural_gas" step="0.01">
-
-            <label for="Natural_gas_for_heating">Isıtma İçin Doğalgaz (kWh)</label>
+        
+            <label for="Natural_gas_for_heating">Natural Gas for Heating (kWh)</label>
             <input type="number" id="Natural_gas_for_heating" name="Natural_gas_for_heating" step="1">
-
-            <label for="Air_Conditioner">Klima (adet)</label>
+        
+            <label for="Air_Conditioner">Air Conditioner (units)</label>
             <input type="number" id="Air_Conditioner" name="Air_Conditioner" step="1">
         </div>
-
+        
         <!-- Step 3 -->
         <div class="form-section" data-step="3">
             <label for="Air_Conditioner_Gas_Load">Air Conditioner Gas Load</label>
             <select id="Air_Conditioner_Gas_Load" name="Air_Conditioner_Gas_Load">
-                <option value="">Seçiniz</option>
-                <option value="yes">yes</option>
-                <option value="no">no</option>
+                <option value="">Select</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
             </select>
-
-            <label for="domestic_economy">Yurtiçi Ekonomi Uçuş (km)</label>
+        
+            <label for="domestic_economy">Domestic Economy Flight (km)</label>
             <input type="number" id="domestic_economy" name="domestic_economy" step="1">
-
-            <label for="Short_Haul_Economy">Kısa Mesafe Ekonomi Uçuş (km)</label>
+        
+            <label for="Short_Haul_Economy">Short-Haul Economy Flight (km)</label>
             <input type="number" id="Short_Haul_Economy" name="Short_Haul_Economy" step="1">
-
-            <label for="long_haul_economy">Uzun Mesafe Ekonomi Uçuş (km)</label>
+        
+            <label for="long_haul_economy">Long-Haul Economy Flight (km)</label>
             <input type="number" id="long_haul_economy" name="long_haul_economy" step="1">
-
-            <label for="Short_haul_Business_Class">Kısa Mesafe Business Class Uçuş (km)</label>
+        
+            <label for="Short_haul_Business_Class">Short-Haul Business Class Flight (km)</label>
             <input type="number" id="Short_haul_Business_Class" name="Short_haul_Business_Class" step="1">
-
-            <label for="long_haul_Business_Class">Uzun Mesafe Business Class Uçuş (km)</label>
+        
+            <label for="long_haul_Business_Class">Long-Haul Business Class Flight (km)</label>
             <input type="number" id="long_haul_Business_Class" name="long_haul_Business_Class" step="1">
-
-            <label for="Continental_Economy">Kıtalararası Ekonomi Uçuş (km)</label>
+        
+            <label for="Continental_Economy">Intercontinental Economy Flight (km)</label>
             <input type="number" id="Continental_Economy" name="Continental_Economy" step="1">
-
-            <label for="Continental_Business">Kıtalararası Business Class Uçuş (km)</label>
+        
+            <label for="Continental_Business">Intercontinental Business Class Flight (km)</label>
             <input type="number" id="Continental_Business" name="Continental_Business" step="1">
         </div>
-
+        
         <!-- Step 4 -->
         <div class="form-section" data-step="4">
-            <label for="Business_Travel_By_car">İş Seyahati (Araç ile - km)</label>
+            <label for="Business_Travel_By_car">Business Travel (By Car - km)</label>
             <input type="number" id="Business_Travel_By_car" name="Business_Travel_By_car" step="1">
-
-            <label for="Business_Travel_By_taxi">İş Seyahati (taxi ile - km)</label>
+        
+            <label for="Business_Travel_By_taxi">Business Travel (By Taxi - km)</label>
             <input type="number" id="Business_Travel_By_taxi" name="Business_Travel_By_taxi" step="1">
-
-            <label for="Accommodation_for_1_night">Konaklama (Gece sayısı)</label>
+        
+            <label for="Accommodation_for_1_night">Accommodation (Number of Nights)</label>
             <input type="number" id="Accommodation_for_1_night" name="Accommodation_for_1_night" step="1">
-
-            <h3>Araç Türleri ve Kişi Sayısı</h3>
-            <label for="Vehicle_Own_car">Kendi Aracınız</label>
+        
+            <h3>Vehicle Types and Number of People</h3>
+            <label for="Vehicle_Own_car">Own Car</label>
             <input type="text" id="Vehicle_Own_car" name="Vehicle_Own_car" value="Own Car" readonly>
-            <input type="number" id="Number_of_people1" name="Number_of_people1" placeholder="Kişi Sayısı" step="1">
-            <input type="number" id="Average_Distance1" name="Average_Distance1" placeholder="Mesafe (km)" step="0.01">
-
-            <label for="Vehicle_taxi">Taksi</label>
+            <input type="number" id="Number_of_people1" name="Number_of_people1" placeholder="Number of People" step="1">
+            <input type="number" id="Average_Distance1" name="Average_Distance1" placeholder="Distance (km)" step="0.01">
+        
+            <label for="Vehicle_taxi">Taxi</label>
             <input type="text" id="Vehicle_taxi" name="Vehicle_taxi" value="Taxi" readonly>
-            <input type="number" id="Number_of_people2" name="Number_of_people2" placeholder="Kişi Sayısı" step="1">
-            <input type="number" id="Average_Distance2" name="Average_Distance2" placeholder="Mesafe (km)" step="0.01">
+            <input type="number" id="Number_of_people2" name="Number_of_people2" placeholder="Number of People" step="1">
+            <input type="number" id="Average_Distance2" name="Average_Distance2" placeholder="Distance (km)" step="0.01">
         </div>
-
+        
         <!-- Step 5 -->
         <div class="form-section" data-step="5">
-            <label for="Vehicle_bus">Otobüs</label>
+            <label for="Vehicle_bus">Bus</label>
             <input type="text" id="Vehicle_bus" name="Vehicle_bus" value="Bus" readonly>
-            <input type="number" id="Number_of_people3" name="Number_of_people3" placeholder="Kişi Sayısı" step="1">
-            <input type="number" id="Average_Distance3" name="Average_Distance3" placeholder="Mesafe (km)" step="0.01">
-
-            <label for="Vehicle_train">Tren</label>
+            <input type="number" id="Number_of_people3" name="Number_of_people3" placeholder="Number of People" step="1">
+            <input type="number" id="Average_Distance3" name="Average_Distance3" placeholder="Distance (km)" step="0.01">
+        
+            <label for="Vehicle_train">Train</label>
             <input type="text" id="Vehicle_train" name="Vehicle_train" value="Train" readonly>
-            <input type="number" id="Number_of_people4" name="Number_of_people4" placeholder="Kişi Sayısı" step="1">
-            <input type="number" id="Average_Distance4" name="Average_Distance4" placeholder="Mesafe (km)" step="0.01">
-
-            <label for="Vehicle_motorbike">Motosiklet</label>
+            <input type="number" id="Number_of_people4" name="Number_of_people4" placeholder="Number of People" step="1">
+            <input type="number" id="Average_Distance4" name="Average_Distance4" placeholder="Distance (km)" step="0.01">
+        
+            <label for="Vehicle_motorbike">Motorbike</label>
             <input type="text" id="Vehicle_motorbike" name="Vehicle_motorbike" value="Motorbike" readonly>
-            <input type="number" id="Number_of_people5" name="Number_of_people5" placeholder="Kişi Sayısı" step="1">
-            <input type="number" id="Average_Distance5" name="Average_Distance5" placeholder="Mesafe (km)" step="0.01">
-
-            <label for="Vehicle_bike">Bisiklet</label>
+            <input type="number" id="Number_of_people5" name="Number_of_people5" placeholder="Number of People" step="1">
+            <input type="number" id="Average_Distance5" name="Average_Distance5" placeholder="Distance (km)" step="0.01">
+        
+            <label for="Vehicle_bike">Bike</label>
             <input type="text" id="Vehicle_bike" name="Vehicle_bike" value="Bike" readonly>
-            <input type="number" id="Number_of_people6" name="Number_of_people6" placeholder="Kişi Sayısı" step="1">
-            <input type="number" id="Average_Distance6" name="Average_Distance6" placeholder="Mesafe (km)" step="0.01">
-
-            <label for="Vehicle_by_walk">Yaya</label>
+            <input type="number" id="Number_of_people6" name="Number_of_people6" placeholder="Number of People" step="1">
+            <input type="number" id="Average_Distance6" name="Average_Distance6" placeholder="Distance (km)" step="0.01">
+        
+            <label for="Vehicle_by_walk">By Walk</label>
             <input type="text" id="Vehicle_by_walk" name="Vehicle_by_walk" value="By Walk" readonly>
-            <input type="number" id="Number_of_people7" name="Number_of_people7" placeholder="Kişi Sayısı" step="1">
-            <input type="number" id="Average_Distance7" name="Average_Distance7" placeholder="Mesafe (km)" step="0.01">
+            <input type="number" id="Number_of_people7" name="Number_of_people7" placeholder="Number of People" step="1">
+            <input type="number" id="Average_Distance7" name="Average_Distance7" placeholder="Distance (km)" step="0.01">
         </div>
         
-
         <!-- Step 6 -->
         <div class="form-section" data-step="6">
-            <h3>Araç Türleri ve Aylık Tüketim</h3>
-
+            <h3>Vehicle Types and Monthly Consumption</h3>
+        
             <label for="Vehicle_Type_Gasoline_passenger_car">Gasoline Passenger Car</label>
             <input type="text" id="Vehicle_Type_Gasoline_passenger_car" name="Vehicle_Type_Gasoline_passenger_car" value="Gasoline Passenger Car" readonly>
-            <input type="number" id="Pcs1" name="Pcs1" placeholder="Adet" step="1">
-            <input type="number" id="Total_Monthy_Consumption_L1" name="Total_Monthy_Consumption_L1" placeholder="Aylık Tüketim (L)" step="0.01">
-
+            <input type="number" id="Pcs1" name="Pcs1" placeholder="Number of Units" step="1">
+            <input type="number" id="Total_Monthy_Consumption_L1" name="Total_Monthy_Consumption_L1" placeholder="Monthly Consumption (L)" step="0.01">
+        
             <label for="Vehicle_Type_Gasoline_Light_Duty_Truck">Gasoline Light Duty Truck</label>
             <input type="text" id="Vehicle_Type_Gasoline_Light_Duty_Truck" name="Vehicle_Type_Gasoline_Light_Duty_Truck" value="Gasoline Light Duty Truck" readonly>
-            <input type="number" id="Pcs2" name="Pcs2" placeholder="Adet" step="1">
-            <input type="number" id="Total_Monthy_Consumption_L2" name="Total_Monthy_Consumption_L2" placeholder="Aylık Tüketim (L)" step="0.01">
-
+            <input type="number" id="Pcs2" name="Pcs2" placeholder="Number of Units" step="1">
+            <input type="number" id="Total_Monthy_Consumption_L2" name="Total_Monthy_Consumption_L2" placeholder="Monthly Consumption (L)" step="0.01">
+        
             <label for="Vehicle_Type_Gasoline_Heavy_Duty_Truck">Gasoline Heavy Duty Truck</label>
             <input type="text" id="Vehicle_Type_Gasoline_Heavy_Duty_Truck" name="Vehicle_Type_Gasoline_Heavy_Duty_Truck" value="Gasoline Heavy Duty Truck" readonly>
-            <input type="number" id="Pcs3" name="Pcs3" placeholder="Adet" step="1">
-            <input type="number" id="Total_Monthy_Consumption_L3" name="Total_Monthy_Consumption_L3" placeholder="Aylık Tüketim (L)" step="0.01">
-
+            <input type="number" id="Pcs3" name="Pcs3" placeholder="Number of Units" step="1">
+            <input type="number" id="Total_Monthy_Consumption_L3" name="Total_Monthy_Consumption_L3" placeholder="Monthly Consumption (L)" step="0.01">
+        
             <label for="Vehicle_Type_Diesel_passenger_car">Diesel Passenger Car</label>
             <input type="text" id="Vehicle_Type_Diesel_passenger_car" name="Vehicle_Type_Diesel_passenger_car" value="Diesel Passenger Car" readonly>
-            <input type="number" id="Pcs4" name="Pcs4" placeholder="Adet" step="1">
-            <input type="number" id="Total_Monthy_Consumption_L4" name="Total_Monthy_Consumption_L4" placeholder="Aylık Tüketim (L)" step="0.01">
-
+            <input type="number" id="Pcs4" name="Pcs4" placeholder="Number of Units" step="1">
+            <input type="number" id="Total_Monthy_Consumption_L4" name="Total_Monthy_Consumption_L4" placeholder="Monthly Consumption (L)" step="0.01">
+        
             <label for="Vehicle_Type_Diesel_Light_Duty_Truck">Diesel Light Duty Truck</label>
             <input type="text" id="Vehicle_Type_Diesel_Light_Duty_Truck" name="Vehicle_Type_Diesel_Light_Duty_Truck" value="Diesel Light Duty Truck" readonly>
-            <input type="number" id="Pcs5" name="Pcs5" placeholder="Adet" step="1">
-            <input type="number" id="Total_Monthy_Consumption_L5" name="Total_Monthy_Consumption_L5" placeholder="Aylık Tüketim (L)" step="0.01">
-
+            <input type="number" id="Pcs5" name="Pcs5" placeholder="Number of Units" step="1">
+            <input type="number" id="Total_Monthy_Consumption_L5" name="Total_Monthy_Consumption_L5" placeholder="Monthly Consumption (L)" step="0.01">
+        
             <label for="Vehicle_Type_Diesel_Heavy_Duty_Truck">Diesel Heavy Duty Truck</label>
             <input type="text" id="Vehicle_Type_Diesel_Heavy_Duty_Truck" name="Vehicle_Type_Diesel_Heavy_Duty_Truck" value="Diesel Heavy Duty Truck" readonly>
-            <input type="number" id="Pcs6" name="Pcs6" placeholder="Adet" step="1">
-            <input type="number" id="Total_Monthy_Consumption_L6" name="Total_Monthy_Consumption_L6" placeholder="Aylık Tüketim (L)" step="0.01">
-        </div>
-        <div class="form-section" data-step="7">
-            <!-- Eksik Input Alanları -->
-<label for="Vehicle_Type_Hybrid_passenger_car">Hybrid Passenger Car</label>
-<input type="text" id="Vehicle_Type_Hybrid_passenger_car" name="Vehicle_Type_Hybrid_passenger_car" value="Hybrid Passenger Car" readonly>
-<input type="number" id="Pcs7" name="Pcs7" placeholder="Adet" step="1">
-<input type="number" id="Total_Monthy_Consumption_L7" name="Total_Monthy_Consumption_L7" placeholder="Aylık Tüketim (L)" step="0.01">
-
-<label for="Vehicle_Type_EV_Duty_Truck">EV Duty Truck</label>
-<input type="text" id="Vehicle_Type_EV_Duty_Truck" name="Vehicle_Type_EV_Duty_Truck" value="EV Duty Truck" readonly>
-<input type="number" id="Pcs8" name="Pcs8" placeholder="Adet" step="1">
-<input type="number" id="Total_Monthy_Consumption_L8" name="Total_Monthy_Consumption_L8" placeholder="Aylık Tüketim (L)" step="0.01">
-
-<label for="Vehicle_Type_EV_Heavy_Duty_Truck">EV Heavy Duty Truck</label>
-<input type="text" id="Vehicle_Type_EV_Heavy_Duty_Truck" name="Vehicle_Type_EV_Heavy_Duty_Truck" value="EV Heavy Duty Truck" readonly>
-<input type="number" id="Pcs9" name="Pcs9" placeholder="Adet" step="1">
-<input type="number" id="Total_Monthy_Consumption_L9" name="Total_Monthy_Consumption_L9" placeholder="Aylık Tüketim (L)" step="0.01">
-
-<label for="Vehicle_Type_Gasoline_Agricultural_Equipment">Gasoline Agricultural Equipment</label>
-<input type="text" id="Vehicle_Type_Gasoline_Agricultural_Equipment" name="Vehicle_Type_Gasoline_Agricultural_Equipment" value="Gasoline Agricultural Equipment" readonly>
-<input type="number" id="Pcs10" name="Pcs10" placeholder="Adet" step="1">
-<input type="number" id="Total_Monthy_Consumption_L10" name="Total_Monthy_Consumption_L10" placeholder="Aylık Tüketim (L)" step="0.01">
-
-<label for="Vehicle_Type_Gasoline_Ships_andBoat">Gasoline Ships and Boat</label>
-<input type="text" id="Vehicle_Type_Gasoline_Ships_andBoat" name="Vehicle_Type_Gasoline_Ships_andBoat" value="Gasoline Ships and Boat" readonly>
-<input type="number" id="Pcs11" name="Pcs11" placeholder="Adet" step="1">
-<input type="number" id="Total_Monthy_Consumption_L11" name="Total_Monthy_Consumption_L11" placeholder="Aylık Tüketim (L)" step="0.01">
-
-<label for="Vehicle_Type_Gasoline_Motorcycle">Gasoline Motorcycle</label>
-<input type="text" id="Vehicle_Type_Gasoline_Motorcycle" name="Vehicle_Type_Gasoline_Motorcycle" value="Gasoline Motorcycle" readonly>
-<input type="number" id="Pcs12" name="Pcs12" placeholder="Adet" step="1">
-<input type="number" id="Total_Monthy_Consumption_L12" name="Total_Monthy_Consumption_L12" placeholder="Aylık Tüketim (L)" step="0.01">
-
-<label for="Vehicle_Type_Gasoline_Other">Gasoline Other</label>
-<input type="text" id="Vehicle_Type_Gasoline_Other" name="Vehicle_Type_Gasoline_Other" value="Gasoline Other" readonly>
-<input type="number" id="Pcs13" name="Pcs13" placeholder="Adet" step="1">
-<input type="number" id="Total_Monthy_Consumption_L13" name="Total_Monthy_Consumption_L13" placeholder="Aylık Tüketim (L)" step="0.01">
-
+            <input type="number" id="Pcs6" name="Pcs6" placeholder="Number of Units" step="1">
+            <input type="number" id="Total_Monthy_Consumption_L6" name="Total_Monthy_Consumption_L6" placeholder="Monthly Consumption (L)" step="0.01">
         </div>
         
-
-        <button type="submit" class="submit-button">Gönder</button>
+        <div class="form-section" data-step="7">
+            <label for="Vehicle_Type_Hybrid_passenger_car">Hybrid Passenger Car</label>
+            <input type="text" id="Vehicle_Type_Hybrid_passenger_car" name="Vehicle_Type_Hybrid_passenger_car" value="Hybrid Passenger Car" readonly>
+            <input type="number" id="Pcs7" name="Pcs7" placeholder="Number of Units" step="1">
+            <input type="number" id="Total_Monthy_Consumption_L7" name="Total_Monthy_Consumption_L7" placeholder="Monthly Consumption (L)" step="0.01">
+        
+            <label for="Vehicle_Type_EV_Duty_Truck">EV Duty Truck</label>
+            <input type="text" id="Vehicle_Type_EV_Duty_Truck" name="Vehicle_Type_EV_Duty_Truck" value="EV Duty Truck" readonly>
+            <input type="number" id="Pcs8" name="Pcs8" placeholder="Number of Units" step="1">
+            <input type="number" id="Total_Monthy_Consumption_L8" name="Total_Monthy_Consumption_L8" placeholder="Monthly Consumption (L)" step="0.01">
+        
+            <label for="Vehicle_Type_EV_Heavy_Duty_Truck">EV Heavy Duty Truck</label>
+            <input type="text" id="Vehicle_Type_EV_Heavy_Duty_Truck" name="Vehicle_Type_EV_Heavy_Duty_Truck" value="EV Heavy Duty Truck" readonly>
+            <input type="number" id="Pcs9" name="Pcs9" placeholder="Number of Units" step="1">
+            <input type="number" id="Total_Monthy_Consumption_L9" name="Total_Monthy_Consumption_L9" placeholder="Monthly Consumption (L)" step="0.01">
+        
+            <label for="Vehicle_Type_Gasoline_Agricultural_Equipment">Gasoline Agricultural Equipment</label>
+            <input type="text" id="Vehicle_Type_Gasoline_Agricultural_Equipment" name="Vehicle_Type_Gasoline_Agricultural_Equipment" value="Gasoline Agricultural Equipment" readonly>
+            <input type="number" id="Pcs10" name="Pcs10" placeholder="Number of Units" step="1">
+            <input type="number" id="Total_Monthy_Consumption_L10" name="Total_Monthy_Consumption_L10" placeholder="Monthly Consumption (L)" step="0.01">
+        
+            <label for="Vehicle_Type_Gasoline_Ships_andBoat">Gasoline Ships and Boat</label>
+            <input type="text" id="Vehicle_Type_Gasoline_Ships_andBoat" name="Vehicle_Type_Gasoline_Ships_andBoat" value="Gasoline Ships and Boat" readonly>
+            <input type="number" id="Pcs11" name="Pcs11" placeholder="Number of Units" step="1">
+            <input type="number" id="Total_Monthy_Consumption_L11" name="Total_Monthy_Consumption_L11" placeholder="Monthly Consumption (L)" step="0.01">
+        
+            <label for="Vehicle_Type_Gasoline_Motorcycle">Gasoline Motorcycle</label>
+            <input type="text" id="Vehicle_Type_Gasoline_Motorcycle" name="Vehicle_Type_Gasoline_Motorcycle" value="Gasoline Motorcycle" readonly>
+            <input type="number" id="Pcs12" name="Pcs12" placeholder="Number of Units" step="1">
+            <input type="number" id="Total_Monthy_Consumption_L12" name="Total_Monthy_Consumption_L12" placeholder="Monthly Consumption (L)" step="0.01">
+        
+            <label for="Vehicle_Type_Gasoline_Other">Gasoline Other</label>
+            <input type="text" id="Vehicle_Type_Gasoline_Other" name="Vehicle_Type_Gasoline_Other" value="Gasoline Other" readonly>
+            <input type="number" id="Pcs13" name="Pcs13" placeholder="Number of Units" step="1">
+            <input type="number" id="Total_Monthy_Consumption_L13" name="Total_Monthy_Consumption_L13" placeholder="Monthly Consumption (L)" step="0.01">
+        </div>
+        
+        <button type="submit" class="submit-button">Submit</button>
+        
     </form>
 </div>
 <div id="successMessage" style="display: none; color: green; font-weight: bold; text-align: center; margin-top: 20px;">
-    Kayıt işlemi başarılı!
+    Registration successful!
 </div>
 <div id="errorMessage" style="display: none; color: red; font-weight: bold; text-align: center; margin-top: 20px;">
-    Kayıt işlemi başarısız!
+    Registration failed!
 </div>
+
 
 <script>
  document.addEventListener("DOMContentLoaded", function () {

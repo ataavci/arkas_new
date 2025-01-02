@@ -69,7 +69,7 @@ opacity: 0.8;
 
 
 footer {
-    background-image: url('/static/image/gemi.jpg');
+    background-image: url('/image/gemi.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -220,7 +220,7 @@ footer {
   overflow: hidden;
   transition: transform 0.3s ease, border-width 0.3s ease; /* Hover sırasında büyüme ve çerçeve değişimi */
   position: relative;
-  background-image: url('/public/image/gemi.jpg') no-repeat center center; /* Arka plan resmi */
+  background-image: url('/image/gemi.jpg') no-repeat center center; /* Arka plan resmi */
   background-size: cover; /* Resmi kartın boyutuna göre kapla */
   height: 200px; /* Kart yüksekliği */
 }
