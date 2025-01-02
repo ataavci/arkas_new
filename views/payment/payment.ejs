@@ -6,10 +6,19 @@
   <title>Satın Alma Ekranı</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/pay.css">
+ 
+  
 </head>
 <body>
   <!-- Success Modal -->
    <div class="container">
+    <!-- Alert Mesajı -->
+    <div id="alert-container" class="hidden">
+      <div id="alertMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+        Payment successful! Click <a href="/login" class="alert-link">here</a> to go to login.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    </div>
     <!-- Step 0: Service Selection -->
     <div id="step-0" class="service-selection">
       <h2>Select a Service</h2>
@@ -265,27 +274,25 @@ function submitPayment() {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   })
-    .then((response) => {
-      console.log("API'den yanıt alındı:", response);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then((result) => {
+  .then((response) => {
+          if (!response.ok) {
+            throw new Error("Payment failed");
+          }
+          return response.json();
+        })
+        .then((result) => {
           if (result.success) {
-            alert('Payment successful! Click OK to go to the Login page.');
-            redirectToLogin();
+            // Alert göster
+            document.getElementById("alert-container").classList.remove("hidden");
           } else {
-            alert('Payment failed: ' + (result.message || 'Unknown error'));
+            alert("Payment failed: " + result.message);
           }
         })
-        .catch((err) => {
-          console.error('Error:', err);
-          alert('An error occurred during the payment process.');
+        .catch((error) => {
+          console.error("Error:", error);
+          alert("An error occurred.");
         });
     }
-
   </script>
 </body>
 </html>
