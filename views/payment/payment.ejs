@@ -9,25 +9,7 @@
 </head>
 <body>
   <!-- Success Modal -->
-  <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="successModalLabel">Payment Successful</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          Your payment has been processed successfully!
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" onclick="redirectToLogin()">Go to Login</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="container">
+   <div class="container">
     <!-- Step 0: Service Selection -->
     <div id="step-0" class="service-selection">
       <h2>Select a Service</h2>
@@ -245,7 +227,7 @@ function submitPayment() {
     expireMonth: document.getElementById('expireMonth').value,
     expireYear: document.getElementById('expireYear').value,
     cvc: document.getElementById('cvc').value,
-    registerCard: '0', // Sabit bir değer mi olacak, kontrol edin
+    registerCard: '0',
     billingAddress: {
       contactName: document.getElementById('buyerName').value,
       city: document.getElementById('billingCity').value || "Istanbul",
@@ -261,12 +243,12 @@ function submitPayment() {
       zipCode: document.getElementById('shippingZipCode')?.value || "34742",
     },
     buyerInfo: {
-      id: '123456789', // Otomatik bir ID üretmek gerekebilir
+      id: '123456789',
       name: document.getElementById('buyerName').value,
-      surname: 'Surname Missing', // Eksik alanları belirleyin
-      gsmNumber: '+905350000000', // Sabit bir değer mi olacak?
+      surname: 'Surname Missing',
+      gsmNumber: '+905350000000',
       email: document.getElementById('buyerEmail').value,
-      identityNumber: '74300864791', // Sabit bir değer mi olacak?
+      identityNumber: '74300864791',
       registrationAddress: document.getElementById('billingAddress').value || "Default Address",
       city: document.getElementById('buyerCity').value || "Istanbul",
       country: document.getElementById('buyerCountry').value || "Turkey",
@@ -276,30 +258,33 @@ function submitPayment() {
 
   const url = selectedCardType === 'local' ? '/api/payment_tr' : '/api/payment_fr';
 
+  console.log("Ödeme işlemi başlatılıyor. Gönderilen veri:", data);
+
   fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   })
     .then((response) => {
+      console.log("API'den yanıt alındı:", response);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       return response.json();
     })
     .then((result) => {
-      if (result.success) {
-        $('#successModal').modal('show');
-      } else {
-        alert('Payment failed: ' + (result.message || 'Unknown error'));
-      }
-    })
-    .catch((err) => console.error('Error:', err));
-}
-
-function redirectToLogin() {
-  window.location.href = '/login';
-}
+          if (result.success) {
+            alert('Payment successful! Click OK to go to the Login page.');
+            redirectToLogin();
+          } else {
+            alert('Payment failed: ' + (result.message || 'Unknown error'));
+          }
+        })
+        .catch((err) => {
+          console.error('Error:', err);
+          alert('An error occurred during the payment process.');
+        });
+    }
 
   </script>
 </body>
