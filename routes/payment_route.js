@@ -12,6 +12,7 @@ router.post("/api/payment_fr",payment_controller.foreignPayment);
 
 
 router.get("/payment", authMiddleware.restrictAccess, payment_controller.getPaymentPage);
+router.post("/invoice", payment_controller.sendInvoice);
 
 // Ödeme işlemi
 

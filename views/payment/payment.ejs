@@ -8,6 +8,25 @@
   <link rel="stylesheet" href="/css/pay.css">
 </head>
 <body>
+  <!-- Success Modal -->
+  <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="successModalLabel">Payment Successful</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Your payment has been processed successfully!
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" onclick="redirectToLogin()">Go to Login</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="container">
     <!-- Step 0: Service Selection -->
     <div id="step-0" class="service-selection">
@@ -154,7 +173,7 @@
   </div>
 
   <script>
-   let selectedCardType = null;
+  let selectedCardType = null;
 let currentStep = 0;
 let selectedPriceUSD = 25; // Varsayılan hizmet fiyatı
 
@@ -226,32 +245,32 @@ function submitPayment() {
     expireMonth: document.getElementById('expireMonth').value,
     expireYear: document.getElementById('expireYear').value,
     cvc: document.getElementById('cvc').value,
-    registerCard: '0',
+    registerCard: '0', // Sabit bir değer mi olacak, kontrol edin
     billingAddress: {
       contactName: document.getElementById('buyerName').value,
-      city: document.getElementById('billingCity').value,
-      country: document.getElementById('billingCountry').value,
-      address: document.getElementById('billingAddress').value,
-      zipCode: '34742',
+      city: document.getElementById('billingCity').value || "Istanbul",
+      country: document.getElementById('billingCountry').value || "Turkey",
+      address: document.getElementById('billingAddress').value || "Default Address",
+      zipCode: document.getElementById('billingZipCode')?.value || "34742",
     },
     shippingAddress: {
       contactName: document.getElementById('buyerName').value,
-      city: document.getElementById('shippingCity').value,
-      country: document.getElementById('shippingCountry').value,
-      address: document.getElementById('shippingAddress').value,
-      zipCode: '34742',
+      city: document.getElementById('shippingCity').value || "Istanbul",
+      country: document.getElementById('shippingCountry').value || "Turkey",
+      address: document.getElementById('shippingAddress').value || "Default Address",
+      zipCode: document.getElementById('shippingZipCode')?.value || "34742",
     },
     buyerInfo: {
-      id: '123456789',
+      id: '123456789', // Otomatik bir ID üretmek gerekebilir
       name: document.getElementById('buyerName').value,
-      surname: '',
-      gsmNumber: '+905350000000',
+      surname: 'Surname Missing', // Eksik alanları belirleyin
+      gsmNumber: '+905350000000', // Sabit bir değer mi olacak?
       email: document.getElementById('buyerEmail').value,
-      identityNumber: '74300864791',
-      registrationAddress: document.getElementById('billingAddress').value,
-      city: document.getElementById('buyerCity').value,
-      country: document.getElementById('buyerCountry').value,
-      zipCode: '34732',
+      identityNumber: '74300864791', // Sabit bir değer mi olacak?
+      registrationAddress: document.getElementById('billingAddress').value || "Default Address",
+      city: document.getElementById('buyerCity').value || "Istanbul",
+      country: document.getElementById('buyerCountry').value || "Turkey",
+      zipCode: document.getElementById('buyerZipCode')?.value || "34742",
     },
   };
 
@@ -262,15 +281,24 @@ function submitPayment() {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   })
-    .then(response => response.json())
-    .then(result => {
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((result) => {
       if (result.success) {
-        alert('Payment successful!');
+        $('#successModal').modal('show');
       } else {
         alert('Payment failed: ' + (result.message || 'Unknown error'));
       }
     })
-    .catch(err => console.error('Error:', err));
+    .catch((err) => console.error('Error:', err));
+}
+
+function redirectToLogin() {
+  window.location.href = '/login';
 }
 
   </script>

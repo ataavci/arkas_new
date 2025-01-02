@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 15px;
+        }
+        .header h1 {
+            font-size: 28px;
+            margin: 0;
+            color: #007BFF;
+        }
+        .header p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #555;
+        }
+        .address {
+            margin-bottom: 20px;
+        }
+        .address h2 {
+            margin-bottom: 10px;
+            font-size: 20px;
+            color: #007BFF;
+        }
+        .address p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #555;
+        }
+        .invoice-details {
+            margin-bottom: 30px;
+        }
+        .invoice-details table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .invoice-details th {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px;
+            font-size: 14px;
+            text-align: left;
+        }
+        .invoice-details td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            font-size: 14px;
+        }
+        .invoice-details tfoot td {
+            font-weight: bold;
+            background-color: #f7f7f7;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #555;
+        }
+        .total {
+            color: #007BFF;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>INVOICE</h1>
+            <p>Ovo Bilişim Anonim Şirketi</p>
+            <p>info@voosust.com</p>
+            <p>Dogus Street No: 207/Z, DEU Tınaztepe Campus, Buca 35390 Izmir/Türkiye</p>
+            <p>+90 533 357 27 47</p>
+        </div>
+
+        <div class="address">
+            <h2>Invoice to:</h2>
+            <p><strong>VOLKAN ÇETİNKAYA</strong></p>
+            <p>Dogus Street No: 207/Z, DEU Tınaztepe Campus, Buca 35390 Izmir/Türkiye</p>
+            <p>+90 533 357 27 47</p>
+            <p>Email: info@voosust.com</p>
+        </div>
+
+        <div class="invoice-details">
+            <table>
+                <thead>
+                    <tr>
+                        <th>QTY</th>
+                        <th>SERVICE</th>
+                        <th>PRICE</th>
+                        <th>TOTAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Container Monitoring</td>
+                        <td>1,705.26₺</td>
+                        <td>1,705.26₺</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3">Subtotal</td>
+                        <td class="total">1,705.26₺</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">VAT (0%)</td>
+                        <td class="total">0.00₺</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">Total Due</td>
+                        <td class="total">1,705.26₺</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="footer">
+            <p>According to the temporary article 20/1 of the VAT Law No. 3065, transactions made in technology development zones are exempt from VAT.</p>
+            <p>Date: December 31, 2024</p>
+        </div>
+    </div>
+</body>
+</html>

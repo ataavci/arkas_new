@@ -2,27 +2,31 @@ const { DataTypes, Sequelize } = require("sequelize");
 const sequelize = require("../db/db");
 
 const Payment = sequelize.define("payment", {
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false, // NOT NULL olarak tanımlı
+    },
     sendData: {
-        type: DataTypes.TEXT, // JSON verileri TEXT olarak saklanır
-        allowNull: false
+        type: DataTypes.TEXT,
+        allowNull: false,
     },
     resultData: {
-        type: DataTypes.TEXT, // JSON verileri TEXT olarak saklanır
-        allowNull: false
+        type: DataTypes.TEXT,
+        allowNull: false,
     },
     startDate: {
-        type: DataTypes.DATE, // Ödemenin yapıldığı tarih
-        allowNull: false
+        type: DataTypes.DATE,
+        allowNull: false,
     },
     endDate: {
-        type: DataTypes.DATE, // Ödemenin biteceği tarih
-        allowNull: false
+        type: DataTypes.DATE,
+        allowNull: false,
     },
     createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: Sequelize.NOW // Otomatik olarak kayıt oluşturulma zamanı
-    }
+        defaultValue: Sequelize.NOW,
+    },
 });
 
 async function sync() {

@@ -46,11 +46,13 @@ const localPayment = async (req, res) => {
     }
 
     try {
-        const price = (priceUSD * STATIC_EXCHANGE_RATE).toFixed(2); // USD -> TRY
-        const currency = "TRY";
+        const email = buyerInfo.email; // `buyerInfo.email`'i çekiyoruz
+        if (!email) {
+            return res.status(400).json({ error: "Email bilgisi eksik." });
+        }
 
-        const startDate = moment();
-        const endDate = moment().add(30, 'days');
+        const price = (priceUSD * STATIC_EXCHANGE_RATE).toFixed(2);
+        const currency = "TRY";
 
         const data = {
             locale: "tr",
@@ -67,23 +69,9 @@ const localPayment = async (req, res) => {
                 expireMonth,
                 expireYear,
                 cvc,
-                registerCard: registerCard || '0'
+                registerCard: registerCard || '0',
             },
-            buyer: {
-                id: buyerInfo.id || uuidv4(),
-                name: buyerInfo.name || "Unknown",
-                surname: buyerInfo.surname || "Unknown",
-                gsmNumber: buyerInfo.gsmNumber || "+905350000000",
-                email: buyerInfo.email || "email@email.com",
-                identityNumber: buyerInfo.identityNumber || "74300864791",
-                lastLoginDate: moment().format("YYYY-MM-DD HH:mm:ss"),
-                registrationDate: moment().subtract(1, 'years').format("YYYY-MM-DD HH:mm:ss"),
-                registrationAddress: buyerInfo.registrationAddress || "Default Address",
-                ip: req.ip || '85.34.78.112',
-                city: buyerInfo.city || "Istanbul",
-                country: buyerInfo.country || "Turkey",
-                zipCode: buyerInfo.zipCode || "34732"
-            },
+            buyer: buyerInfo,
             shippingAddress,
             billingAddress,
             basketItems: [
@@ -93,26 +81,26 @@ const localPayment = async (req, res) => {
                     category1: 'Collectibles',
                     category2: 'Accessories',
                     itemType: Iyzipay.BASKET_ITEM_TYPE.PHYSICAL,
-                    price
-                }
-            ]
+                    price,
+                },
+            ],
         };
 
-        iyzipay.payment.create(data, async function (err, result) {
-            const paymentResult = result?.status === "success" ? "success" : "failure";
-
-            // İstek ve yanıt verilerini tabloya kaydet
-            await Payment.create({
-                sendData: JSON.stringify(data),
-                resultData: paymentResult, // Sadece "success" veya "failure" kaydediliyor
-                startDate: startDate.toDate(),
-                endDate: endDate.toDate(),
-            });
-
+        iyzipay.payment.create(data, async (err, result) => {
             if (err) {
-                console.error("Ödeme sırasında bir hata oluştu:", err);
+                console.error("Ödeme sırasında hata oluştu:", err);
                 return res.status(500).json({ error: "Ödeme işlemi başarısız.", details: err });
             }
+
+            const paymentResult = result.status === 'success' ? 'success' : 'failure';
+
+            await Payment.create({
+                email, // Email alanını burada kullanıyoruz
+                sendData: JSON.stringify(data),
+                resultData: paymentResult,
+                startDate: new Date(),
+                endDate: new Date(new Date().setMonth(new Date().getMonth() + 1)), // Ödemenin bitiş tarihini ayarlayın
+            });
 
             if (result.status === 'success') {
                 return res.status(200).json({ message: "Ödeme başarılı", result });
@@ -127,9 +115,9 @@ const localPayment = async (req, res) => {
 };
 
 
-
 const foreignPayment = async (req, res) => {
     const id = uuidv4();
+    const userEmail = req.session?.email || req.body?.buyerInfo?.email; // Oturumdan veya body'den email al
     const {
         priceUSD,
         cardUserName,
@@ -143,7 +131,8 @@ const foreignPayment = async (req, res) => {
         buyerInfo,
     } = req.body;
 
-    if (!priceUSD || !cardUserName || !cardNumber || !expireMonth || !expireYear || !cvc || !billingAddress || !shippingAddress || !buyerInfo) {
+    // Gerekli alanların kontrolü
+    if (!userEmail || !priceUSD || !cardUserName || !cardNumber || !expireMonth || !expireYear || !cvc || !billingAddress || !shippingAddress || !buyerInfo) {
         return res.status(400).json({ error: "Eksik veya geçersiz bilgi gönderildi." });
     }
 
@@ -176,7 +165,7 @@ const foreignPayment = async (req, res) => {
                 name: buyerInfo.name || "Unknown",
                 surname: buyerInfo.surname || "Unknown",
                 gsmNumber: buyerInfo.gsmNumber || "+905350000000",
-                email: buyerInfo.email || "email@email.com",
+                email: userEmail, // Kullanıcının e-postası
                 identityNumber: buyerInfo.identityNumber || "74300864791",
                 lastLoginDate: moment().format("YYYY-MM-DD HH:mm:ss"),
                 registrationDate: moment().subtract(1, 'years').format("YYYY-MM-DD HH:mm:ss"),
@@ -200,21 +189,22 @@ const foreignPayment = async (req, res) => {
             ]
         };
 
-        iyzipay.payment.create(data, async function (err, result) {
-            const paymentResult = result?.status === "success" ? "success" : "failure";
-
-            // İstek ve yanıt verilerini tabloya kaydet
-            await Payment.create({
-                sendData: JSON.stringify(data),
-                resultData: paymentResult, // Sadece "success" veya "failure" kaydediliyor
-                startDate: startDate.toDate(),
-                endDate: endDate.toDate(),
-            });
-
+        iyzipay.payment.create(data, async (err, result) => {
             if (err) {
                 console.error("Ödeme sırasında bir hata oluştu:", err);
                 return res.status(500).json({ error: "Ödeme işlemi başarısız.", details: err });
             }
+
+            const paymentResult = result?.status === "success" ? "success" : "failure";
+
+            // Ödeme bilgilerini tabloya kaydet
+            await Payment.create({
+                email: userEmail, // Kullanıcının e-postası tabloya ekleniyor
+                sendData: JSON.stringify(data),
+                resultData: paymentResult,
+                startDate: startDate.toDate(),
+                endDate: endDate.toDate(),
+            });
 
             if (result.status === 'success') {
                 return res.status(200).json({ message: "Ödeme başarılı", result });
@@ -228,4 +218,150 @@ const foreignPayment = async (req, res) => {
     }
 };
 
-module.exports = { localPayment, foreignPayment, getPaymentPage };
+const sendInvoice = async (req, res) => {
+    try {
+        const invoiceDetails = req.body; // Assuming invoice details come from the request body
+        const {
+            userEmail,
+            userName,
+            userSurname,
+            invoiceNumber,
+            invoiceDate,
+            services,
+            totalPrice
+        } = invoiceDetails;
+
+        // Generate the invoice email content
+        const transporter = nodemailer.createTransport({
+            host: "ns80-out.dnscini.com",
+            port: 587,
+            secure: false,
+            auth: {
+                user: process.env.mail_name,
+                pass: process.env.mail_password
+            },
+            tls: {
+                rejectUnauthorized: false
+            }
+        });
+
+        const info = await transporter.sendMail({
+            from: "VooSust Digital Solutions <ataavci@voosust.com>",
+            to: userEmail,
+            subject: `Invoice #${invoiceNumber} from Voosust`,
+            html: `
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Invoice</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            background-color: #f7f7f7;
+                            margin: 0;
+                            padding: 0;
+                        }
+                        .container {
+                            max-width: 600px;
+                            margin: 20px auto;
+                            background-color: #ffffff;
+                            padding: 20px;
+                            border-radius: 8px;
+                            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                        }
+                        .header {
+                            text-align: center;
+                            margin-bottom: 20px;
+                        }
+                        .header h1 {
+                            color: #007BFF;
+                        }
+                        .content {
+                            font-size: 16px;
+                            line-height: 1.6;
+                        }
+                        .invoice-details {
+                            margin-top: 20px;
+                        }
+                        .invoice-details table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-top: 10px;
+                        }
+                        .invoice-details th, .invoice-details td {
+                            border: 1px solid #ddd;
+                            padding: 8px;
+                            text-align: left;
+                        }
+                        .footer {
+                            text-align: center;
+                            margin-top: 30px;
+                            font-size: 14px;
+                            color: #555;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <div class="header">
+                            <h1>Invoice</h1>
+                            <p>Invoice Number: <strong>${invoiceNumber}</strong></p>
+                            <p>Date: <strong>${invoiceDate}</strong></p>
+                        </div>
+                        <div class="content">
+                            <p>Dear ${userName} ${userSurname},</p>
+                            <p>Thank you for using Voosust Digital Solutions. Below are the details of your invoice:</p>
+                            <div class="invoice-details">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Service</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${services.map(service => `
+                                            <tr>
+                                                <td>${service.name}</td>
+                                                <td>${service.price}</td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Total</th>
+                                            <th>${totalPrice}</th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <p>If you have any questions, please contact our support team.</p>
+                        </div>
+                        <div class="footer">
+                            <p>Voosust Digital Solutions</p>
+                            <p>info@voosust.com</p>
+                            <p>+90 533 357 27 47</p>
+                            <p>www.voosust.com</p>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `
+        });
+
+        res.status(200).json({
+            message: "Invoice sent successfully.",
+            info
+        });
+
+    } catch (err) {
+        console.error("Error sending invoice:", err);
+        res.status(500).json({
+            error: "An error occurred while sending the invoice."
+        });
+    }
+};
+
+module.exports = { localPayment, foreignPayment, getPaymentPage, sendInvoice };
