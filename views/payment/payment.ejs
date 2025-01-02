@@ -6,6 +6,16 @@
   <title>Satın Alma Ekranı</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/pay.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="./image/favicon-16x16.png" type="image/x-icon">
+  <title>VooSust Dijital Çözümler</title>
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  
  
   
 </head>
@@ -36,6 +46,7 @@
       </label>
       <button onclick="proceedToCardSelection()">Next</button>
     </div>
+    
 
     <!-- Persistent Selected Card Section -->
     <div id="selected-card-header" class="hidden">
@@ -283,7 +294,7 @@ function submitPayment() {
     .then((result) => {
     console.log("Payment response:", result);
     if (result.status === "success") {
-        window.location.href = "/";
+        window.location.href = "/karsilama";
     } else {
         alert("Payment failed: " + result.message);
     }
