@@ -3,6 +3,16 @@ const Iyzipay = require('iyzipay');
 require('dotenv').config();
 const Payment = require('../models/payment'); // Payment modelini içe aktar
 const moment = require('moment'); 
+const getPaymentPage = (req, res) => {
+    try {
+        const userEmail = req.session.email 
+        res.render("payment/payment", { userEmail ,layout: false  });
+    } catch (err) {
+        console.error("Error rendering payment page:", err);
+        res.status(500).send("An error occurred while loading the payment page.");
+    }
+};
+
 
 const iyzipay = new Iyzipay({
     apiKey: process.env.IYZIPAY_API_KEY,
@@ -217,4 +227,4 @@ const foreignPayment = async (req, res) => {
     }
 };
 
-module.exports = { localPayment, foreignPayment };
+module.exports = { localPayment, foreignPayment, getPaymentPage };

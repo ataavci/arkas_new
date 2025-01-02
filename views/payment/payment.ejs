@@ -126,7 +126,10 @@
       <input type="text" id="buyerName" placeholder="Enter name">
 
       <label for="buyerEmail">Email</label>
-      <input type="text" id="buyerEmail" placeholder="Enter email">
+      <!-- Backend'den gelen e-posta bilgisi otomatik olarak dolduruluyor -->
+      <input type="text" id="buyerEmail" name="buyerEmail" value="<%= userEmail %>" readonly>
+    
+
 
       <label for="buyerCity">City</label>
       <input type="text" id="buyerCity" placeholder="Enter city">

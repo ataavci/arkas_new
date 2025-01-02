@@ -1,4 +1,4 @@
-const auth_middleware = require("../middleware/auth_middileware");
+const auth_middleware = require("../middleware/auth_middleware");
 const CountryData=require("../models/country_data");
 const OfficeDetayInput=require("../models/office");
 const OfficeEmission=require("../models/ProcessedData");

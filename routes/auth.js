@@ -2,7 +2,7 @@ const express = require("express");
 const route = express.Router();
 const auth_controller = require("../controller/auth_contoller");
 const validatorMiddleware = require("../middleware/validation");
-const auth_middileware=require("../middleware/auth_middileware");
+const auth_middileware=require("../middleware/auth_middleware");
 
 
 // Ana sayfa rotasını /login'e yönlendir

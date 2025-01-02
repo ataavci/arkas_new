@@ -3,7 +3,7 @@ var router = express.Router();
 const admin_controller=require("../controller/office_controller");
 const simulation_contoller=require("../controller/carbon_simulation_contoller");
 const office=require("../controller/office_controller");
-const authMiddleware=require("../middleware/auth_middileware");
+const authMiddleware=require("../middleware/auth_middleware");
 
 
 
@@ -23,6 +23,12 @@ router.get('/office/total-emission',authMiddleware.openup, office.getTotalEmissi
 router.get('/office/offset-carbon',authMiddleware.openup, office.getTotaloffset);
 router.get('/office/offset-percentage',authMiddleware.openup, office.getOffsetPercentage);
 router.get('/office/remaining-carbon', authMiddleware.openup,office.getRemainingCarbon);
+router.get('/office/remaining-carbon', authMiddleware.openup,office.getRemainingCarbon);
+
+
+
+
+  
 
 
 module.exports = router;

@@ -395,6 +395,11 @@ const verifyMail = async (req, res, next) => {
 };
 
 
+const postRegister = (req, res) => {
+    const redirectTo = req.session.redirectTo || "/"; // Eğer hedef rota yoksa ana sayfaya yönlendir
+    delete req.session.redirectTo; // Hedef rotayı temizle
+    res.redirect(redirectTo); // Hedef rotasına yönlendir
+};
 
 
 
@@ -406,5 +411,6 @@ module.exports={
     login,
     forget_password,
     logout,
-    verifyMail
+    verifyMail,
+    postRegister
 }
