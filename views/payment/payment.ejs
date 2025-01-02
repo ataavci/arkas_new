@@ -274,25 +274,26 @@ function submitPayment() {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
   })
-  .then((response) => {
-          if (!response.ok) {
-            throw new Error("Payment failed");
-          }
-          return response.json();
-        })
-        .then((result) => {
-          if (result.success) {
-            // Alert göster
-            document.getElementById("alert-container").classList.remove("hidden");
-          } else {
-            alert("Payment failed: " + result.message);
-          }
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          alert("An error occurred.");
-        });
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Payment failed");
+      }
+      return response.json();
+    })
+    .then((result) => {
+    console.log("Payment response:", result);
+    if (result.status === "success") {
+        window.location.href = "/";
+    } else {
+        alert("Payment failed: " + result.message);
     }
+})
+    .catch((error) => {
+      console.error("Error during payment process:", error);
+      alert("An error occurred during payment. Please try again.");
+    });
+}
+
   </script>
 </body>
 </html>

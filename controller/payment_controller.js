@@ -44,16 +44,16 @@ const localPayment = async (req, res) => {
     if (!priceUSD || !cardUserName || !cardNumber || !expireMonth || !expireYear || !cvc || !billingAddress || !shippingAddress || !buyerInfo) {
         return res.status(400).json({ error: "Eksik veya geçersiz bilgi gönderildi." });
     }
-
+    
     try {
-        const email = buyerInfo.email; // `buyerInfo.email`'i çekiyoruz
+        const email = buyerInfo.email; // Extract `buyerInfo.email`
         if (!email) {
             return res.status(400).json({ error: "Email bilgisi eksik." });
         }
-
-        const price = (priceUSD * STATIC_EXCHANGE_RATE).toFixed(2);
+    
+        const price = (priceUSD * STATIC_EXCHANGE_RATE).toFixed(2); // Convert USD to TRY
         const currency = "TRY";
-
+    
         const data = {
             locale: "tr",
             conversationId: id,
@@ -85,36 +85,41 @@ const localPayment = async (req, res) => {
                 },
             ],
         };
-
+    
         iyzipay.payment.create(data, async (err, result) => {
             if (err) {
                 console.error("Ödeme sırasında hata oluştu:", err);
                 return res.status(500).json({ error: "Ödeme işlemi başarısız.", details: err });
             }
-
-            const paymentResult = result.status === 'success' ? 'success' : 'failure';
-
-            await Payment.create({
-                email, // Email alanını burada kullanıyoruz
-                sendData: JSON.stringify(data),
-                resultData: paymentResult,
-                startDate: new Date(),
-                endDate: new Date(new Date().setMonth(new Date().getMonth() + 1)), // Ödemenin bitiş tarihini ayarlayın
-            });
-
-            if (result.status === 'success') {
-                return res.status(200).json({ message: "Ödeme başarılı", result });
-            } else {
-                return res.status(400).json({ message: "Ödeme başarısız", result });
+    
+            try {
+                const paymentResult = result.status === 'success' ? 'success' : 'failure';
+    
+                // Save payment information to the database
+                await Payment.create({
+                    email,
+                    sendData: JSON.stringify(data),
+                    resultData: paymentResult,
+                    startDate: new Date(),
+                    endDate: new Date(new Date().setMonth(new Date().getMonth() + 1)),
+                });
+    
+                // Send response based on the payment result
+                if (result.status === 'success') {
+                    return res.status(200).json({ status: 'success', message: 'Ödeme başarılı', result });
+                } else {
+                    return res.status(400).json({ status: 'failure', message: 'Ödeme başarısız', result });
+                }
+            } catch (error) {
+                console.error("Veritabanı kaydederken hata oluştu:", error.message);
+                return res.status(500).json({ error: "Veritabanı işlemi sırasında bir hata oluştu.", details: error.message });
             }
         });
     } catch (error) {
-        console.error("Hata oluştu:", error.message);
+        console.error("İşlem sırasında bir hata oluştu:", error.message);
         return res.status(500).json({ error: "İşlem sırasında bir hata oluştu.", details: error.message });
-    }
-};
-
-
+    }}
+    
 const foreignPayment = async (req, res) => {
     const id = uuidv4();
     const userEmail = req.session?.email || req.body?.buyerInfo?.email; // Oturumdan veya body'den email al
