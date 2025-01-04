@@ -1,310 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Satın Alma Ekranı</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/pay.css">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="./image/favicon-16x16.png" type="image/x-icon">
-  <title>VooSust Dijital Çözümler</title>
-  
-  
-  
-  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  
- 
-  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ödeme Formu</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f4f4f9;
+        }
+        .background-logo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('/image/VooSust .png') no-repeat center center;
+            background-size: 75%; /* Logonun boyutunu ayarlar */
+            opacity: 0.7; /* Logoyu saydam yapar */
+            z-index: -1;
+        }
+        .form-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-  <!-- Success Modal -->
-   <div class="container">
-    <!-- Alert Mesajı -->
-    <div id="alert-container" class="hidden">
-      <div id="alertMessage" class="alert alert-success alert-dismissible fade show" role="alert">
-        Payment successful! Click <a href="/login" class="alert-link">here</a> to go to login.
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    </div>
-    <!-- Step 0: Service Selection -->
-    <div id="step-0" class="service-selection">
-      <h2>Select a Service</h2>
-      <label>
-        <input type="radio" name="service" value="25" checked> 
-        <strong>Embrace Sustainable</strong> - $25
-      </label>
-      <label>
-        <input type="radio" name="service" value="50">
-        <strong>Premium Package</strong> - $50
-      </label>
-      <label>
-        <input type="radio" name="service" value="100">
-        <strong>Ultimate Support</strong> - $100
-      </label>
-      <button onclick="proceedToCardSelection()">Next</button>
-    </div>
+
+    <!-- Arka Plan Logosu -->
+    <div class="background-logo"></div>
+
+    <!-- Ödeme Formu -->
     
-
-    <!-- Persistent Selected Card Section -->
-    <div id="selected-card-header" class="hidden">
-      <div id="selected-card" class="credit-card"></div>
-    </div>
-
-    <!-- Main Title -->
-    
-
-    <!-- Step 1: Card Selection -->
-    <div id="step-1" class="card-selection hidden">
-      <div class="card" onclick="selectCard('local')">
-        <div class="credit-card local-card">
-          <div class="card-chip"></div>
-          <div class="card-number">5528 7900 0000 0008</div>
-          <div class="card-info">
-            <div class="card-holder">
-              <span>Card Holder</span>
-              <p>OVO BİLİŞİM</p>
-            </div>
-            <div class="card-expiry">
-              <span>Expires</span>
-              <p>12/30</p>
-            </div>
-          </div>
-          <div class="card-cvc">
-            <span>CVC</span>
-            <p>123</p>
-          </div>
+       
+        <div id="iyzipay-checkout-form-container">
+            <%- checkoutFormContent %> <!-- Ödeme formu burada görüntülenir -->
         </div>
-        <h3>Local Card</h3>
-      </div>
-      <div class="card" onclick="selectCard('foreign')">
-        <div class="credit-card foreign-card">
-          <div class="card-chip"></div>
-          <div class="card-number">4508 0300 0000 0004</div>
-          <div class="card-info">
-            <div class="card-holder">
-              <span>Card Holder</span>
-              <p>OVO BİLİŞİM</p>
-            </div>
-            <div class="card-expiry">
-              <span>Expires</span>
-              <p>01/29</p>
-            </div>
-          </div>
-          <div class="card-cvc">
-            <span>CVC</span>
-            <p>456</p>
-          </div>
-        </div>
-        <h3>Foreign Card</h3>
-      </div>
-    </div>
+   
 
-    <!-- Step 2: Card Details -->
-    <div id="step-2" class="form-step hidden">
-      <h2>Enter Card Details</h2>
-      <label for="cardNumber">Card Number</label>
-      <input type="text" id="cardNumber" placeholder="Enter your card number">
-
-      <label for="expireMonth">Expire Month</label>
-      <input type="text" id="expireMonth" placeholder="MM">
-
-      <label for="expireYear">Expire Year</label>
-      <input type="text" id="expireYear" placeholder="YYYY">
-
-      <label for="cvc">CVC</label>
-      <input type="text" id="cvc" placeholder="CVC">
-    </div>
-
-    <!-- Step 3: Billing & Shipping Details -->
-    <div id="step-3" class="form-step hidden">
-      <h2>Billing & Shipping</h2>
-      <label for="billingAddress">Billing Address</label>
-      <input type="text" id="billingAddress" placeholder="Enter billing address">
-
-      <label for="billingCity">Billing City</label>
-      <input type="text" id="billingCity" placeholder="Enter billing city">
-
-      <label for="billingCountry">Billing Country</label>
-      <input type="text" id="billingCountry" placeholder="Enter billing country">
-
-      <label for="shippingAddress">Shipping Address</label>
-      <input type="text" id="shippingAddress" placeholder="Enter shipping address">
-
-      <label for="shippingCity">Shipping City</label>
-      <input type="text" id="shippingCity" placeholder="Enter shipping city">
-
-      <label for="shippingCountry">Shipping Country</label>
-      <input type="text" id="shippingCountry" placeholder="Enter shipping country">
-    </div>
-
-    <!-- Step 4: Buyer Info -->
-    <div id="step-4" class="form-step hidden">
-      <h2>Buyer Info</h2>
-      <label for="buyerName">Name</label>
-      <input type="text" id="buyerName" placeholder="Enter name">
-
-      <label for="buyerEmail">Email</label>
-      <!-- Backend'den gelen e-posta bilgisi otomatik olarak dolduruluyor -->
-      <input type="text" id="buyerEmail" name="buyerEmail" value="<%= user ? user.email : 'Misafir' %>
-      " readonly>
-    
-
-
-      <label for="buyerCity">City</label>
-      <input type="text" id="buyerCity" placeholder="Enter city">
-
-      <label for="buyerCountry">Country</label>
-      <input type="text" id="buyerCountry" placeholder="Enter country">
-      <button class="hidden" id="submit-button" onclick="submitPayment()">Submit</button>
-    </div>
-
-    <!-- Navigation Buttons -->
-    <div class="navigation-buttons hidden" id="navigation-buttons">
-      <button onclick="goBack()">Back</button>
-      <button onclick="goToNextStep()">Next</button>
-    </div>
-  </div>
-
-  <div class="footer">
-    <div class="footer-logos">
-      <img src="/image/iyzico1.png" alt="Iyzico Logo" class="footer-logo">
-    </div>
-  </div>
-
-  <script>
-  let selectedCardType = null;
-let currentStep = 0;
-let selectedPriceUSD = 25; // Varsayılan hizmet fiyatı
-
-// Hizmet seçiminden sonraki adıma geçiş
-function proceedToCardSelection() {
-  const selectedService = document.querySelector('input[name="service"]:checked');
-  selectedPriceUSD = parseInt(selectedService.value);
-
-  // Step 0'ı gizle ve Step 1'e geç
-  document.getElementById('step-0').classList.add('hidden');
-  goToStep(1);
-}
-
-// Kart seçimi yapılırken çalışır
-function selectCard(cardType) {
-  selectedCardType = cardType;
-
-  const cardHTML = document.querySelector(`.${cardType === 'local' ? 'local-card' : 'foreign-card'}`).outerHTML;
-
-  // Seçili kartı göster
-  const selectedCardContainer = document.getElementById('selected-card');
-  selectedCardContainer.innerHTML = cardHTML;
-  document.getElementById('selected-card-header').classList.remove('hidden');
-
-  // Step 2'ye geç
-  goToStep(2);
-}
-
-// Adımlar arasında geçiş yapmak için kullanılır
-function goToStep(step) {
-  currentStep = step;
-
-  // Tüm adımları gizle ve yalnızca belirtilen adımı göster
-  document.querySelectorAll('.form-step, .card-selection, .service-selection').forEach(stepEl => stepEl.classList.add('hidden'));
-  document.getElementById(`step-${step}`).classList.remove('hidden');
-
-  // Navigation ve Submit butonlarını ayarla
-  if (currentStep === 4) {
-    document.getElementById('navigation-buttons').classList.add('hidden');
-    document.getElementById('submit-button').classList.remove('hidden');
-  } else {
-    document.getElementById('navigation-buttons').classList.remove('hidden');
-    document.getElementById('submit-button').classList.add('hidden');
-  }
-}
-
-// Bir önceki adıma dönmek için kullanılır
-function goBack() {
-  if (currentStep > 1) {
-    currentStep--;
-    goToStep(currentStep);
-  }
-}
-
-// Bir sonraki adıma geçmek için kullanılır
-function goToNextStep() {
-  if (currentStep < 4) {
-    currentStep++;
-    goToStep(currentStep);
-  }
-}
-
-// Ödeme işlemini başlatır
-function submitPayment() {
-  const data = {
-    priceUSD: selectedPriceUSD, // Kullanıcının seçtiği hizmet fiyatı
-    cardUserName: document.getElementById('buyerName').value,
-    cardNumber: document.getElementById('cardNumber').value,
-    expireMonth: document.getElementById('expireMonth').value,
-    expireYear: document.getElementById('expireYear').value,
-    cvc: document.getElementById('cvc').value,
-    registerCard: '0',
-    billingAddress: {
-      contactName: document.getElementById('buyerName').value,
-      city: document.getElementById('billingCity').value || "Istanbul",
-      country: document.getElementById('billingCountry').value || "Turkey",
-      address: document.getElementById('billingAddress').value || "Default Address",
-      zipCode: document.getElementById('billingZipCode')?.value || "34742",
-    },
-    shippingAddress: {
-      contactName: document.getElementById('buyerName').value,
-      city: document.getElementById('shippingCity').value || "Istanbul",
-      country: document.getElementById('shippingCountry').value || "Turkey",
-      address: document.getElementById('shippingAddress').value || "Default Address",
-      zipCode: document.getElementById('shippingZipCode')?.value || "34742",
-    },
-    buyerInfo: {
-      id: '123456789',
-      name: document.getElementById('buyerName').value,
-      surname: 'Surname Missing',
-      gsmNumber: '+905350000000',
-      email: document.getElementById('buyerEmail').value,
-      identityNumber: '74300864791',
-      registrationAddress: document.getElementById('billingAddress').value || "Default Address",
-      city: document.getElementById('buyerCity').value || "Istanbul",
-      country: document.getElementById('buyerCountry').value || "Turkey",
-      zipCode: document.getElementById('buyerZipCode')?.value || "34742",
-    },
-  };
-
-  const url = selectedCardType === 'local' ? '/api/payment_tr' : '/api/payment_fr';
-
-  console.log("Ödeme işlemi başlatılıyor. Gönderilen veri:", data);
-
-  fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Payment failed");
-      }
-      return response.json();
-    })
-    .then((result) => {
-    console.log("Payment response:", result);
-    if (result.status === "success") {
-        window.location.href = "/karsilama";
-    } else {
-        alert("Payment failed: " + result.message);
-    }
-})
-    .catch((error) => {
-      console.error("Error during payment process:", error);
-      alert("An error occurred during payment. Please try again.");
-    });
-}
-
-  </script>
 </body>
 </html>

@@ -387,7 +387,7 @@ const verifyMail = async (req, res, next) => {
 
                 // Başarı mesajı göster
                 req.flash("success_message", "Mail başarıyla onaylandı.");
-                return res.redirect('/login');
+                return res.redirect('/office_price');
             } else {
                 // Kullanıcı bulunamazsa hata mesajı
                 req.flash("error_message", "Kullanıcı bulunamadı, lütfen tekrar kayıt olun.");

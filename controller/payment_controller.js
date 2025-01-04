@@ -2,18 +2,6 @@ const { v4: uuidv4 } = require('uuid');
 const Iyzipay = require('iyzipay');
 require('dotenv').config();
 const Payment = require('../models/payment'); // Payment modelini içe aktar
-const moment = require('moment'); 
-const getPaymentPage = (req, res) => {
-    try {
-        const userEmail = req.session.email 
-        console.log("User Email:", userEmail);
-        res.render("payment/payment", { userEmail ,layout: false  });
-    } catch (err) {
-        console.error("Error rendering payment page:", err);
-        res.status(500).send("An error occurred while loading the payment page.");
-    }
-};
-
 
 const iyzipay = new Iyzipay({
     apiKey: process.env.IYZIPAY_API_KEY,
@@ -21,352 +9,179 @@ const iyzipay = new Iyzipay({
     uri: process.env.IYZIPAY_URI
 });
 
-const STATIC_EXCHANGE_RATE = 35.50;
+const STATIC_EXCHANGE_RATE = 35.50; // Sabit USD -> TL kuru
+
+// Ürün bilgileri
+const products = {
+    embrace: {
+        name: "Embrace Sustainable in Your Office",
+        priceUSD: 25.0, // Ürün fiyatı USD cinsinden
+        description: "Embrace paketi - Comprehensive Carbon Footprint Assessment"
+    },
+    lead: {
+        name: "Lead Sustainability",
+        priceUSD: 60.0, // Ürün fiyatı USD cinsinden
+        description: "Lead paketi - Advanced Carbon Footprint Assessment"
+    }
+};
 
 /**
- * Yerli kartlar için ödeme işlevi
+ * Ödeme sayfasını yükler
  */
-const localPayment = async (req, res) => {
-    const id = uuidv4();
-    const {
-        priceUSD,
-        cardUserName,
-        cardNumber,
-        expireMonth,
-        expireYear,
-        cvc,
-        registerCard,
-        billingAddress,
-        shippingAddress,
-        buyerInfo,
-    } = req.body;
-
-    if (!priceUSD || !cardUserName || !cardNumber || !expireMonth || !expireYear || !cvc || !billingAddress || !shippingAddress || !buyerInfo) {
-        return res.status(400).json({ error: "Eksik veya geçersiz bilgi gönderildi." });
-    }
-    
+const getPaymentPage = (req, res) => {
     try {
-        const email = buyerInfo.email; // Extract `buyerInfo.email`
-        if (!email) {
-            return res.status(400).json({ error: "Email bilgisi eksik." });
+        const userEmail = req.session?.email || "guest@example.com"; // Oturumdan alınan email
+        res.render("payment/payment", { userEmail, layout: false });
+    } catch (err) {
+        console.error("Error rendering payment page:", err);
+        res.status(500).send("An error occurred while loading the payment page.");
+    }
+};
+
+/**
+ * Checkout Formu Oluşturma
+ */
+const createCheckoutForm = async (req, res) => {
+    const id = uuidv4();
+    const { productType } = req.body; // Formdan gelen ürün tipi (embrace veya lead)
+
+    const selectedProduct = products[productType]; // Seçilen ürün bilgileri
+    const email = req.session?.email; // Oturumdan e-posta alınıyor
+
+    if (!email) {
+        return res.redirect('/register');
+    }
+
+    if (!selectedProduct) {
+        return res.status(400).json({ error: "Geçersiz ürün seçimi." });
+    }
+
+    const priceUSD = selectedProduct.priceUSD;
+    const priceTRY = (priceUSD * STATIC_EXCHANGE_RATE).toFixed(2); // USD -> TL çevirisi
+
+    const data = {
+        locale: "tr",
+        conversationId: id,
+        price: priceTRY,
+        paidPrice: priceTRY,
+        currency: Iyzipay.CURRENCY.TRY,
+        basketId: "B67832",
+        paymentGroup: "PRODUCT",
+        callbackUrl: 'http://localhost:3000/callback',
+        buyer: {
+            id: uuidv4(),
+            name: req.session?.user?.name || "Guest",
+            surname: req.session?.user?.surname || "User",
+            email: email, // Oturumdan gelen e-posta
+            identityNumber: "74300864791",
+            registrationAddress: "Default Address",
+            city: "İstanbul",
+            country: "Türkiye",
+            zipCode: "34732"
+        },
+        shippingAddress: {
+            contactName: "Guest User",
+            city: "İstanbul",
+            country: "Türkiye",
+            address: "Teslimat Adresi",
+            zipCode: "34732"
+        },
+        billingAddress: {
+            contactName: "Guest User",
+            city: "İstanbul",
+            country: "Türkiye",
+            address: "Fatura Adresi",
+            zipCode: "34732"
+        },
+        basketItems: [
+            {
+                id: uuidv4(),
+                name: selectedProduct.name,
+                category1: "Office Services",
+                category2: "Subscription",
+                itemType: Iyzipay.BASKET_ITEM_TYPE.VIRTUAL,
+                price: priceTRY
+            }
+        ]
+    };
+
+    iyzipay.checkoutFormInitialize.create(data, async (err, result) => {
+        if (err) {
+            console.error("Ödeme formu oluşturulurken hata:", err);
+            return res.status(500).json({ error: "Ödeme formu oluşturulamadı." });
         }
-    
-        const price = (priceUSD * STATIC_EXCHANGE_RATE).toFixed(2); // Convert USD to TRY
-        const currency = "TRY";
-    
-        const data = {
-            locale: "tr",
-            conversationId: id,
-            price,
-            paidPrice: price,
-            currency,
-            installment: '1',
-            paymentChannel: "WEB",
-            paymentGroup: "PRODUCT",
-            paymentCard: {
-                cardHolderName: cardUserName,
-                cardNumber,
-                expireMonth,
-                expireYear,
-                cvc,
-                registerCard: registerCard || '0',
-            },
-            buyer: buyerInfo,
-            shippingAddress,
-            billingAddress,
-            basketItems: [
-                {
-                    id: 'BI101',
-                    name: 'Binocular',
-                    category1: 'Collectibles',
-                    category2: 'Accessories',
-                    itemType: Iyzipay.BASKET_ITEM_TYPE.PHYSICAL,
-                    price,
-                },
-            ],
-        };
-    
-        iyzipay.payment.create(data, async (err, result) => {
-            if (err) {
-                console.error("Ödeme sırasında hata oluştu:", err);
-                return res.status(500).json({ error: "Ödeme işlemi başarısız.", details: err });
-            }
-    
-            try {
-                const paymentResult = result.status === 'success' ? 'success' : 'failure';
-    
-                // Save payment information to the database
-                await Payment.create({
-                    email,
-                    sendData: JSON.stringify(data),
-                    resultData: paymentResult,
-                    startDate: new Date(),
-                    endDate: new Date(new Date().setMonth(new Date().getMonth() + 1)),
-                });
-    
-                // Send response based on the payment result
-                if (result.status === 'success') {
-                    return res.status(200).json({ status: 'success', message: 'Ödeme başarılı', result });
-                } else {
-                    return res.status(400).json({ status: 'failure', message: 'Ödeme başarısız', result });
-                }
-            } catch (error) {
-                console.error("Veritabanı kaydederken hata oluştu:", error.message);
-                return res.status(500).json({ error: "Veritabanı işlemi sırasında bir hata oluştu.", details: error.message });
-            }
-        });
-    } catch (error) {
-        console.error("İşlem sırasında bir hata oluştu:", error.message);
-        return res.status(500).json({ error: "İşlem sırasında bir hata oluştu.", details: error.message });
-    }}
-    
-const foreignPayment = async (req, res) => {
-    const id = uuidv4();
-    const userEmail = req.session?.email || req.body?.buyerInfo?.email; // Oturumdan veya body'den email al
-    const {
-        priceUSD,
-        cardUserName,
-        cardNumber,
-        expireMonth,
-        expireYear,
-        cvc,
-        registerCard,
-        billingAddress,
-        shippingAddress,
-        buyerInfo,
-    } = req.body;
 
-    // Gerekli alanların kontrolü
-    if (!userEmail || !priceUSD || !cardUserName || !cardNumber || !expireMonth || !expireYear || !cvc || !billingAddress || !shippingAddress || !buyerInfo) {
-        return res.status(400).json({ error: "Eksik veya geçersiz bilgi gönderildi." });
-    }
+        if (result.status === 'success') {
+            // Ödeme formu başarılı bir şekilde oluşturulduğunda, ödeme sayfasını render et
+            res.render('payment/payment', { layout: false, checkoutFormContent: result.checkoutFormContent });
+        } else {
+            console.error("Ödeme formu başarısız:", {
+                errorCode: result.errorCode,
+                errorMessage: result.errorMessage,
+                errorGroup: result.errorGroup
+            });
+            res.status(400).json({ status: 'failure', message: 'Ödeme formu oluşturulamadı', result });
+        }
+    });
+};
 
-    try {
-        const price = priceUSD;
-        const currency = "USD";
+/**
+ * Callback işlemi: Ödeme doğrulama
+ */
+const handlePaymentCallback = (req, res) => {
+    const token = req.body.token;
+    const email = req.session?.email ; // Oturumdan e-posta alınıyor
 
-        const startDate = moment();
-        const endDate = moment().add(30, 'days');
+    const request = {
+        locale: "tr",
+        conversationId: uuidv4(),
+        token: token,
+    };
 
-        const data = {
-            locale: "en",
-            conversationId: id,
-            price,
-            paidPrice: price,
-            currency,
-            installment: '1',
-            paymentChannel: "WEB",
-            paymentGroup: "PRODUCT",
-            paymentCard: {
-                cardHolderName: cardUserName,
-                cardNumber,
-                expireMonth,
-                expireYear,
-                cvc,
-                registerCard: registerCard || '0'
-            },
-            buyer: {
-                id: buyerInfo.id || uuidv4(),
-                name: buyerInfo.name || "Unknown",
-                surname: buyerInfo.surname || "Unknown",
-                gsmNumber: buyerInfo.gsmNumber || "+905350000000",
-                email: userEmail, // Kullanıcının e-postası
-                identityNumber: buyerInfo.identityNumber || "74300864791",
-                lastLoginDate: moment().format("YYYY-MM-DD HH:mm:ss"),
-                registrationDate: moment().subtract(1, 'years').format("YYYY-MM-DD HH:mm:ss"),
-                registrationAddress: buyerInfo.registrationAddress || "Default Address",
-                ip: req.ip || '85.34.78.112',
-                city: buyerInfo.city || "New York",
-                country: buyerInfo.country || "USA",
-                zipCode: buyerInfo.zipCode || "10001"
-            },
-            shippingAddress,
-            billingAddress,
-            basketItems: [
-                {
-                    id: 'BI102',
-                    name: 'Telescope',
-                    category1: 'Collectibles',
-                    category2: 'Accessories',
-                    itemType: Iyzipay.BASKET_ITEM_TYPE.PHYSICAL,
-                    price
-                }
-            ]
-        };
+    iyzipay.checkoutForm.retrieve(request, async (err, result) => {
+        if (err) {
+            console.error("Callback sırasında hata:", err);
+            return res.status(500).json({ error: "Ödeme doğrulama sırasında hata oluştu." });
+        }
 
-        iyzipay.payment.create(data, async (err, result) => {
-            if (err) {
-                console.error("Ödeme sırasında bir hata oluştu:", err);
-                return res.status(500).json({ error: "Ödeme işlemi başarısız.", details: err });
-            }
+        console.log("Full Result Object:", result); // Gelen tüm result objesini yazdır
 
-            const paymentResult = result?.status === "success" ? "success" : "failure";
+        // Doğru kontrol: result.paymentStatus
+        const paymentResult = result.paymentStatus === "SUCCESS" ? "success" : "failure";
 
-            // Ödeme bilgilerini tabloya kaydet
+        if (paymentResult === "success") {
             await Payment.create({
-                email: userEmail, // Kullanıcının e-postası tabloya ekleniyor
-                sendData: JSON.stringify(data),
+                email: email, // Oturumdan alınan e-posta kaydedilir
+                sendData: JSON.stringify(request),
                 resultData: paymentResult,
-                startDate: startDate.toDate(),
-                endDate: endDate.toDate(),
+                startDate: new Date(),
+                endDate: new Date(new Date().setMonth(new Date().getMonth() + 1))
+            });
+            res.redirect('/login');
+        } else {
+            console.error("Ödeme başarısız oldu:", {
+                errorCode: result.errorCode || "Belirtilmedi",
+                errorMessage: result.errorMessage || "Hata mesajı mevcut değil",
+                errorGroup: result.errorGroup || "Hata grubu belirtilmedi"
             });
 
-            if (result.status === 'success') {
-                return res.status(200).json({ message: "Ödeme başarılı", result });
-            } else {
-                return res.status(400).json({ message: "Ödeme başarısız", result });
-            }
-        });
-    } catch (error) {
-        console.error("Hata oluştu:", error.message);
-        return res.status(500).json({ error: "İşlem sırasında bir hata oluştu.", details: error.message });
-    }
+            await Payment.create({
+                email: email,
+                sendData: JSON.stringify(request),
+                resultData: paymentResult,
+                startDate: new Date(),
+                endDate: new Date(new Date().setMonth(new Date().getMonth() + 1))
+            });
+
+            res.status(400).send(`
+                <h1>Ödeme Başarısız!</h1>
+                <p>${result.errorMessage || "Bilinmeyen bir hata oluştu."}</p>
+                <p>Hata Kodu: ${result.errorCode || "Yok"}</p>
+                <p>Hata Grubu: ${result.errorGroup || "Yok"}</p>
+                <a href='/'>Tekrar deneyin</a>
+            `);
+        }
+    });
 };
 
-const sendInvoice = async (req, res) => {
-    try {
-        const invoiceDetails = req.body; // Assuming invoice details come from the request body
-        const {
-            userEmail,
-            userName,
-            userSurname,
-            invoiceNumber,
-            invoiceDate,
-            services,
-            totalPrice
-        } = invoiceDetails;
-
-        // Generate the invoice email content
-        const transporter = nodemailer.createTransport({
-            host: "ns80-out.dnscini.com",
-            port: 587,
-            secure: false,
-            auth: {
-                user: process.env.mail_name,
-                pass: process.env.mail_password
-            },
-            tls: {
-                rejectUnauthorized: false
-            }
-        });
-
-        const info = await transporter.sendMail({
-            from: "VooSust Digital Solutions <ataavci@voosust.com>",
-            to: userEmail,
-            subject: `Invoice #${invoiceNumber} from Voosust`,
-            html: `
-                <!DOCTYPE html>
-                <html lang="en">
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>Invoice</title>
-                    <style>
-                        body {
-                            font-family: Arial, sans-serif;
-                            background-color: #f7f7f7;
-                            margin: 0;
-                            padding: 0;
-                        }
-                        .container {
-                            max-width: 600px;
-                            margin: 20px auto;
-                            background-color: #ffffff;
-                            padding: 20px;
-                            border-radius: 8px;
-                            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                        }
-                        .header {
-                            text-align: center;
-                            margin-bottom: 20px;
-                        }
-                        .header h1 {
-                            color: #007BFF;
-                        }
-                        .content {
-                            font-size: 16px;
-                            line-height: 1.6;
-                        }
-                        .invoice-details {
-                            margin-top: 20px;
-                        }
-                        .invoice-details table {
-                            width: 100%;
-                            border-collapse: collapse;
-                            margin-top: 10px;
-                        }
-                        .invoice-details th, .invoice-details td {
-                            border: 1px solid #ddd;
-                            padding: 8px;
-                            text-align: left;
-                        }
-                        .footer {
-                            text-align: center;
-                            margin-top: 30px;
-                            font-size: 14px;
-                            color: #555;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div class="container">
-                        <div class="header">
-                            <h1>Invoice</h1>
-                            <p>Invoice Number: <strong>${invoiceNumber}</strong></p>
-                            <p>Date: <strong>${invoiceDate}</strong></p>
-                        </div>
-                        <div class="content">
-                            <p>Dear ${userName} ${userSurname},</p>
-                            <p>Thank you for using Voosust Digital Solutions. Below are the details of your invoice:</p>
-                            <div class="invoice-details">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Service</th>
-                                            <th>Price</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        ${services.map(service => `
-                                            <tr>
-                                                <td>${service.name}</td>
-                                                <td>${service.price}</td>
-                                            </tr>
-                                        `).join('')}
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Total</th>
-                                            <th>${totalPrice}</th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                            <p>If you have any questions, please contact our support team.</p>
-                        </div>
-                        <div class="footer">
-                            <p>Voosust Digital Solutions</p>
-                            <p>info@voosust.com</p>
-                            <p>+90 533 357 27 47</p>
-                            <p>www.voosust.com</p>
-                        </div>
-                    </div>
-                </body>
-                </html>
-            `
-        });
-
-        res.status(200).json({
-            message: "Invoice sent successfully.",
-            info
-        });
-
-    } catch (err) {
-        console.error("Error sending invoice:", err);
-        res.status(500).json({
-            error: "An error occurred while sending the invoice."
-        });
-    }
-};
-
-module.exports = { localPayment, foreignPayment, getPaymentPage, sendInvoice };
+module.exports = { getPaymentPage, createCheckoutForm, handlePaymentCallback };

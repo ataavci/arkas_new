@@ -150,7 +150,7 @@
 <br> -->
 <div class="table-pricing">
   <div class="details">
-    <h2>Package to your suit plan</h2>
+    
     <p></p>
     <div class="grid">
       <div class="box discover">
@@ -198,10 +198,11 @@
             <p>  Target Customer: Medium-sized businesses ready to take meaningful action towards becoming more sustainable</p>
             
             <div class="button">
-              <a href="/payment">
-                <button>BUY</button>
-              </a>
-            </div>
+              <form action="/checkout-form" method="POST">
+                  <input type="hidden" name="productType" value="embrace">
+                  <button type="submit">BUY</button>
+              </form>
+          </div>
   
           </div>
 
@@ -226,9 +227,10 @@
             <p>	Target Customer: Small-medium-large offices or corporations committed to leading the way in sustainability and achieving comprehensive environmental goals. </p>
           
             <div class="button">
-              <a href="mailto:info@voosust.com">
-                  <button>CONTACT WITH US</button>
-              </a>
+              <form action="/checkout-form" method="POST">
+                  <input type="hidden" name="productType" value="lead">
+                  <button type="submit">BUY</button>
+              </form>
           </div>
           
   
