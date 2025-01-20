@@ -1,17 +1,17 @@
 var express = require('express');
 var router = express.Router();
-const admin_controller=require("../controller/office_controller");
-const simulation_contoller=require("../controller/carbon_simulation_contoller");
+
+
 const office=require("../controller/office_controller");
 const authMiddleware=require("../middleware/auth_middleware");
 
 
 
 
-router.get("/office/office_dashboard",authMiddleware.openup,admin_controller.dashboard_page_show);
-router.get("/office/office_input",authMiddleware.openup,admin_controller.input_page_show)
-router.get('/simulation_summary', simulation_contoller.calculateRouteSummary);
-router.post('/simulation', simulation_contoller.simulate);
+router.get("/office/office_dashboard",authMiddleware.openup,office.dashboard_page_show);
+router.get("/office/office_input",authMiddleware.openup,office.input_page_show)
+
+
 router.get('/countries',authMiddleware.openup,office.getCountries)
 router.post('/input',authMiddleware.openup, office.office_calculate);
 router.get('/office/scope-emissions',authMiddleware.openup,office.getScopePieCharts);

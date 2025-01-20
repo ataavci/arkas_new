@@ -5,7 +5,7 @@ const openup = function (req, res, next) {
             return next(); // Yetkili kullanıcı
         } else {
             req.flash("error", ["Unauthorized access: You do not have permission for this service. Please contact info@voosust.com."]);
-            return res.redirect("/#contact"); // Yetkisiz erişim için yönlendirme
+            return res.redirect("/"); // Yetkisiz erişim için yönlendirme
         }
     } else {
         req.flash("error", ["Please log in"]); // Giriş yapmamış kullanıcılar için mesaj

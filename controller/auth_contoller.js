@@ -23,6 +23,12 @@ const login = (req, res, next) => {
             return res.redirect('/login'); // Kullanıcı bulunamazsa login sayfasına yönlendir
         }
 
+        // Sadece "office" rolüne izin ver
+        if (user.service_name !== 'office') {
+            req.flash("error", ["Access denied. Only 'office' users can log in."]);
+            return res.redirect('/login');
+        }
+
         req.logIn(user, (err) => {
             if (err) {
                 return next(err);
@@ -38,20 +44,11 @@ const login = (req, res, next) => {
                 return res.redirect(redirectTo);
             }
 
-            // Kullanıcı rolüne göre yönlendirme yap
-            if (user.service_name === 'office') {
-                return res.redirect('/office/office_dashboard'); // Office sistemine yönlendir
-            } else if (user.service_name === 'admin') {
-                return res.redirect('/admin/dashboard'); // Admin sistemine yönlendir
-            }
-
-            // Varsayılan yönlendirme
-            req.flash("info", ["Logged in successfully"]);
-            return res.redirect('/');
+            // "office" rolüne özel yönlendirme
+            return res.redirect('/office/office_dashboard');
         });
     })(req, res, next);
 };
-
 
 const register_page_show = (req, res) => {
     

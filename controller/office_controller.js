@@ -8,8 +8,8 @@ const { Op } = require("sequelize");
 
 const dashboard_page_show = (req, res) => {
     res.render('office/office_dashboard', {
-        layout: 'layout/office_layout.ejs',
-        imagePath: './public/image/ofisstart.jpg'
+        layout: 'layout/office_layout.ejs'
+        
     });
 };
 
